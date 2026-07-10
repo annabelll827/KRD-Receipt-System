@@ -6,26 +6,27 @@
 body {
     background: #f2f2f2;
     margin: 0;
-    padding: 20px;
+    padding: 15px;
 }
 
 .receipt {
-    max-width: 600px;
+    width: 100%;
+    max-width: 450px;
     margin: auto;
     background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px #ccc;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
 }
 
 
 header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
-
 header h1 {
+    font-size: 22px;
     margin: 0;
 }
 
@@ -34,8 +35,8 @@ header h1 {
 
 .customer-info {
     display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 6px;
+    margin-bottom: 10px;
 }
 
 .customer-info input {
@@ -48,16 +49,16 @@ header h1 {
 input,
 textarea {
     width: 100%;
-    padding: 12px;
+    padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    font-size: 15px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 13px;
 }
 
 
 textarea {
-    height: 80px;
+    height: 60px;
     resize: none;
 }
 
@@ -66,34 +67,35 @@ textarea {
 
 button {
     border: none;
-    padding: 12px 18px;
-    border-radius: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 
 .add-btn {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 
-/* Product Box */
+/* Product */
 
 .product-card {
     border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 15px;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
     position: relative;
 }
 
 
 .delete-btn {
     position: absolute;
-    left: 10px;
-    top: 10px;
+    left: 8px;
+    top: 8px;
+    padding: 5px 8px;
 }
 
 
@@ -101,21 +103,21 @@ button {
 
 .payment {
     display: flex;
-    gap: 10px;
-    margin: 10px 0;
+    gap: 5px;
+    margin: 8px 0;
 }
 
 
 .payment label {
-    flex: 1;
+    font-size: 13px;
 }
 
 
-/* Product Numbers */
+/* Product Details */
 
 .product-details {
     display: flex;
-    gap: 10px;
+    gap: 5px;
 }
 
 
@@ -127,7 +129,7 @@ button {
 /* Discount */
 
 .discount-box {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 
@@ -137,12 +139,12 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 
 .grand-total {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -174,10 +176,13 @@ body.dark textarea {
 
     body {
         background: white;
+        padding: 0;
     }
 
     .receipt {
+        max-width: 80mm;
         box-shadow: none;
+        border-radius: 0;
     }
 
     button {
