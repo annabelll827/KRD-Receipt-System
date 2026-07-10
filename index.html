@@ -13,7 +13,6 @@
 
 <body>
 
-
 <div class="settings">
 
 <button id="settingsBtn">⚙️</button>
@@ -26,33 +25,36 @@
 <option value="ar">العربية</option>
 </select>
 
-
 <button id="darkBtn">
 🌙 Dark
 </button>
 
-</div>
+<hr>
+
+<h4>📧 Contact Support</h4>
+
+<p>If you have any problem, contact us:</p>
+
+<a href="mailto:krdreceipsystem@gmail.com?subject=KRD%20Receipt%20System%20Support&body=Please%20describe%20your%20problem%20here..."
+class="support-email">
+📧 krdreceipsystem@gmail.com
+</a>
 
 </div>
 
-
+</div>
 
 <div class="container">
-
 
 <h1 id="title">
 KRD Receipt System
 </h1>
 
-
 <h2 id="customerText">
 Customer
 </h2>
 
-
 <input id="customer" placeholder="Customer Name">
-
-
 
 <div class="product-box">
 
@@ -62,16 +64,11 @@ Customer
 
 <input id="quantity" type="number" placeholder="Quantity">
 
-
 <button id="addBtn">
 Add
 </button>
 
-
 </div>
-
-
-
 
 <table>
 
@@ -88,31 +85,23 @@ Add
 
 </thead>
 
-
 <tbody id="invoiceTable">
 
 </tbody>
 
-
 </table>
 
-
-
-<<h2>
-    <span id="totalLabel">Total</span>: <span id="total">0</span> IQD
+<h2>
+<span id="totalLabel">Total</span>: <span id="total">0</span> IQD
 </h2>
-  
+
 <button id="printBtn">
 🖨️ Print Receipt
 </button>
 
-
-
 </div>
-
 
 <script src="script.js"></script>
 
 </body>
-
 </html>
