@@ -143,3 +143,20 @@ td{
     }
 
 }
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .add-product,
+    .print-btn {
+        display: none;
+    }
+
+    .container {
+        box-shadow: none;
+        width: 100%;
+    }
+
+}
