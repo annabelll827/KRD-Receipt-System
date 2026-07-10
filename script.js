@@ -2,12 +2,16 @@ document.addEventListener("DOMContentLoaded", function(){
 
 let products = [];
 
-
 const addBtn = document.getElementById("addBtn");
 const printBtn = document.getElementById("printBtn");
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsMenu = document.getElementById("settingsMenu");
+const darkBtn = document.getElementById("darkBtn");
+const language = document.getElementById("language");
 
 
 // Add Product
+
 addBtn.onclick = function(){
 
     let name = document.getElementById("productName").value;
@@ -16,16 +20,20 @@ addBtn.onclick = function(){
 
 
     if(name === "" || price <= 0 || quantity <= 0){
+
         alert("Please enter product information");
         return;
+
     }
 
 
     products.push({
+
         name:name,
         price:price,
         quantity:quantity,
         total:price * quantity
+
     });
 
 
@@ -35,33 +43,43 @@ addBtn.onclick = function(){
 
 
 
+
 // Show Products
+
 function showProducts(){
 
     let table = document.getElementById("invoiceTable");
 
-    table.innerHTML="";
+    table.innerHTML = "";
 
     let total = 0;
 
 
-    products.forEach((item,index)=>{
+    products.forEach(function(item,index){
 
         total += item.total;
 
 
         table.innerHTML += `
+
         <tr>
-            <td>${item.name}</td>
-            <td>$${item.price}</td>
-            <td>${item.quantity}</td>
-            <td>$${item.total}</td>
-            <td>
-                <button onclick="deleteProduct(${index})">
-                Delete
-                </button>
-            </td>
+
+        <td>${item.name}</td>
+
+        <td>$${item.price}</td>
+
+        <td>${item.quantity}</td>
+
+        <td>$${item.total}</td>
+
+        <td>
+        <button onclick="deleteProduct(${index})">
+        Delete
+        </button>
+        </td>
+
         </tr>
+
         `;
 
     });
@@ -73,7 +91,9 @@ function showProducts(){
 
 
 
+
 // Delete
+
 window.deleteProduct = function(index){
 
     products.splice(index,1);
@@ -85,82 +105,35 @@ window.deleteProduct = function(index){
 
 
 
-// Print Receipt
+// Print
+
 printBtn.onclick = function(){
 
-    let receipt = document.querySelector(".container").innerHTML;
-
-
-    let printWindow = window.open("", "", "width=800,height=600");
-
-
-    printWindow.document.write(`
-    
-    <html>
-    <head>
-    <title>Receipt</title>
-
-    <style>
-    body{
-        font-family:Arial;
-        padding:20px;
-    }
-
-    table{
-        width:100%;
-        border-collapse:collapse;
-    }
-
-    th,td{
-        border:1px solid #000;
-        padding:10px;
-        text-align:center;
-    }
-
-    </style>
-
-    </head>
-
-    <body>
-
-    ${receipt}
-
-    </body>
-
-    </html>
-
-    `);
-
-
-    printWindow.document.close();
-
-
-    printWindow.focus();
-
-
-    printWindow.print();
+    window.print();
 
 };
 
 
 
 
-// Settings
-const settingsBtn = document.getElementById("settingsBtn");
-const settingsMenu = document.getElementById("settingsMenu");
-
+// Settings Menu
 
 settingsBtn.onclick = function(){
 
     settingsMenu.style.display =
-    settingsMenu.style.display === "block" ? "none" : "block";
+    settingsMenu.style.display === "block"
+    ? "none"
+    : "block";
 
 };
 
 
 
+
+
 // Dark Mode
-document.getElementById("darkBtn").onclick = function(){
+
+darkBtn.onclick = function(){
 
     document.body.classList.toggle("dark");
 
@@ -168,13 +141,110 @@ document.getElementById("darkBtn").onclick = function(){
 
 
 
-// Language
-document.getElementById("language").onchange = function(){
 
-    document.documentElement.dir =
-    this.value === "en" ? "ltr" : "rtl";
+
+// Languages
+
+const translations = {
+
+en:{
+    title:"KRD Receipt System",
+    customer:"Customer",
+    add:"Add",
+    print:"🖨️ Print Receipt",
+    product:"Product Name",
+    price:"Price",
+    quantity:"Quantity"
+},
+
+
+ku:{
+    title:"سیستەمی وەسڵی KRD",
+    customer:"کڕیار",
+    add:"زیادکردن",
+    print:"🖨️ چاپکردنی وەسڵ",
+    product:"ناوی کاڵا",
+    price:"نرخ",
+    quantity:"ژمارە"
+},
+
+
+ar:{
+    title:"نظام الوصل KRD",
+    customer:"الزبون",
+    add:"إضافة",
+    print:"🖨️ طباعة الوصل",
+    product:"اسم المنتج",
+    price:"السعر",
+    quantity:"الكمية"
+}
 
 };
+
+
+
+
+language.onchange = function(){
+
+    let lang = this.value;
+
+
+    let t = translations[lang];
+
+
+    let title = document.querySelector("h1");
+
+    if(title)
+        title.innerText = t.title;
+
+
+
+    let customer = document.getElementById("customer");
+
+    if(customer)
+        customer.placeholder = t.customer;
+
+
+
+    let product = document.getElementById("productName");
+
+    if(product)
+        product.placeholder = t.product;
+
+
+
+    let price = document.getElementById("price");
+
+    if(price)
+        price.placeholder = t.price;
+
+
+
+    let quantity = document.getElementById("quantity");
+
+    if(quantity)
+        quantity.placeholder = t.quantity;
+
+
+
+    addBtn.innerText = t.add;
+
+    printBtn.innerText = t.print;
+
+
+
+    if(lang === "en"){
+
+        document.documentElement.dir="ltr";
+
+    }else{
+
+        document.documentElement.dir="rtl";
+
+    }
+
+};
+
 
 
 });
