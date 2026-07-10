@@ -1,27 +1,33 @@
 let products = [];
 
+
 const addBtn = document.getElementById("addBtn");
 const printBtn = document.getElementById("printBtn");
 
 
+
 addBtn.addEventListener("click", function(){
 
-    const name = document.getElementById("productName").value;
-    const price = Number(document.getElementById("price").value);
-    const quantity = Number(document.getElementById("quantity").value);
+    let name = document.getElementById("productName").value;
+    let price = Number(document.getElementById("price").value);
+    let quantity = Number(document.getElementById("quantity").value);
 
 
     if(name === "" || price <= 0 || quantity <= 0){
-        alert("Please fill all product fields");
+
+        alert("Please fill product information");
         return;
+
     }
 
 
     products.push({
+
         name:name,
         price:price,
         quantity:quantity,
         total:price * quantity
+
     });
 
 
@@ -32,39 +38,54 @@ addBtn.addEventListener("click", function(){
     document.getElementById("price").value="";
     document.getElementById("quantity").value="";
 
+
 });
+
 
 
 
 function showProducts(){
 
-    const table = document.getElementById("invoiceTable");
+    let table = document.getElementById("invoiceTable");
 
     table.innerHTML="";
+
 
     let total = 0;
 
 
-    products.forEach((item,index)=>{
 
-        total += item.total;
+    products.forEach(function(product,index){
+
+
+        total += product.total;
 
 
         table.innerHTML += `
+
         <tr>
-            <td>${item.name}</td>
-            <td>$${item.price}</td>
-            <td>${item.quantity}</td>
-            <td>$${item.total}</td>
-            <td>
-                <button onclick="removeProduct(${index})">
-                    Delete
-                </button>
-            </td>
+
+        <td>${product.name}</td>
+
+        <td>$${product.price}</td>
+
+        <td>${product.quantity}</td>
+
+        <td>$${product.total}</td>
+
+        <td>
+        <button onclick="deleteProduct(${index})">
+        Delete
+        </button>
+        </td>
+
         </tr>
+
         `;
 
+
     });
+
 
 
     document.getElementById("total").innerText = total;
@@ -73,7 +94,8 @@ function showProducts(){
 
 
 
-function removeProduct(index){
+
+function deleteProduct(index){
 
     products.splice(index,1);
 
@@ -83,8 +105,90 @@ function removeProduct(index){
 
 
 
-printBtn.addEventListener("click", function(){
+
+
+// Print
+
+printBtn.addEventListener("click",function(){
 
     window.print();
+
+});
+
+
+
+
+
+
+// Settings Menu
+
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsMenu = document.getElementById("settingsMenu");
+
+
+settingsBtn.addEventListener("click",function(){
+
+    if(settingsMenu.style.display === "block"){
+
+        settingsMenu.style.display="none";
+
+    }else{
+
+        settingsMenu.style.display="block";
+
+    }
+
+});
+
+
+
+
+
+// Dark Mode
+
+const darkBtn = document.getElementById("darkBtn");
+
+
+darkBtn.addEventListener("click",function(){
+
+    document.body.classList.toggle("dark");
+
+});
+
+
+
+
+
+// Language
+
+const language = document.getElementById("language");
+
+
+language.addEventListener("change",function(){
+
+
+    if(this.value === "ku"){
+
+        document.documentElement.dir="rtl";
+        alert("زمان گۆڕدرا بۆ کوردی");
+
+    }
+
+
+    if(this.value === "ar"){
+
+        document.documentElement.dir="rtl";
+        alert("تم تغيير اللغة إلى العربية");
+
+    }
+
+
+    if(this.value === "en"){
+
+        document.documentElement.dir="ltr";
+        alert("Language changed to English");
+
+    }
+
 
 });
