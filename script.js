@@ -88,3 +88,6 @@ function printInvoice(){
     window.print();
 
 }
+document.getElementById("printBtn").addEventListener("click", function(){
+    window.print();
+});
