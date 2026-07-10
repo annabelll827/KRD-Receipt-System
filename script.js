@@ -70,9 +70,11 @@ window.deleteProduct = function(index){
 };
 
 
-printBtn.onclick = function(){
-    window.print();
-};
+printBtn.addEventListener("click", function(){
+    setTimeout(function(){
+        window.print();
+    }, 200);
+});
 
 
 settingsBtn.onclick = function(){
