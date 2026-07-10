@@ -8,13 +8,14 @@ const discountInput = document.getElementById("discount");
 const grandTotal = document.getElementById("grandTotal");
 
 
-// Add Product
+// زیادکردنی کاڵا
 
 addProductBtn.onclick = function () {
 
+    let paymentID = Date.now();
+
     let card = document.createElement("div");
     card.className = "product-card";
-
 
     card.innerHTML = `
 
@@ -26,13 +27,14 @@ addProductBtn.onclick = function () {
     <div class="payment">
 
         <label>
-        <input type="radio" name="payment${Date.now()}" value="credit">
-        قەرز
+            <input type="radio" name="payment${paymentID}" value="credit">
+            <span>قەرز</span>
         </label>
 
+
         <label>
-        <input type="radio" name="payment${Date.now()}" value="paid" checked>
-        پارەدراو
+            <input type="radio" name="payment${paymentID}" value="paid" checked>
+            <span>پارەدراو</span>
         </label>
 
     </div>
@@ -52,7 +54,6 @@ addProductBtn.onclick = function () {
 
 
     productsContainer.appendChild(card);
-
 
 
     let quantity = card.querySelector(".quantity");
@@ -84,18 +85,18 @@ addProductBtn.onclick = function () {
 
     };
 
+
 };
 
 
-
-// Calculate All Total
+// حسابکردنی کۆی گشتی
 
 function updateTotal(){
 
     let sum = 0;
 
 
-    document.querySelectorAll(".total").forEach(item=>{
+    document.querySelectorAll(".total").forEach(item => {
 
         sum += Number(item.value) || 0;
 
@@ -122,11 +123,9 @@ discountInput.oninput = updateTotal;
 
 
 
-// Create Receipt
+// دروستکردنی وەسڵ
 
 document.getElementById("createReceipt").onclick = function(){
-
-    alert("وەسڵ بە سەرکەوتوویی دروست کرا ✅");
 
     window.print();
 
