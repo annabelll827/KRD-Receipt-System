@@ -1,33 +1,28 @@
 let products = [];
 
-
 const addBtn = document.getElementById("addBtn");
 const printBtn = document.getElementById("printBtn");
 
 
+// Add Product
+addBtn.onclick = function(){
 
-addBtn.addEventListener("click", function(){
-
-    let name = document.getElementById("productName").value;
-    let price = Number(document.getElementById("price").value);
-    let quantity = Number(document.getElementById("quantity").value);
+    const name = document.getElementById("productName").value;
+    const price = Number(document.getElementById("price").value);
+    const quantity = Number(document.getElementById("quantity").value);
 
 
     if(name === "" || price <= 0 || quantity <= 0){
-
-        alert("Please fill product information");
+        alert("Please enter product information");
         return;
-
     }
 
 
     products.push({
-
         name:name,
         price:price,
         quantity:quantity,
         total:price * quantity
-
     });
 
 
@@ -38,54 +33,40 @@ addBtn.addEventListener("click", function(){
     document.getElementById("price").value="";
     document.getElementById("quantity").value="";
 
-
-});
-
+};
 
 
 
+// Show Products
 function showProducts(){
 
-    let table = document.getElementById("invoiceTable");
+    const table = document.getElementById("invoiceTable");
 
     table.innerHTML="";
-
 
     let total = 0;
 
 
+    products.forEach((item,index)=>{
 
-    products.forEach(function(product,index){
-
-
-        total += product.total;
+        total += item.total;
 
 
         table.innerHTML += `
-
         <tr>
-
-        <td>${product.name}</td>
-
-        <td>$${product.price}</td>
-
-        <td>${product.quantity}</td>
-
-        <td>$${product.total}</td>
-
-        <td>
-        <button onclick="deleteProduct(${index})">
-        Delete
-        </button>
-        </td>
-
+            <td>${item.name}</td>
+            <td>$${item.price}</td>
+            <td>${item.quantity}</td>
+            <td>$${item.total}</td>
+            <td>
+                <button onclick="deleteProduct(${index})">
+                    Delete
+                </button>
+            </td>
         </tr>
-
         `;
 
-
     });
-
 
 
     document.getElementById("total").innerText = total;
@@ -95,6 +76,7 @@ function showProducts(){
 
 
 
+// Delete Product
 function deleteProduct(index){
 
     products.splice(index,1);
@@ -106,27 +88,23 @@ function deleteProduct(index){
 
 
 
-
 // Print
-
-printBtn.addEventListener("click",function(){
+printBtn.onclick = function(){
 
     window.print();
 
-});
+};
 
 
 
 
 
-
-// Settings Menu
-
+// Settings
 const settingsBtn = document.getElementById("settingsBtn");
 const settingsMenu = document.getElementById("settingsMenu");
 
 
-settingsBtn.addEventListener("click",function(){
+settingsBtn.onclick = function(){
 
     if(settingsMenu.style.display === "block"){
 
@@ -138,39 +116,34 @@ settingsBtn.addEventListener("click",function(){
 
     }
 
-});
-
+};
 
 
 
 
 // Dark Mode
-
 const darkBtn = document.getElementById("darkBtn");
 
 
-darkBtn.addEventListener("click",function(){
+darkBtn.onclick = function(){
 
     document.body.classList.toggle("dark");
 
-});
-
+};
 
 
 
 
 // Language
-
 const language = document.getElementById("language");
 
 
-language.addEventListener("change",function(){
+language.onchange = function(){
 
 
     if(this.value === "ku"){
 
         document.documentElement.dir="rtl";
-        alert("زمان گۆڕدرا بۆ کوردی");
 
     }
 
@@ -178,7 +151,6 @@ language.addEventListener("change",function(){
     if(this.value === "ar"){
 
         document.documentElement.dir="rtl";
-        alert("تم تغيير اللغة إلى العربية");
 
     }
 
@@ -186,9 +158,7 @@ language.addEventListener("change",function(){
     if(this.value === "en"){
 
         document.documentElement.dir="ltr";
-        alert("Language changed to English");
 
     }
 
-
-});
+};
