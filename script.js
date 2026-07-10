@@ -19,50 +19,76 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const id = Date.now();
 
+
         const product = document.createElement("div");
+
         product.className = "product-card";
 
 
         product.innerHTML = `
-            <button class="delete-btn">🗑️</button>
 
-            <input class="product-name" placeholder="ناوی کاڵا">
+            <button class="delete-btn">
+                🗑️
+            </button>
+
+
+            <input 
+                class="product-name" 
+                placeholder="ناوی کاڵا"
+            >
 
 
             <div class="payment">
+
                 <label>
-                    <input type="radio" name="pay${id}" checked>
+                    <input 
+                    type="radio" 
+                    name="pay${id}" 
+                    checked>
                     پارەدراو
                 </label>
 
+
                 <label>
-                    <input type="radio" name="pay${id}">
+                    <input 
+                    type="radio" 
+                    name="pay${id}">
                     قەرز
                 </label>
+
             </div>
+
 
 
             <div class="product-details">
 
-                <input class="quantity" 
-                       type="number" 
-                       placeholder="ژمارە">
+
+                <input 
+                class="quantity" 
+                type="number" 
+                placeholder="ژمارە">
 
 
-                <input class="price" 
-                       type="number" 
-                       placeholder="نرخ">
+                <input 
+                class="price" 
+                type="number" 
+                placeholder="نرخ">
 
 
-                <input class="total" 
-                       readonly 
-                       placeholder="کۆی گشتی">
+                <input 
+                class="total" 
+                readonly 
+                placeholder="کۆی گشتی">
+
 
             </div>
+
         `;
 
 
+
         productsContainer.appendChild(product);
+
 
 
         const quantity = product.querySelector(".quantity");
@@ -74,10 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
         function calculateProduct() {
 
             let q = Number(quantity.value) || 0;
+
             let p = Number(price.value) || 0;
 
 
             total.value = q * p;
+
 
             calculateTotal();
 
@@ -85,29 +113,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        quantity.addEventListener("input", calculateProduct);
+        quantity.addEventListener(
+            "input",
+            calculateProduct
+        );
 
-        price.addEventListener("input", calculateProduct);
+
+        price.addEventListener(
+            "input",
+            calculateProduct
+        );
 
 
 
         product.querySelector(".delete-btn")
         .addEventListener("click", function () {
 
+
             product.remove();
 
+
             calculateTotal();
+
 
         });
 
 
+
     });
-
-
-
-    // حسابکردنی کۆی گشتی
+        // حسابکردنی کۆی گشتی
     function calculateTotal() {
-
 
         let total = 0;
 
@@ -124,33 +159,41 @@ document.addEventListener("DOMContentLoaded", function () {
         let discount = Number(discountInput.value) || 0;
 
 
-        total -= discount;
-
+        total = total - discount;
 
 
         if (total < 0) {
-            total = 0;
-        }
 
+            total = 0;
+
+        }
 
 
         grandTotal.innerText = total;
 
-
     }
-       // گۆڕینی داشکاندن
-    discountInput.addEventListener("input", calculateTotal);
 
 
 
-    // چاپی وەسڵ + پاشەکەوتکردن
-    createReceiptBtn.addEventListener("click", function () {
+    // گۆڕینی داشکاندن
+    discountInput.addEventListener(
+        "input",
+        calculateTotal
+    );
 
-        saveReceiptHistory();
 
-        window.print();
 
-    });
+    // چاپکردنی وەسڵ + پاشەکەوت
+    createReceiptBtn.addEventListener(
+        "click",
+        function () {
+
+            saveReceiptHistory();
+
+            window.print();
+
+        }
+    );
 
 
 
@@ -173,22 +216,43 @@ if (historyBtn) {
 }
 
 
+
 // پاشەکەوتکردنی وەسڵ
 function saveReceiptHistory() {
 
-    let receipts = JSON.parse(localStorage.getItem("receipts")) || [];
+
+    let receipts =
+    JSON.parse(localStorage.getItem("receipts")) || [];
+
 
 
     let receipt = {
 
+
+        number: receipts.length + 1,
+
+
         date: new Date().toLocaleString(),
 
-        total: document.getElementById("grandTotal").innerText
+
+        customer:
+        document.getElementById("customerName")?.value || "بێ ناو",
+
+
+        phone:
+        document.getElementById("customerPhone")?.value || "-",
+
+
+        total:
+        document.getElementById("grandTotal").innerText
+
 
     };
 
 
+
     receipts.push(receipt);
+
 
 
     localStorage.setItem(
@@ -196,7 +260,9 @@ function saveReceiptHistory() {
         JSON.stringify(receipts)
     );
 
+
 }
+
 
 
 
@@ -207,7 +273,9 @@ function showHistory() {
     if (!historyModal || !historyList) return;
 
 
+
     historyModal.style.display = "flex";
+
 
 
     let receipts =
@@ -221,8 +289,10 @@ function showHistory() {
 
     if (receipts.length === 0) {
 
+
         historyList.innerHTML =
         "<p>هیچ وەسڵێک نییە</p>";
+
 
         return;
 
@@ -235,11 +305,26 @@ function showHistory() {
 
         historyList.innerHTML += `
 
+
         <div class="receipt-card">
 
+
             <h3>
-                وەسڵ #${index + 1}
+                🧾 وەسڵ #${receipt.number}
             </h3>
+
+
+
+            <p>
+                👤 کڕیار: ${receipt.customer}
+            </p>
+
+
+
+            <p>
+                📞 ${receipt.phone}
+            </p>
+
 
 
             <p>
@@ -247,9 +332,11 @@ function showHistory() {
             </p>
 
 
+
             <p>
                 💰 ${receipt.total} IQD
             </p>
+
 
 
             <button onclick="deleteReceipt(${index})">
@@ -258,6 +345,7 @@ function showHistory() {
 
 
         </div>
+
 
         `;
 
