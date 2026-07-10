@@ -1,103 +1,142 @@
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
 
-let products = [];
+    let products = [];
 
-const addBtn = document.getElementById("addBtn");
-const printBtn = document.getElementById("printBtn");
-const settingsBtn = document.getElementById("settingsBtn");
-const settingsMenu = document.getElementById("settingsMenu");
-const darkBtn = document.getElementById("darkBtn");
-const language = document.getElementById("language");
+    const addBtn = document.getElementById("addBtn");
+    const printBtn = document.getElementById("printBtn");
+    const settingsBtn = document.getElementById("settingsBtn");
+    const settingsMenu = document.getElementById("settingsMenu");
+    const darkBtn = document.getElementById("darkBtn");
+    const language = document.getElementById("language");
 
 
-addBtn.onclick = function(){
+    // Add Product
+    addBtn.addEventListener("click", function () {
 
-    const name = document.getElementById("productName").value;
-    const price = Number(document.getElementById("price").value);
-    const quantity = Number(document.getElementById("quantity").value);
+        let name = document.getElementById("productName").value;
+        let price = Number(document.getElementById("price").value);
+        let quantity = Number(document.getElementById("quantity").value);
 
-    if(name === "" || price <= 0 || quantity <= 0){
-        alert("Please enter product information");
-        return;
+
+        if (name === "" || price <= 0 || quantity <= 0) {
+            alert("Please enter product information");
+            return;
+        }
+
+
+        products.push({
+            name: name,
+            price: price,
+            quantity: quantity,
+            total: price * quantity
+        });
+
+
+        showProducts();
+
+
+        document.getElementById("productName").value = "";
+        document.getElementById("price").value = "";
+        document.getElementById("quantity").value = "";
+
+    });
+
+
+
+    // Show Products
+    function showProducts() {
+
+        let table = document.getElementById("invoiceTable");
+
+        table.innerHTML = "";
+
+        let total = 0;
+
+
+        products.forEach(function (item, index) {
+
+            total += item.total;
+
+
+            table.innerHTML += `
+            <tr>
+                <td>${item.name}</td>
+                <td>$${item.price}</td>
+                <td>${item.quantity}</td>
+                <td>$${item.total}</td>
+                <td>
+                    <button onclick="deleteProduct(${index})">
+                    Delete
+                    </button>
+                </td>
+            </tr>
+            `;
+
+        });
+
+
+        document.getElementById("total").innerText = total;
+
     }
 
-    products.push({
-        name:name,
-        price:price,
-        quantity:quantity,
-        total:price * quantity
-    });
-
-    showProducts();
-
-};
 
 
-function showProducts(){
+    // Delete Product
+    window.deleteProduct = function (index) {
 
-    const table = document.getElementById("invoiceTable");
-    table.innerHTML = "";
+        products.splice(index, 1);
 
-    let total = 0;
+        showProducts();
 
-    products.forEach((item,index)=>{
-
-        total += item.total;
-
-        table.innerHTML += `
-        <tr>
-            <td>${item.name}</td>
-            <td>$${item.price}</td>
-            <td>${item.quantity}</td>
-            <td>$${item.total}</td>
-            <td>
-            <button onclick="deleteProduct(${index})">
-            Delete
-            </button>
-            </td>
-        </tr>`;
-    });
-
-    document.getElementById("total").innerText = total;
-}
+    };
 
 
-window.deleteProduct = function(index){
 
-    products.splice(index,1);
-    showProducts();
+    // Print Receipt
+    printBtn.addEventListener("click", function () {
 
-};
-
-
-printBtn.addEventListener("click", function(){
-    setTimeout(function(){
         window.print();
-    }, 200);
-});
+
+    });
 
 
-settingsBtn.onclick = function(){
 
-    settingsMenu.style.display =
-    settingsMenu.style.display === "block" ? "none" : "block";
+    // Settings Menu
+    settingsBtn.addEventListener("click", function () {
 
-};
+        if (settingsMenu.style.display === "block") {
+            settingsMenu.style.display = "none";
+        } else {
+            settingsMenu.style.display = "block";
+        }
 
-
-darkBtn.onclick = function(){
-
-    document.body.classList.toggle("dark");
-
-};
+    });
 
 
-language.onchange = function(){
 
-    document.documentElement.dir =
-    this.value === "en" ? "ltr" : "rtl";
+    // Dark Mode
+    darkBtn.addEventListener("click", function () {
 
-};
+        document.body.classList.toggle("dark");
+
+    });
+
+
+
+    // Language Direction
+    language.addEventListener("change", function () {
+
+        if (this.value === "en") {
+
+            document.documentElement.dir = "ltr";
+
+        } else {
+
+            document.documentElement.dir = "rtl";
+
+        }
+
+    });
 
 
 });
