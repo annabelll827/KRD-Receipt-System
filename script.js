@@ -91,3 +91,10 @@ function printInvoice(){
 document.getElementById("printBtn").addEventListener("click", function(){
     window.print();
 });
+const printButton = document.getElementById("printBtn");
+
+if(printButton){
+    printButton.addEventListener("click", function(){
+        window.print();
+    });
+}
