@@ -3,6 +3,7 @@
     font-family: Tahoma, Arial, sans-serif;
 }
 
+
 body {
     background: #f2f2f2;
     margin: 0;
@@ -21,12 +22,12 @@ body {
 }
 
 
-/* Header */
 
 header {
     text-align: center;
     margin-bottom: 15px;
 }
+
 
 header h1 {
     font-size: 22px;
@@ -34,20 +35,22 @@ header h1 {
 }
 
 
-/* Customer */
+
+/* کڕیار */
 
 .customer-info {
     display: flex;
-    gap: 6px;
-    margin-bottom: 10px;
+    gap: 8px;
 }
+
 
 .customer-info input {
     width: 50%;
 }
 
 
-/* Inputs */
+
+/* خانەکان */
 
 input,
 textarea {
@@ -56,45 +59,56 @@ textarea {
     padding: 8px;
 
     border: 1px solid #ccc;
+
     border-radius: 6px;
 
     margin-bottom: 8px;
 
     font-size: 13px;
+
 }
+
 
 
 textarea {
+
     height: 60px;
+
     resize: none;
+
 }
 
 
-/* Buttons */
+
+/* دوگمە */
 
 button {
 
     border: none;
-    padding: 8px 12px;
+
+    padding: 9px 12px;
 
     border-radius: 6px;
 
     cursor: pointer;
 
     font-size: 13px;
+
 }
+
 
 
 .add-btn {
 
     width: 100%;
+
     margin-bottom: 10px;
 
 }
 
 
 
-/* Product Card */
+/* خانەی کاڵا */
 
 .product-card {
 
@@ -112,8 +126,6 @@ button {
 
 
 
-/* Delete */
-
 .delete-btn {
 
     position: absolute;
@@ -128,7 +140,7 @@ button {
 
 
 
-/* Payment */
+/* قەرز و پارەدراو */
 
 .payment {
 
@@ -138,9 +150,10 @@ button {
 
     gap: 15px;
 
-    margin: 8px 0;
+    margin: 5px 0;
 
 }
+
 
 
 .payment label {
@@ -157,7 +170,7 @@ button {
 
 
 
-/* Product Details */
+/* ژمارە و نرخ */
 
 .product-details {
 
@@ -168,6 +181,7 @@ button {
 }
 
 
+
 .product-details input {
 
     width: 33%;
@@ -176,7 +190,7 @@ button {
 
 
 
-/* Discount */
+/* داشکاندن */
 
 .discount-box {
 
@@ -186,7 +200,7 @@ button {
 
 
 
-/* Bottom */
+/* کۆتایی */
 
 .bottom-section {
 
@@ -201,50 +215,21 @@ button {
 }
 
 
-.grand-total {
 
-    font-size: 15px;
+.grand-total {
 
     font-weight: bold;
 
-}
-
-
-
-/* Dark Mode */
-
-body.dark {
-
-    background: #111;
-
-}
-
-
-body.dark .receipt {
-
-    background: #222;
-
-    color: white;
-
-}
-
-
-body.dark input,
-body.dark textarea {
-
-    background: #333;
-
-    color: white;
-
-    border-color: #555;
+    font-size: 15px;
 
 }
 
 
 
-/* Print */
+/* چاپ */
 
 @media print {
+
 
     body {
 
@@ -257,11 +242,9 @@ body.dark textarea {
 
     .receipt {
 
-        max-width: 80mm;
-
         box-shadow: none;
 
-        border-radius: 0;
+        max-width: 80mm;
 
     }
 
