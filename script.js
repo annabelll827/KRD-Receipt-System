@@ -69,9 +69,9 @@ function showProducts() {
         table.innerHTML += `
         <tr>
             <td>${item.name}</td>
-            <td>$${item.price}</td>
+            <td>${item.price} IQD</td>
             <td>${item.quantity}</td>
-            <td>$${item.total}</td>
+            <td>${item.total} IQD</td>
             <td>
                 <button onclick="deleteProduct(${index})">
                     Delete
