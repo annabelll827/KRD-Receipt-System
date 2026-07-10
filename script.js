@@ -12,19 +12,18 @@ const language = document.getElementById("language");
 // Dark / Light button text
 function updateDarkButton() {
 
+    const lang = language.value || "en";
+    const t = translations[lang];
+
     if (document.body.classList.contains("dark")) {
-        darkBtn.innerText = "☀️ Light Mode";
+        darkBtn.innerText = t.light;
     } else {
-        darkBtn.innerText = "🌙 Dark Mode";
+        darkBtn.innerText = t.dark;
     }
 
 }
 
-updateDarkButton();
-
-
 // Add Product
-
 addBtn.onclick = function () {
 
     let name = document.getElementById("productName").value.trim();
@@ -51,13 +50,10 @@ addBtn.onclick = function () {
 
 };
 
-
 // Show Products
-
 function showProducts() {
 
     let table = document.getElementById("invoiceTable");
-
     table.innerHTML = "";
 
     let total = 0;
@@ -74,8 +70,8 @@ function showProducts() {
             <td>${item.total} IQD</td>
             <td>
                 <button onclick="deleteProduct(${index})">
-                    Delete
-                </button>
+    ${translations[language.value].delete}
+</button>
             </td>
         </tr>
         `;
@@ -86,29 +82,20 @@ function showProducts() {
 
 }
 
-
 // Delete Product
-
 window.deleteProduct = function (index) {
 
     products.splice(index, 1);
-
     showProducts();
 
 };
 
-
 // Print
-
 printBtn.onclick = function () {
-
     window.print();
-
 };
 
-
 // Settings
-
 settingsBtn.onclick = function () {
 
     settingsMenu.style.display =
@@ -118,29 +105,27 @@ settingsBtn.onclick = function () {
 
 };
 
-
 // Dark Mode
-
 darkBtn.onclick = function () {
 
     document.body.classList.toggle("dark");
-
     updateDarkButton();
 
 };
 
-
 // Language
-
 const translations = {
 
-en:{
+    en:{
     title:"KRD Receipt System",
     add:"Add",
     print:"🖨️ Print Receipt",
     dark:"🌙 Dark Mode",
     light:"☀️ Light Mode",
-    total:"Total"
+    total:"Total",
+    supportTitle:"📧 Contact Support",
+    supportText:"If you have any problem, contact us:"
+    delete:"Delete"
 },
 
 ku:{
@@ -149,7 +134,10 @@ ku:{
     print:"🖨️ چاپکردنی وەسڵ",
     dark:"🌙 دۆخی تاریک",
     light:"☀️ دۆخی ڕووناک",
-    total:"کۆی گشتی"
+    total:"کۆی گشتی",
+    supportTitle:"📧 پەیوەندی بە پشتگیری",
+    supportText:"ئەگەر هەر کێشەیەکت هەبوو، پەیوەندیمان پێوە بکە:"
+    delete:"سڕینەوە"
 },
 
 ar:{
@@ -158,39 +146,35 @@ ar:{
     print:"🖨️ طباعة الوصل",
     dark:"🌙 الوضع الداكن",
     light:"☀️ الوضع الفاتح",
-    total:"المجموع"
+    total:"المجموع",
+    supportTitle:"📧 التواصل مع الدعم",
+    supportText:"إذا واجهتك أي مشكلة، تواصل معنا:"
+    delete:"حذف"
 }
 
 };
-
 
 function updateLanguage() {
 
     const lang = language.value;
     const t = translations[lang];
 
-    document.querySelector("h1").innerText = t.title;
+    document.getElementById("title").innerText = t.title;
     addBtn.innerText = t.add;
     printBtn.innerText = t.print;
-
-    // زیادکراو
     document.getElementById("totalLabel").innerText = t.total;
 
-    if (document.body.classList.contains("dark")) {
-        darkBtn.innerText = t.light;
-    } else {
-        darkBtn.innerText = t.dark;
-    }
+    document.getElementById("supportTitle").innerText = t.supportTitle;
+    document.getElementById("supportText").innerText = t.supportText;
 
     document.documentElement.dir =
         lang === "en" ? "ltr" : "rtl";
 
+    updateDarkButton();
 }
 
 language.onchange = function () {
-
     updateLanguage();
-
 };
 
 updateLanguage();
