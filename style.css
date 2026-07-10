@@ -249,10 +249,20 @@ button {
     }
 
 
-    button {
+        button {
 
         display: none;
 
     }
 
+}
+
+
+.receipt-info {
+    display: flex;
+    gap: 8px;
+}
+
+.receipt-info input {
+    width: 50%;
 }
