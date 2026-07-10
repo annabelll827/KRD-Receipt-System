@@ -390,3 +390,8 @@ function deleteReceipt(index) {
     showHistory();
 
 }
+function logout() {
+
+    window.location.href = "dashboard.html";
+
+}
