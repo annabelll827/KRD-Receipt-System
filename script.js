@@ -209,12 +209,13 @@ if (historyBtn) {
 
     historyBtn.addEventListener("click", function () {
 
-        showHistory();
+        saveReceiptHistory();
+
+        alert("وەسڵ نێردرا بۆ مێژووی وەسڵەکان ✅");
 
     });
 
 }
-
 
 
 // پاشەکەوتکردنی وەسڵ
