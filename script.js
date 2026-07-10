@@ -1,121 +1,135 @@
-<!DOCTYPE html>
-<html lang="ku" dir="rtl">
+document.addEventListener("DOMContentLoaded", function () {
 
-<head>
+    const addProductBtn = document.getElementById("addProductBtn");
+    const productsContainer = document.getElementById("productsContainer");
+    const discountInput = document.getElementById("discount");
+    const grandTotal = document.getElementById("grandTotal");
+    const createReceipt = document.getElementById("createReceipt");
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>KRD Receipt System</title>
+    // زیادکردنی کاڵا
+    addProductBtn.onclick = function () {
 
-<link rel="stylesheet" href="style.css">
+        let paymentID = Date.now();
 
-</head>
+        let productCard = document.createElement("div");
+        productCard.className = "product-card";
 
 
-<body>
+        productCard.innerHTML = `
 
+            <button class="delete-btn">🗑️</button>
 
-<div class="receipt">
+            <input class="product-name" placeholder="ناوی کاڵا">
 
 
-<header>
+            <div class="payment">
 
-<h1>KRD Receipt System</h1>
+                <label>
+                    <input type="radio" name="payment${paymentID}" checked>
+                    پارەدراو
+                </label>
 
-</header>
+                <label>
+                    <input type="radio" name="payment${paymentID}">
+                    قەرز
+                </label>
 
+            </div>
 
 
-<!-- زانیاری کڕیار -->
+            <div class="product-details">
 
-<div class="customer-info">
+                <input class="quantity" type="number" placeholder="ژمارە">
 
-<input id="customer" placeholder="ناوی کڕیار">
+                <input class="price" type="number" placeholder="نرخ">
 
-<input id="phone" placeholder="ژمارەی تەلەفون" type="tel">
+                <input class="total" type="number" placeholder="کۆی گشتی" readonly>
 
-</div>
+            </div>
 
+        `;
 
 
-<!-- تێبینی -->
+        productsContainer.appendChild(productCard);
 
-<textarea id="notes" placeholder="تێبینی"></textarea>
 
 
+        let quantity = productCard.querySelector(".quantity");
+        let price = productCard.querySelector(".price");
+        let total = productCard.querySelector(".total");
 
 
-<!-- زیادکردنی کاڵا -->
+        function calculateProduct(){
 
-<button id="addProductBtn" class="add-btn">
+            let q = Number(quantity.value) || 0;
+            let p = Number(price.value) || 0;
 
-➕ زیادکردنی کاڵا
+            total.value = q * p;
 
-</button>
+            calculateTotal();
 
+        }
 
 
+        quantity.oninput = calculateProduct;
+        price.oninput = calculateProduct;
 
-<!-- شوێنی کاڵاکان -->
 
-<div id="productsContainer">
 
-</div>
+        // سڕینەوە
+        productCard.querySelector(".delete-btn").onclick = function(){
 
+            productCard.remove();
 
+            calculateTotal();
 
+        };
 
+    });
 
-<!-- داشکاندن -->
 
-<div class="discount-box">
 
-<input id="discount" type="number" placeholder="بڕی داشکاندن">
+    // کۆی گشتی
+    function calculateTotal(){
 
-</div>
+        let total = 0;
 
 
+        document.querySelectorAll(".total").forEach(function(item){
 
+            total += Number(item.value) || 0;
 
+        });
 
 
-<!-- کۆتایی -->
+        let discount = Number(discountInput.value) || 0;
 
-<div class="bottom-section">
 
+        total = total - discount;
 
-<button id="createReceipt">
 
-دروستکردنی وەسڵ
+        if(total < 0){
+            total = 0;
+        }
 
-</button>
 
+        grandTotal.innerText = total;
 
+    }
 
-<div class="grand-total">
 
-کۆی گشتی:
 
-<span id="grandTotal">0</span>
+    discountInput.oninput = calculateTotal;
 
-IQD
 
-</div>
 
+    // دروستکردنی وەسڵ
+    createReceipt.onclick = function(){
 
-</div>
+        window.print();
 
+    };
 
 
-
-</div>
-
-
-
-<script src="script.js"></script>
-
-
-</body>
-
-</html>
+});
