@@ -9,6 +9,49 @@ const settingsMenu = document.getElementById("settingsMenu");
 const darkBtn = document.getElementById("darkBtn");
 const language = document.getElementById("language");
 
+
+// Language translations
+const translations = {
+
+    en:{
+        title:"KRD Receipt System",
+        add:"Add",
+        print:"🖨️ Print Receipt",
+        dark:"🌙 Dark Mode",
+        light:"☀️ Light Mode",
+        total:"Total",
+        supportTitle:"📧 Contact Support",
+        supportText:"If you have any problem, contact us:",
+        delete:"Delete"
+    },
+
+    ku:{
+        title:"سیستەمی وەسڵی KRD",
+        add:"زیادکردن",
+        print:"🖨️ چاپکردنی وەسڵ",
+        dark:"🌙 دۆخی تاریک",
+        light:"☀️ دۆخی ڕووناک",
+        total:"کۆی گشتی",
+        supportTitle:"📧 پەیوەندی بە پشتگیری",
+        supportText:"ئەگەر هەر کێشەیەکت هەبوو، پەیوەندیمان پێوە بکە:",
+        delete:"سڕینەوە"
+    },
+
+    ar:{
+        title:"نظام الوصل KRD",
+        add:"إضافة",
+        print:"🖨️ طباعة الوصل",
+        dark:"🌙 الوضع الداكن",
+        light:"☀️ الوضع الفاتح",
+        total:"المجموع",
+        supportTitle:"📧 التواصل مع الدعم",
+        supportText:"إذا واجهتك أي مشكلة، تواصل معنا:",
+        delete:"حذف"
+    }
+
+};
+
+
 // Dark / Light button text
 function updateDarkButton() {
 
@@ -23,6 +66,7 @@ function updateDarkButton() {
 
 }
 
+
 // Add Product
 addBtn.onclick = function () {
 
@@ -36,21 +80,20 @@ addBtn.onclick = function () {
     }
 
     products.push({
-        name: name,
-        price: price,
-        quantity: quantity,
-        total: price * quantity
+        name:name,
+        price:price,
+        quantity:quantity,
+        total:price * quantity
     });
 
     showProducts();
 
-    document.getElementById("productName").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("quantity").value = "";
+    document.getElementById("productName").value="";
+    document.getElementById("price").value="";
+    document.getElementById("quantity").value="";
 
 };
-
-// Show Products
+    // Show Products
 function showProducts() {
 
     let table = document.getElementById("invoiceTable");
@@ -58,7 +101,7 @@ function showProducts() {
 
     let total = 0;
 
-    products.forEach((item, index) => {
+    products.forEach((item,index)=>{
 
         total += item.total;
 
@@ -70,8 +113,8 @@ function showProducts() {
             <td>${item.total} IQD</td>
             <td>
                 <button onclick="deleteProduct(${index})">
-    ${translations[language.value].delete}
-</button>
+                    ${translations[language.value].delete}
+                </button>
             </td>
         </tr>
         `;
@@ -82,101 +125,85 @@ function showProducts() {
 
 }
 
-// Delete Product
-window.deleteProduct = function (index) {
 
-    products.splice(index, 1);
+// Delete Product
+window.deleteProduct = function(index){
+
+    products.splice(index,1);
     showProducts();
 
 };
 
+
 // Print
-printBtn.onclick = function () {
+printBtn.onclick = function(){
+
     window.print();
+
 };
 
+
 // Settings
-settingsBtn.onclick = function () {
+settingsBtn.onclick = function(){
 
     settingsMenu.style.display =
         settingsMenu.style.display === "block"
-            ? "none"
-            : "block";
+        ? "none"
+        : "block";
 
 };
 
+
 // Dark Mode
-darkBtn.onclick = function () {
+darkBtn.onclick = function(){
 
     document.body.classList.toggle("dark");
     updateDarkButton();
 
 };
 
-// Language
-const translations = {
 
-    en:{
-    title:"KRD Receipt System",
-    add:"Add",
-    print:"🖨️ Print Receipt",
-    dark:"🌙 Dark Mode",
-    light:"☀️ Light Mode",
-    total:"Total",
-    supportTitle:"📧 Contact Support",
-    supportText:"If you have any problem, contact us:"
-    delete:"Delete"
-},
-
-ku:{
-    title:"سیستەمی وەسڵی KRD",
-    add:"زیادکردن",
-    print:"🖨️ چاپکردنی وەسڵ",
-    dark:"🌙 دۆخی تاریک",
-    light:"☀️ دۆخی ڕووناک",
-    total:"کۆی گشتی",
-    supportTitle:"📧 پەیوەندی بە پشتگیری",
-    supportText:"ئەگەر هەر کێشەیەکت هەبوو، پەیوەندیمان پێوە بکە:"
-    delete:"سڕینەوە"
-},
-
-ar:{
-    title:"نظام الوصل KRD",
-    add:"إضافة",
-    print:"🖨️ طباعة الوصل",
-    dark:"🌙 الوضع الداكن",
-    light:"☀️ الوضع الفاتح",
-    total:"المجموع",
-    supportTitle:"📧 التواصل مع الدعم",
-    supportText:"إذا واجهتك أي مشكلة، تواصل معنا:"
-    delete:"حذف"
-}
-
-};
-
-function updateLanguage() {
+// Update Language
+function updateLanguage(){
 
     const lang = language.value;
     const t = translations[lang];
 
+
     document.getElementById("title").innerText = t.title;
+
     addBtn.innerText = t.add;
+
     printBtn.innerText = t.print;
+
     document.getElementById("totalLabel").innerText = t.total;
 
     document.getElementById("supportTitle").innerText = t.supportTitle;
+
     document.getElementById("supportText").innerText = t.supportText;
+
 
     document.documentElement.dir =
         lang === "en" ? "ltr" : "rtl";
 
+
     updateDarkButton();
+
+    showProducts();
+
 }
 
-language.onchange = function () {
+
+// Change Language
+language.onchange = function(){
+
     updateLanguage();
+
 };
 
+
+// Start
 updateLanguage();
+
 
 });
