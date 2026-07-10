@@ -2,28 +2,21 @@
 <html lang="ku" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>KRD Receipt System</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
 <div class="receipt">
 
-
 <header class="top-header">
 
-    <h1>
-        KRD Receipt System
-    </h1>
-
+    <h1>KRD Receipt System</h1>
 
     <button onclick="goDashboard()" class="back-btn">
         گەڕانەوە
@@ -31,179 +24,105 @@
 
 </header>
 
-
-
 <!-- زانیاری کڕیار -->
 
 <div class="customer-info">
 
-    <input 
-    id="customerName" 
-    placeholder="ناوی کڕیار">
+    <input id="customerName" placeholder="ناوی کڕیار">
 
-
-    <input 
-    id="customerPhone" 
-    type="tel" 
-    placeholder="ژمارەی تەلەفۆن">
+    <input id="customerPhone" type="tel" placeholder="ژمارەی تەلەفۆن">
 
 </div>
 
-
-
 <!-- تێبینی -->
 
-<textarea 
-id="notes" 
-placeholder="تێبینی"></textarea>
-
-
-
-
+<textarea id="notes" placeholder="تێبینی"></textarea>
 
 <!-- زانیاری وەسڵ -->
 
 <div class="receipt-info">
 
-    <input 
-    id="receiptNumber" 
-    placeholder="ژمارەی وەسڵ">
+    <input id="receiptNumber" placeholder="ژمارەی وەسڵ">
 
-
-    <input 
-    id="receiptDate" 
-    type="text" 
-    placeholder="YYYY/MM/DD">
+    <input id="receiptDate" placeholder="YYYY/MM/DD">
 
 </div>
-
-
-
-
 
 <!-- زیادکردنی کاڵا -->
 
 <button id="addProductBtn" class="add-btn">
-
-    ➕ زیادکردنی کاڵا
-
+➕ زیادکردنی کاڵا
 </button>
 
-
 <div id="productsContainer"></div>
-
-
-
-
 
 <!-- داشکاندن -->
 
 <div class="discount-box">
 
-    <label>
-        بڕی داشکاندن
-    </label>
+<label>بڕی داشکاندن</label>
 
-
-    <input 
-    id="discount" 
-    type="number" 
-    placeholder="0">
+<input id="discount" type="number" placeholder="0">
 
 </div>
 
-
-
-
-
-<!-- دوگمەکانی وەسڵ -->
+<!-- دوگمەکان -->
 
 <div class="action-buttons">
 
-
-    <button id="createReceipt">
-
-        🖨️ دروستکردنی وەسڵ
-
-    </button>
-
-
-
-    <button id="historyBtn" class="history-btn">
-
-    📤 ناردن بۆ مێژووی وەسڵەکان
-
+<button id="createReceipt">
+🖨️ دروستکردنی وەسڵ
 </button>
 
+<button id="historyBtn" class="history-btn">
+📜 مێژووی وەسڵەکان
+</button>
 
 </div>
-
-
 
 <!-- مێژووی وەسڵ -->
 
-<div 
-id="historyModal" 
-class="history-modal" 
-style="display:none;">
+<div id="historyModal" class="history-modal" style="display:none;">
 
+<div class="history-content">
 
-    <div class="history-content">
+<h2>📜 مێژووی وەسڵەکان</h2>
 
+<h3>💳 پارەدراو</h3>
 
-        <h2>
-            📜 مێژووی وەسڵەکان
-        </h2>
+<div id="paidHistory"></div>
 
+<hr>
 
-        <div id="historyList"></div>
+<h3>📒 قەرز</h3>
 
+<div id="debtHistory"></div>
 
+<br>
 
-        <button onclick="closeHistory()">
-
-            داخستن
-
-        </button>
-
-
-    </div>
-
+<button onclick="closeHistory()">
+داخستن
+</button>
 
 </div>
 
-
-
+</div>
 
 <!-- کۆی گشتی -->
 
 <div class="grand-total">
 
+کۆی گشتی:
 
-    کۆی گشتی:
+<span id="grandTotal">0</span>
 
-    <span id="grandTotal">
-        0
-    </span>
-
-    IQD
-
+IQD
 
 </div>
 
-
-
-
-
 </div>
-
-
-
-
 
 <script src="script.js"></script>
 
-
 </body>
-
 </html>
