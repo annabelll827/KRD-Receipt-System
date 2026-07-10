@@ -1,508 +1,453 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================
-    // Login Check
-    // ==========================
-    if (localStorage.getItem("loggedIn") !== "true") {
-        window.location.href = "login.html";
-        return;
-    }
-
-    // ==========================
     // Elements
     // ==========================
-    const productName = document.getElementById("productName");
-    const productPrice = document.getElementById("productPrice");
-    const productQty = document.getElementById("productQty");
+    const customerName = document.getElementById("customerName");
+    const customerPhone = document.getElementById("customerPhone");
 
-    const addBtn = document.getElementById("addBtn");
-    const printBtn = document.getElementById("printBtn");
-    const clearBtn = document.getElementById("clearBtn");
+    const receiptNumber = document.getElementById("receiptNumber");
+    const receiptDate = document.getElementById("receiptDate");
+
+    const notes = document.getElementById("notes");
+    const discount = document.getElementById("discount");
+
+    const addProductBtn = document.getElementById("addProductBtn");
+    const createReceipt = document.getElementById("createReceipt");
+    const historyBtn = document.getElementById("historyBtn");
 
     const productsContainer = document.getElementById("productsContainer");
-    const totalElement = document.getElementById("total");
+    const grandTotal = document.getElementById("grandTotal");
 
-    const settingsBtn = document.getElementById("settingsBtn");
-    const settingsMenu = document.getElementById("settingsMenu");
-
-    const languageSelect = document.getElementById("language");
-    const darkBtn = document.getElementById("darkBtn");
-
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    // Dashboard
-    const totalSales = document.getElementById("totalSales");
-    const totalOrders = document.getElementById("totalOrders");
-    const totalProducts = document.getElementById("totalProducts");
+    const paidHistory = document.getElementById("paidHistory");
+    const debtHistory = document.getElementById("debtHistory");
+    const historyModal = document.getElementById("historyModal");
 
     // ==========================
     // Variables
     // ==========================
-    let products = JSON.parse(localStorage.getItem("products")) || [];
+    let products = [];
 
-    let darkMode = localStorage.getItem("darkMode") === "true";
-
-    let currentLanguage =
-        localStorage.getItem("language") || "ku";
+    let receiptHistory =
+        JSON.parse(localStorage.getItem("receiptHistory")) || [];
 
     // ==========================
-    // Apply Dark Mode
+    // Today Date
     // ==========================
-    if (darkMode) {
-        document.body.classList.add("dark");
+    if (receiptDate && receiptDate.value === "") {
+
+        const today = new Date();
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        receiptDate.value = `${year}/${month}/${day}`;
+
     }
 
     // ==========================
-    // Close Settings Menu
+    // Auto Receipt Number
     // ==========================
-    document.addEventListener("click", (e) => {
-        if (
-            settingsBtn &&
-            settingsMenu &&
-            !settingsBtn.contains(e.target) &&
-            !settingsMenu.contains(e.target)
-        ) {
-            settingsMenu.style.display = "none";
-        }
-    });
+    if (receiptNumber && receiptNumber.value === "") {
 
-    // ==========================
-    // Toggle Settings
-    // ==========================
-    if (settingsBtn) {
-        settingsBtn.addEventListener("click", () => {
-
-            if (settingsMenu.style.display === "block") {
-                settingsMenu.style.display = "none";
-            } else {
-                settingsMenu.style.display = "block";
-            }
-
-        });
-    }
-    // ==========================
-    // Languages
-    // ==========================
-    const translations = {
-
-        ku: {
-            title: "سیستەمی وەسڵی KRD",
-            add: "زیادکردن",
-            print: "🖨️ چاپکردنی وەسڵ",
-            clear: "🗑️ سڕینەوە",
-            total: "کۆی گشتی",
-            dark: "🌙 دۆخی تاریک",
-            light: "☀️ دۆخی ڕووناک",
-            logout: "دەرچوون",
-            name: "ناوی کاڵا",
-            price: "نرخ",
-            qty: "ژمارە",
-            reports: "ڕاپۆرت"
-        },
-
-        en: {
-            title: "KRD Receipt System",
-            add: "Add",
-            print: "🖨️ Print Receipt",
-            clear: "🗑️ Clear",
-            total: "Total",
-            dark: "🌙 Dark Mode",
-            light: "☀️ Light Mode",
-            logout: "Logout",
-            name: "Product Name",
-            price: "Price",
-            qty: "Quantity",
-            reports: "Reports"
-        },
-
-        ar: {
-            title: "نظام الوصل KRD",
-            add: "إضافة",
-            print: "🖨️ طباعة الوصل",
-            clear: "🗑️ مسح",
-            total: "المجموع",
-            dark: "🌙 الوضع الداكن",
-            light: "☀️ الوضع الفاتح",
-            logout: "تسجيل الخروج",
-            name: "اسم المنتج",
-            price: "السعر",
-            qty: "الكمية",
-            reports: "التقارير"
-        }
-
-    };
-
-    // ==========================
-    // Update Language
-    // ==========================
-    function updateLanguage(lang) {
-
-        currentLanguage = lang;
-
-        localStorage.setItem("language", lang);
-
-        document.documentElement.lang = lang;
-        document.documentElement.dir =
-            lang === "en" ? "ltr" : "rtl";
-
-        const t = translations[lang];
-
-        document.title = t.title;
-
-        if (addBtn) addBtn.textContent = t.add;
-        if (printBtn) printBtn.textContent = t.print;
-        if (clearBtn) clearBtn.textContent = t.clear;
-        if (logoutBtn) logoutBtn.textContent = t.logout;
-
-        if (productName) productName.placeholder = t.name;
-        if (productPrice) productPrice.placeholder = t.price;
-        if (productQty) productQty.placeholder = t.qty;
-
-        if (darkBtn) {
-            darkBtn.textContent =
-                document.body.classList.contains("dark")
-                    ? t.light
-                    : t.dark;
-        }
+        receiptNumber.value = Date.now();
 
     }
         // ==========================
-    // Language Selector
+    // Add Product Row
     // ==========================
-    if (languageSelect) {
+    function addProductRow(name = "", price = "", qty = 1) {
 
-        languageSelect.value = currentLanguage;
+        const row = document.createElement("div");
+        row.className = "product-row";
 
-        updateLanguage(currentLanguage);
+        row.innerHTML = `
+            <input type="text" class="product-name"
+                placeholder="ناوی کاڵا" value="${name}">
 
-        languageSelect.addEventListener("change", () => {
-            updateLanguage(languageSelect.value);
-            renderProducts();
+            <input type="number" class="product-price"
+                placeholder="نرخ" value="${price}">
+
+            <input type="number" class="product-qty"
+                placeholder="ژمارە" min="1" value="${qty}">
+
+            <span class="product-total">0 IQD</span>
+
+            <button type="button" class="delete-product">
+                ❌
+            </button>
+        `;
+
+        productsContainer.appendChild(row);
+
+        const nameInput = row.querySelector(".product-name");
+        const priceInput = row.querySelector(".product-price");
+        const qtyInput = row.querySelector(".product-qty");
+        const totalSpan = row.querySelector(".product-total");
+        const deleteBtn = row.querySelector(".delete-product");
+
+        function updateRowTotal() {
+
+            const price = Number(priceInput.value) || 0;
+            const qty = Number(qtyInput.value) || 0;
+
+            totalSpan.textContent =
+                (price * qty).toLocaleString() + " IQD";
+
+            updateGrandTotal();
+        }
+
+        priceInput.addEventListener("input", updateRowTotal);
+        qtyInput.addEventListener("input", updateRowTotal);
+
+        deleteBtn.addEventListener("click", () => {
+            row.remove();
+            updateGrandTotal();
         });
 
+        updateRowTotal();
     }
 
     // ==========================
-    // Dark Mode
+    // Add New Product
     // ==========================
-    if (darkBtn) {
+    if (addProductBtn) {
 
-        darkBtn.addEventListener("click", () => {
+        addProductBtn.addEventListener("click", () => {
 
-            document.body.classList.toggle("dark");
-
-            darkMode = document.body.classList.contains("dark");
-
-            localStorage.setItem("darkMode", darkMode);
-
-            const t = translations[currentLanguage];
-
-            darkBtn.textContent = darkMode
-                ? t.light
-                : t.dark;
+            addProductRow();
 
         });
-
-    }
-
-    // ==========================
-    // Logout
-    // ==========================
-    if (logoutBtn) {
-
-        logoutBtn.addEventListener("click", () => {
-
-            localStorage.removeItem("loggedIn");
-
-            window.location.href = "login.html";
-
-        });
-
-    }
-
-    // ==========================
-    // Save Products
-    // ==========================
-    function saveProducts() {
-
-        localStorage.setItem(
-            "products",
-            JSON.stringify(products)
-        );
-
-    }
-
-    // ==========================
-    // Calculate Total
-    // ==========================
-    function calculateTotal() {
-
-        return products.reduce((sum, item) => {
-
-            return sum + (item.price * item.qty);
-
-        }, 0);
 
     }
         // ==========================
-    // Render Products
+    // Update Grand Total
     // ==========================
-    function renderProducts() {
+    function updateGrandTotal() {
 
-        if (!productsContainer) return;
+        let total = 0;
 
-        productsContainer.innerHTML = "";
+        document.querySelectorAll(".product-row").forEach(row => {
 
-        const t = translations[currentLanguage];
+            const price = Number(
+                row.querySelector(".product-price").value
+            ) || 0;
 
-        products.forEach((item, index) => {
+            const qty = Number(
+                row.querySelector(".product-qty").value
+            ) || 0;
 
-            const row = document.createElement("div");
-            row.className = "product-item";
-
-            row.innerHTML = `
-                <span>${item.name}</span>
-                <span>${item.price.toLocaleString()} IQD</span>
-                <span>${item.qty}</span>
-                <span>${(item.price * item.qty).toLocaleString()} IQD</span>
-                <button class="delete-btn" data-index="${index}">
-                    ❌
-                </button>
-            `;
-
-            productsContainer.appendChild(row);
+            total += price * qty;
 
         });
 
-        // Total
-        if (totalElement) {
-            totalElement.textContent =
-                calculateTotal().toLocaleString() + " IQD";
-        }
+        const discountValue = Number(discount.value) || 0;
 
-        // Dashboard
-        if (totalSales) {
-            totalSales.textContent =
-                calculateTotal().toLocaleString() + " IQD";
-        }
+        total -= discountValue;
 
-        if (totalOrders) {
-            totalOrders.textContent = products.length;
-        }
+        if (total < 0) total = 0;
 
-        if (totalProducts) {
+        grandTotal.textContent = total.toLocaleString();
+    }
 
-            const qty = products.reduce((sum, item) => {
-                return sum + item.qty;
-            }, 0);
+    // ==========================
+    // Discount Change
+    // ==========================
+    if (discount) {
 
-            totalProducts.textContent = qty;
+        discount.addEventListener("input", () => {
 
-        }
+            updateGrandTotal();
 
-        addDeleteEvents();
+        });
+
+    }
+
+    // ==========================
+    // First Product Row
+    // ==========================
+    if (productsContainer.children.length === 0) {
+
+        addProductRow();
 
     }
         // ==========================
-    // Add Product
+    // Create Receipt
     // ==========================
-    if (addBtn) {
+    if (createReceipt) {
 
-        addBtn.addEventListener("click", () => {
+        createReceipt.addEventListener("click", () => {
 
-            const name = productName.value.trim();
-            const price = Number(productPrice.value);
-            const qty = Number(productQty.value);
+            const items = [];
 
-            if (!name || price <= 0 || qty <= 0) {
-                alert("تکایە زانیارییە دروستەکان بنووسە.");
-                return;
-            }
+            document.querySelectorAll(".product-row").forEach(row => {
 
-            products.push({
-                name,
-                price,
-                qty
-            });
+                const name = row.querySelector(".product-name").value.trim();
+                const price = Number(row.querySelector(".product-price").value) || 0;
+                const qty = Number(row.querySelector(".product-qty").value) || 0;
 
-            saveProducts();
-            renderProducts();
+                if (name !== "" && price > 0 && qty > 0) {
 
-            productName.value = "";
-            productPrice.value = "";
-            productQty.value = "";
+                    items.push({
+                        name,
+                        price,
+                        qty,
+                        total: price * qty
+                    });
 
-            productName.focus();
-
-        });
-
-    }
-
-    // ==========================
-    // Delete Product
-    // ==========================
-    function addDeleteEvents() {
-
-        const deleteButtons =
-            document.querySelectorAll(".delete-btn");
-
-        deleteButtons.forEach(button => {
-
-            button.addEventListener("click", () => {
-
-                const index =
-                    Number(button.dataset.index);
-
-                products.splice(index, 1);
-
-                saveProducts();
-                renderProducts();
+                }
 
             });
 
-        });
-
-    }
-        // ==========================
-    // Clear All Products
-    // ==========================
-    if (clearBtn) {
-
-        clearBtn.addEventListener("click", () => {
-
-            if (!confirm("دڵنیایت لە سڕینەوەی هەموو کاڵاکان؟")) {
+            if (items.length === 0) {
+                alert("تکایە لانیکەم یەک کاڵا زیاد بکە.");
                 return;
             }
 
-            products = [];
+            const receipt = {
+                id: receiptNumber.value,
+                date: receiptDate.value,
+                customer: customerName.value.trim(),
+                phone: customerPhone.value.trim(),
+                notes: notes.value.trim(),
+                discount: Number(discount.value) || 0,
+                grandTotal: Number(
+                    grandTotal.textContent.replace(/,/g, "")
+                ) || 0,
+                status: "paid",
+                items
+            };
 
-            saveProducts();
-            renderProducts();
+            receiptHistory.push(receipt);
 
-        });
-
-    }
-
-    // ==========================
-    // Print Receipt
-    // ==========================
-    if (printBtn) {
-
-        printBtn.addEventListener("click", () => {
-
-            if (products.length === 0) {
-                alert("هیچ کاڵایەک زیاد نەکراوە.");
-                return;
-            }
+            localStorage.setItem(
+                "receiptHistory",
+                JSON.stringify(receiptHistory)
+            );
 
             window.print();
 
         });
 
     }
-
+        // ==========================
+    // Show Receipt History
     // ==========================
-    // Enter Key Support
-    // ==========================
-    [productName, productPrice, productQty].forEach(input => {
+    function renderHistory() {
 
-        if (!input) return;
+        if (paidHistory) paidHistory.innerHTML = "";
+        if (debtHistory) debtHistory.innerHTML = "";
 
-        input.addEventListener("keydown", (e) => {
+        receiptHistory.forEach((receipt, index) => {
 
-            if (e.key === "Enter") {
+            const item = document.createElement("div");
+            item.className = "history-item";
 
-                e.preventDefault();
+            item.innerHTML = `
+                <strong>#${receipt.id}</strong><br>
+                👤 ${receipt.customer || "-"}<br>
+                📅 ${receipt.date}<br>
+                💰 ${Number(receipt.grandTotal).toLocaleString()} IQD
+                <br><br>
 
-                addBtn.click();
+                <button class="view-receipt" data-index="${index}">
+                    👁️ بینین
+                </button>
 
+                <button class="delete-receipt" data-index="${index}">
+                    🗑️ سڕینەوە
+                </button>
+
+                <hr>
+            `;
+
+            if (receipt.status === "debt") {
+                debtHistory.appendChild(item);
+            } else {
+                paidHistory.appendChild(item);
             }
 
         });
 
-    });
-        // ==========================
-    // Reports
+        addHistoryEvents();
+    }
+
     // ==========================
-    const reportBtn = document.getElementById("reportBtn");
+    // Open History
+    // ==========================
+    if (historyBtn) {
 
-    if (reportBtn) {
+        historyBtn.addEventListener("click", () => {
 
-        reportBtn.addEventListener("click", () => {
+            renderHistory();
 
-            window.location.href =
-                "mailto:krdreceipsystem@gmail.com?subject=KRD Receipt System Report";
+            historyModal.style.display = "block";
 
         });
 
     }
 
     // ==========================
-    // Auto Save Inputs
+    // Close History
     // ==========================
-    [productName, productPrice, productQty].forEach(input => {
+    window.closeHistory = function () {
+
+        historyModal.style.display = "none";
+
+    };
+        // ==========================
+    // History Buttons
+    // ==========================
+    function addHistoryEvents() {
+
+        // View Receipt
+        document.querySelectorAll(".view-receipt").forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const index = Number(button.dataset.index);
+                const receipt = receiptHistory[index];
+
+                let message =
+                    `ژمارەی وەسڵ: ${receipt.id}\n` +
+                    `کڕیار: ${receipt.customer || "-"}\n` +
+                    `مۆبایل: ${receipt.phone || "-"}\n` +
+                    `بەروار: ${receipt.date}\n\n`;
+
+                receipt.items.forEach(item => {
+                    message +=
+                        `${item.name} | ${item.qty} × ${item.price.toLocaleString()} = ${item.total.toLocaleString()} IQD\n`;
+                });
+
+                message +=
+                    `\nداشکاندن: ${receipt.discount.toLocaleString()} IQD`;
+                message +=
+                    `\nکۆی گشتی: ${receipt.grandTotal.toLocaleString()} IQD`;
+
+                alert(message);
+
+            });
+
+        });
+
+        // Delete Receipt
+        document.querySelectorAll(".delete-receipt").forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const index = Number(button.dataset.index);
+
+                if (!confirm("دڵنیایت لە سڕینەوەی ئەم وەسڵە؟")) {
+                    return;
+                }
+
+                receiptHistory.splice(index, 1);
+
+                localStorage.setItem(
+                    "receiptHistory",
+                    JSON.stringify(receiptHistory)
+                );
+
+                renderHistory();
+
+            });
+
+        });
+
+    }
+        // ==========================
+    // Save Form Data
+    // ==========================
+    function saveForm() {
+
+        const formData = {
+            customerName: customerName.value,
+            customerPhone: customerPhone.value,
+            receiptNumber: receiptNumber.value,
+            receiptDate: receiptDate.value,
+            notes: notes.value,
+            discount: discount.value
+        };
+
+        localStorage.setItem(
+            "currentReceipt",
+            JSON.stringify(formData)
+        );
+
+    }
+
+    // ==========================
+    // Load Form Data
+    // ==========================
+    function loadForm() {
+
+        const data = JSON.parse(
+            localStorage.getItem("currentReceipt")
+        );
+
+        if (!data) return;
+
+        customerName.value = data.customerName || "";
+        customerPhone.value = data.customerPhone || "";
+        receiptNumber.value = data.receiptNumber || receiptNumber.value;
+        receiptDate.value = data.receiptDate || receiptDate.value;
+        notes.value = data.notes || "";
+        discount.value = data.discount || "";
+
+        updateGrandTotal();
+
+    }
+
+    // ==========================
+    // Auto Save
+    // ==========================
+    [
+        customerName,
+        customerPhone,
+        receiptNumber,
+        receiptDate,
+        notes,
+        discount
+    ].forEach(input => {
 
         if (!input) return;
 
-        input.addEventListener("input", () => {
-
-            localStorage.setItem(
-                input.id,
-                input.value
-            );
-
-        });
-
-        const savedValue = localStorage.getItem(input.id);
-
-        if (savedValue !== null) {
-            input.value = savedValue;
-        }
+        input.addEventListener("input", saveForm);
 
     });
 
     // ==========================
-    // Clear Saved Inputs After Add
+    // Load on Start
     // ==========================
-    if (addBtn) {
-
-        addBtn.addEventListener("click", () => {
-
-            localStorage.removeItem("productName");
-            localStorage.removeItem("productPrice");
-            localStorage.removeItem("productQty");
-
-        });
-
-    }
-
-    // ==========================
-    // First Load
-    // ==========================
-    renderProducts();
+    loadForm();
         // ==========================
-    // Refresh Dashboard
+    // Go Dashboard
     // ==========================
-    function refreshDashboard() {
-
-        renderProducts();
-
-    }
+    window.goDashboard = function () {
+        window.location.href = "dashboard.html";
+    };
 
     // ==========================
-    // Update Total on Page Load
+    // Refresh Totals
     // ==========================
-    if (totalElement) {
-        totalElement.textContent =
-            calculateTotal().toLocaleString() + " IQD";
-    }
+    updateGrandTotal();
 
     // ==========================
-    // Initialize Application
+    // Close History When Clicking Outside
     // ==========================
-    refreshDashboard();
+    window.addEventListener("click", (e) => {
+        if (e.target === historyModal) {
+            historyModal.style.display = "none";
+        }
+    });
 
     // ==========================
-    // End of KRD Receipt System
+    // Save Before Leaving Page
+    // ==========================
+    window.addEventListener("beforeunload", saveForm);
+
+    // ==========================
+    // End of Script
     // ==========================
 });
