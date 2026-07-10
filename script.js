@@ -4,10 +4,13 @@ let products = [];
 
 const addBtn = document.getElementById("addBtn");
 const printBtn = document.getElementById("printBtn");
+
 const settingsBtn = document.getElementById("settingsBtn");
 const settingsMenu = document.getElementById("settingsMenu");
+
 const darkBtn = document.getElementById("darkBtn");
 const language = document.getElementById("language");
+
 
 
 // Add Product
@@ -20,20 +23,16 @@ addBtn.onclick = function(){
 
 
     if(name === "" || price <= 0 || quantity <= 0){
-
-        alert("Please enter product information");
+        alert("Enter product information");
         return;
-
     }
 
 
     products.push({
-
         name:name,
         price:price,
         quantity:quantity,
         total:price * quantity
-
     });
 
 
@@ -55,31 +54,23 @@ function showProducts(){
     let total = 0;
 
 
-    products.forEach(function(item,index){
+    products.forEach((item,index)=>{
 
         total += item.total;
 
 
         table.innerHTML += `
-
         <tr>
-
-        <td>${item.name}</td>
-
-        <td>$${item.price}</td>
-
-        <td>${item.quantity}</td>
-
-        <td>$${item.total}</td>
-
-        <td>
-        <button onclick="deleteProduct(${index})">
-        Delete
-        </button>
-        </td>
-
+            <td>${item.name}</td>
+            <td>${item.price}</td>
+            <td>${item.quantity}</td>
+            <td>${item.total}</td>
+            <td>
+            <button onclick="deleteProduct(${index})">
+            Delete
+            </button>
+            </td>
         </tr>
-
         `;
 
     });
@@ -92,8 +83,6 @@ function showProducts(){
 
 
 
-// Delete
-
 window.deleteProduct = function(index){
 
     products.splice(index,1);
@@ -101,6 +90,7 @@ window.deleteProduct = function(index){
     showProducts();
 
 };
+
 
 
 
@@ -116,16 +106,23 @@ printBtn.onclick = function(){
 
 
 
-// Settings Menu
+
+// Settings
 
 settingsBtn.onclick = function(){
 
-    settingsMenu.style.display =
-    settingsMenu.style.display === "block"
-    ? "none"
-    : "block";
+    if(settingsMenu.style.display === "block"){
+
+        settingsMenu.style.display="none";
+
+    }else{
+
+        settingsMenu.style.display="block";
+
+    }
 
 };
+
 
 
 
@@ -143,9 +140,10 @@ darkBtn.onclick = function(){
 
 
 
+
 // Languages
 
-const translations = {
+const languages = {
 
 en:{
     title:"KRD Receipt System",
@@ -188,46 +186,26 @@ language.onchange = function(){
 
     let lang = this.value;
 
-
-    let t = translations[lang];
-
-
-    let title = document.querySelector("h1");
-
-    if(title)
-        title.innerText = t.title;
+    let t = languages[lang];
 
 
-
-    let customer = document.getElementById("customer");
-
-    if(customer)
-        customer.placeholder = t.customer;
+    document.querySelector("h1").innerText = t.title;
 
 
-
-    let product = document.getElementById("productName");
-
-    if(product)
-        product.placeholder = t.product;
+    document.getElementById("customer").placeholder = t.customer;
 
 
-
-    let price = document.getElementById("price");
-
-    if(price)
-        price.placeholder = t.price;
+    document.getElementById("productName").placeholder = t.product;
 
 
+    document.getElementById("price").placeholder = t.price;
 
-    let quantity = document.getElementById("quantity");
 
-    if(quantity)
-        quantity.placeholder = t.quantity;
-
+    document.getElementById("quantity").placeholder = t.quantity;
 
 
     addBtn.innerText = t.add;
+
 
     printBtn.innerText = t.print;
 
@@ -242,6 +220,7 @@ language.onchange = function(){
         document.documentElement.dir="rtl";
 
     }
+
 
 };
 
