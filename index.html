@@ -23,6 +23,7 @@
 </header>
 
 
+
 <!-- زانیاری کڕیار -->
 
 <div class="customer-info">
@@ -45,8 +46,8 @@
 
 <textarea 
 id="notes" 
-placeholder="تێبینی">
-</textarea>
+placeholder="تێبینی"></textarea>
+
 
 
 
@@ -70,6 +71,9 @@ placeholder="تێبینی">
 
 
 
+
+<!-- زیادکردنی کاڵا -->
+
 <button id="addProductBtn" class="add-btn">
 
     ➕ زیادکردنی کاڵا
@@ -77,12 +81,13 @@ placeholder="تێبینی">
 </button>
 
 
-
 <div id="productsContainer"></div>
 
 
 
 
+
+<!-- داشکاندن -->
 
 <div class="discount-box">
 
@@ -102,15 +107,34 @@ placeholder="تێبینی">
 
 
 
+<!-- دوگمەکانی وەسڵ -->
+
+<div class="action-buttons">
+
+
+    <button id="createReceipt">
+
+        🖨️ دروستکردنی وەسڵ
+
+    </button>
+
+
+
+    <button id="historyBtn" class="history-btn">
+
+        📜 مێژووی وەسڵەکان
+
+    </button>
+
+
+</div>
+
+
+
+
+
+
 <!-- مێژووی وەسڵ -->
-
-<button id="historyBtn" class="history-btn">
-
-    📜 مێژووی وەسڵەکان
-
-</button>
-
-
 
 <div 
 id="historyModal" 
@@ -129,6 +153,7 @@ style="display:none;">
         <div id="historyList"></div>
 
 
+
         <button onclick="closeHistory()">
 
             داخستن
@@ -145,38 +170,30 @@ style="display:none;">
 
 
 
-<div class="bottom-section">
+
+<!-- کۆی گشتی -->
+
+<div class="grand-total">
 
 
-    <button id="createReceipt">
+    کۆی گشتی:
 
-        🖨️ دروستکردنی وەسڵ
+    <span id="grandTotal">
+        0
+    </span>
 
-    </button>
-
-
-
-    <div class="grand-total">
-
-
-        کۆی گشتی:
-
-        <span id="grandTotal">
-            0
-        </span>
-
-        IQD
-
-
-    </div>
-
+    IQD
 
 
 </div>
 
 
 
+
+
 </div>
+
+
 
 
 
