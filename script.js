@@ -1,1646 +1,1864 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ==========================
-    // Elements
-    // ==========================
+/* ==========================
+   Elements
+========================== */
 
-    const dashboardBtn = document.getElementById("dashboardBtn");
-    const historyBtn = document.getElementById("historyBtn");
-    const settingsBtn = document.getElementById("settingsBtn");
+const addProductBtn = document.getElementById("addProductBtn");
+const productsContainer = document.getElementById("productsContainer");
 
-    const settingsMenu = document.getElementById("settingsMenu");
-    const language = document.getElementById("language");
-    const darkModeBtn = document.getElementById("darkModeBtn");
+const grandTotal = document.getElementById("grandTotal");
+const discount = document.getElementById("discount");
 
-    const customerName = document.getElementById("customerName");
-    const customerPhone = document.getElementById("customerPhone");
+const createReceipt = document.getElementById("createReceipt");
+const clearReceipt = document.getElementById("clearReceipt");
 
-    const receiptNumber = document.getElementById("receiptNumber");
-    const receiptDate = document.getElementById("receiptDate");
+const customerName = document.getElementById("customerName");
+const customerPhone = document.getElementById("customerPhone");
 
-    const notes = document.getElementById("notes");
-    const discount = document.getElementById("discount");
+const receiptNumber = document.getElementById("receiptNumber");
+const receiptDate = document.getElementById("receiptDate");
 
-    const addProductBtn = document.getElementById("addProductBtn");
-    const productsContainer = document.getElementById("productsContainer");
+const notes = document.getElementById("notes");
 
-    const grandTotal = document.getElementById("grandTotal");
+const historyBtn = document.getElementById("historyBtn");
+const historyModal = document.getElementById("historyModal");
+const closeHistoryBtn = document.getElementById("closeHistoryBtn");
 
-    const createReceipt = document.getElementById("createReceipt");
-    const clearReceipt = document.getElementById("clearReceipt");
+const paidHistory = document.getElementById("paidHistory");
+const debtHistory = document.getElementById("debtHistory");
 
-    const historyModal = document.getElementById("historyModal");
-    const closeHistoryBtn = document.getElementById("closeHistoryBtn");
-
-    const paidHistory = document.getElementById("paidHistory");
-    const debtHistory = document.getElementById("debtHistory");
-
-    const searchReceipt = document.getElementById("searchReceipt");
-    const reportBtn = document.getElementById("reportBtn");
+const dashboardBtn = document.getElementById("dashboardBtn");
 
 
-    // ==========================
-    // Data
-    // ==========================
+/* ==========================
+   Data
+========================== */
 
-    let receipts =
-        JSON.parse(localStorage.getItem("receipts")) || [];
-
-
-    // ==========================
-    // Date
-    // ==========================
-
-    if(receiptDate){
-
-        const today = new Date();
-
-        receiptDate.value =
-            today.toISOString().split("T")[0];
-
-    }
+let receipts =
+JSON.parse(localStorage.getItem("receipts")) || [];
 
 
-    // ==========================
-    // Receipt Number
-    // ==========================
 
-    if(receiptNumber){
+/* ==========================
+   Receipt Number
+========================== */
 
-        receiptNumber.value =
-            "KRD-" + Date.now();
+if(receiptNumber.value === ""){
+    receiptNumber.value = "KRD-" + Date.now();
+}
 
-    }
-        // ==========================
-    // Add Product Row
-    // ==========================
 
-    function addProductRow(){
 
-        const row = document.createElement("div");
+/* ==========================
+   Add Product
+========================== */
 
-        row.className = "product-row";
+function addProductRow(){
+
+
+const row = document.createElement("div");
+
+row.className = "product-row";
 
 
 row.innerHTML = `
 
 <input 
 class="product-name"
-type="text"
 placeholder="ناوی کاڵا">
 
 
-<div class="product-details">
+<div class="payment-options">
 
+<label>
 <input 
+type="radio"
+name="payment-${Date.now()}"
+value="paid"
+checked>
+
+✅ پارەدراو
+</label>
+
+
+<label>
+<input 
+type="radio"
+name="payment-${Date.now()}"
+value="debt">
+
+📒 قەرز
+</label>
+
+</div>
+
+
+
+<input
 class="product-qty"
 type="number"
 min="1"
 value="1"
-placeholder="ژمارەی کاڵا">
+placeholder="ژمارە">
 
 
-<input 
+
+<input
 class="product-price"
 type="number"
 placeholder="نرخ">
 
 
-<input 
-class="product-total"
-type="text"
-readonly
-placeholder="کۆی گشتی">
 
-</div>
+<span class="product-total">
+0 IQD
+</span>
+
 
 
 <button 
 class="delete-product"
 type="button">
+
 ❌
+
 </button>
+
 
 `;
 
 
-        productsContainer.appendChild(row);
+productsContainer.appendChild(row);
 
 
 
-        const price =
-        row.querySelector(".product-price");
+const price =
+row.querySelector(".product-price");
 
+const qty =
+row.querySelector(".product-qty");
 
-        const qty =
-        row.querySelector(".product-qty");
+const total =
+row.querySelector(".product-total");
 
 
-        const total =
-        row.querySelector(".product-total");
 
+function updateRow(){
 
 
-        function updateRowTotal(){
+const p =
+Number(price.value) || 0;
 
-            const p =
-            Number(price.value) || 0;
 
+const q =
+Number(qty.value) || 0;
 
-            const q =
-            Number(qty.value) || 0;
 
 
-            total.textContent =
-            (p * q).toLocaleString() + " IQD";
+total.textContent =
+(p*q).toLocaleString() + " IQD";
 
 
-            updateGrandTotal();
+updateGrandTotal();
 
-        }
 
+}
 
 
-        price.addEventListener(
-            "input",
-            updateRowTotal
-        );
 
+price.addEventListener(
+"input",
+updateRow
+);
 
-        qty.addEventListener(
-            "input",
-            updateRowTotal
-        );
 
+qty.addEventListener(
+"input",
+updateRow
+);
 
 
-        row.querySelector(".delete-product")
-        .addEventListener(
-            "click",
-            ()=>{
 
-                row.remove();
+row.querySelector(".delete-product")
+.addEventListener("click",()=>{
 
-                updateGrandTotal();
 
-            }
-        );
+row.remove();
 
+updateGrandTotal();
 
-    }
 
+});
 
 
 
+}
 
-    // ==========================
-    // Add Product Button
-    // ==========================
 
-    if(addProductBtn){
+addProductBtn.addEventListener(
+"click",
+()=>{
 
-        addProductBtn.addEventListener(
-            "click",
-            ()=>{
+addProductRow();
 
-                addProductRow();
+}
 
-            }
-        );
+);
 
-    }
 
+addProductRow();
+  /* ==========================
+   Calculate Total
+========================== */
 
 
+function updateGrandTotal(){
 
 
-    // ==========================
-    // Calculate Total
-    // ==========================
+let total = 0;
 
-    function updateGrandTotal(){
 
-        let total = 0;
 
+document.querySelectorAll(".product-row")
+.forEach(row=>{
 
 
-        document
-        .querySelectorAll(".product-row")
-        .forEach(row=>{
+const price =
+Number(
+row.querySelector(".product-price").value
+) || 0;
 
 
-            const price =
-            Number(
-                row.querySelector(".product-price").value
-            ) || 0;
 
+const qty =
+Number(
+row.querySelector(".product-qty").value
+) || 0;
 
 
-            const qty =
-            Number(
-                row.querySelector(".product-qty").value
-            ) || 0;
 
+total += price * qty;
 
 
-            total += price * qty;
 
+});
 
-        });
 
 
 
-        const discountValue =
-        Number(discount.value) || 0;
+const discountValue =
+Number(discount.value) || 0;
 
 
 
-        total -= discountValue;
+total -= discountValue;
 
 
 
-        if(total < 0){
+if(total < 0){
 
-            total = 0;
+total = 0;
 
-        }
+}
 
 
 
-        if(grandTotal){
+grandTotal.textContent =
+total.toLocaleString();
 
-            grandTotal.textContent =
-            total.toLocaleString();
 
-        }
 
+}
 
-    }
 
 
 
 
 
-    // ==========================
-    // Discount
-    // ==========================
 
-    if(discount){
+/* ==========================
+   Discount
+========================== */
 
-        discount.addEventListener(
-            "input",
-            updateGrandTotal
-        );
 
-    }
+discount.addEventListener(
+"input",
+()=>{
 
+updateGrandTotal();
 
+}
 
-    // First Product
+);
 
-    addProductRow();
-                    // ==========================
-    // Create Receipt
-    // ==========================
 
-    if(createReceipt){
 
-        createReceipt.addEventListener(
-            "click",
-            ()=>{
 
 
-                let items = [];
 
 
+/* ==========================
+   Create Receipt
+========================== */
 
-                document
-                .querySelectorAll(".product-row")
-                .forEach(row=>{
 
+createReceipt.addEventListener(
+"click",
+()=>{
 
-                    const name =
-                    row.querySelector(".product-name")
-                    .value.trim();
 
+let items = [];
 
 
-                    const price =
-                    Number(
-                        row.querySelector(".product-price").value
-                    ) || 0;
 
 
 
-                    const qty =
-                    Number(
-                        row.querySelector(".product-qty").value
-                    ) || 0;
+document.querySelectorAll(".product-row")
+.forEach(row=>{
 
 
+const name =
+row.querySelector(".product-name")
+.value.trim();
 
-                    if(
-                        name &&
-                        price > 0 &&
-                        qty > 0
-                    ){
 
-                        items.push({
 
-                            name,
-                            price,
-                            qty,
-                            total: price * qty
+const price =
+Number(
+row.querySelector(".product-price").value
+) || 0;
 
-                        });
 
-                    }
 
+const qty =
+Number(
+row.querySelector(".product-qty").value
+) || 0;
 
-                });
 
 
+const payment =
+row.querySelector(
+'input[type="radio"]:checked'
+).value;
 
 
-                if(items.length === 0){
 
-                    alert(
-                        "تکایە لانیکەم یەک کاڵا زیاد بکە"
-                    );
 
-                    return;
 
-                }
+if(
+name &&
+price > 0 &&
+qty > 0
+){
 
 
+items.push({
 
+name,
 
-                const payment =
-                document.querySelector(
-                    'input[name="paymentStatus"]:checked'
-                )?.value || "paid";
+price,
 
+qty,
 
+payment,
 
+total:
+price * qty
 
+});
 
-                const receipt = {
 
+}
 
-                    id:
-                    receiptNumber.value,
 
 
-                    date:
-                    receiptDate.value,
+});
 
 
-                    customer:
-                    customerName.value.trim(),
 
 
-                    phone:
-                    customerPhone.value.trim(),
 
 
-                    notes:
-                    notes.value.trim(),
+if(items.length === 0){
 
 
-                    discount:
-                    Number(discount.value) || 0,
+alert(
+"تکایە کاڵا زیاد بکە"
+);
 
 
+return;
 
-                    total:
-                    Number(
-                        grandTotal.textContent
-                        .replace(/,/g,"")
-                    ) || 0,
 
+}
 
 
-                    payment,
 
 
-                    items
 
 
-                };
+const receipt = {
 
 
+id:
+receiptNumber.value,
 
 
+date:
+receiptDate.value,
 
-                receipts.push(receipt);
 
+customer:
+customerName.value,
 
 
-                localStorage.setItem(
-                    "receipts",
-                    JSON.stringify(receipts)
-                );
+phone:
+customerPhone.value,
 
 
+notes:
+notes.value,
 
-                createPrint(receipt);
 
+discount:
+Number(discount.value) || 0,
 
 
-            }
-        );
+total:
+Number(
+grandTotal.textContent.replace(/,/g,"")
+),
 
-    }
 
+items
 
 
+};
 
 
 
-    // ==========================
-    // Print Receipt
-    // ==========================
 
-    function createPrint(receipt){
 
+receipts.push(receipt);
 
-        const printWindow =
-        window.open(
-            "",
-            "",
-            "width=400,height=600"
-        );
 
 
+localStorage.setItem(
+"receipts",
+JSON.stringify(receipts)
+);
 
-        let productsHTML = "";
 
 
 
-        receipt.items.forEach(item=>{
+printReceipt(receipt);
 
 
-            productsHTML += `
 
-            <tr>
+});
+    /* ==========================
+   Print Receipt
+========================== */
 
-                <td>
-                ${item.name}
-                </td>
 
+function printReceipt(receipt){
 
-                <td>
-                ${item.qty}
-                </td>
 
+const printWindow =
+window.open(
+"",
+"",
+"width=400,height=600"
+);
 
-                <td>
-                ${item.total.toLocaleString()}
-                </td>
 
 
-            </tr>
+let rows = "";
 
-            `;
 
 
-        });
+receipt.items.forEach(item=>{
 
 
+rows += `
 
+<tr>
 
-        printWindow.document.write(`
+<td>
+${item.name}
+</td>
 
-        <html lang="ku" dir="rtl">
 
-        <head>
+<td>
+${item.qty}
+</td>
 
-        <title>KRD Receipt</title>
 
+<td>
+${item.total.toLocaleString()}
+</td>
 
-        <style>
 
-        body{
+</tr>
 
-            font-family: Arial;
-            text-align:center;
-            padding:20px;
+`;
 
-        }
 
 
-        table{
+});
 
-            width:100%;
-            border-collapse:collapse;
 
-        }
 
 
-        td,th{
 
-            border-bottom:1px solid #ccc;
-            padding:8px;
 
-        }
+printWindow.document.write(`
 
+<html dir="rtl">
 
-        h2{
+<head>
 
-            margin:10px;
+<title>
+KRD Receipt
+</title>
 
-        }
 
+<style>
 
-        </style>
+body{
 
+font-family:Arial;
 
-        </head>
+text-align:center;
 
+}
 
 
-        <body>
+table{
 
+width:100%;
 
-        <h2>
-        KRD Receipt System
-        </h2>
+border-collapse:collapse;
 
+}
 
-        <p>
-        ژمارەی وەسڵ:
-        ${receipt.id}
-        </p>
 
+td,th{
 
-        <p>
-        کڕیار:
-        ${receipt.customer || "-"}
-        </p>
+border-bottom:1px solid #ccc;
 
+padding:8px;
 
-        <p>
-        بەروار:
-        ${receipt.date}
-        </p>
+}
 
 
+</style>
 
-        <hr>
 
+</head>
 
 
-        <table>
+<body>
 
 
-        <tr>
+<h2>
+KRD Receipt System
+</h2>
 
-            <th>
-            کاڵا
-            </th>
 
-            <th>
-            ژمارە
-            </th>
 
-            <th>
-            کۆ
-            </th>
+<p>
+ژمارەی وەسڵ:
+${receipt.id}
+</p>
 
-        </tr>
 
 
-        ${productsHTML}
+<p>
+بەروار:
+${receipt.date || "-"}
+</p>
 
 
-        </table>
 
+<p>
+کڕیار:
+${receipt.customer || "-"}
+</p>
 
 
-        <hr>
 
+<p>
+مۆبایل:
+${receipt.phone || "-"}
+</p>
 
 
-        <h3>
 
-        داشکاندن:
-        ${receipt.discount.toLocaleString()}
-        IQD
+<hr>
 
-        </h3>
 
 
+<table>
 
-        <h2>
 
-        کۆی گشتی:
-        ${receipt.total.toLocaleString()}
-        IQD
+<tr>
 
-        </h2>
+<th>
+کاڵا
+</th>
 
 
+<th>
+ژمارە
+</th>
 
-        <p>
-        ${receipt.notes || ""}
-        </p>
 
+<th>
+کۆ
+</th>
 
-        </body>
 
+</tr>
 
-        </html>
 
-        `);
 
+${rows}
 
 
-        printWindow.document.close();
 
+</table>
 
-        printWindow.print();
 
 
-    }
-        // ==========================
-    // History Render
-    // ==========================
+<h3>
 
-    function renderHistory(search = ""){
+کۆی گشتی:
 
+${receipt.total.toLocaleString()}
 
-        if(paidHistory){
-            paidHistory.innerHTML = "";
-        }
+IQD
 
+</h3>
 
-        if(debtHistory){
-            debtHistory.innerHTML = "";
-        }
 
 
+<p>
+${receipt.notes || ""}
+</p>
 
-        receipts
-        .filter(receipt=>{
 
 
-            const customer =
-            (receipt.customer || "")
-            .toLowerCase();
+</body>
 
+</html>
 
-            const id =
-            (receipt.id || "")
-            .toLowerCase();
+`);
 
 
 
-            return (
-                customer.includes(
-                    search.toLowerCase()
-                )
-                ||
-                id.includes(
-                    search.toLowerCase()
-                )
-            );
+printWindow.document.close();
 
 
-        })
-        .forEach((receipt,index)=>{
+printWindow.print();
 
 
-            const card =
-            document.createElement("div");
 
+}
 
-            card.className =
-            "history-card";
 
 
 
-            card.innerHTML = `
 
-                <h3>
-                🧾 ${receipt.id}
-                </h3>
 
+/* ==========================
+   History Open
+========================== */
 
-                <p>
-                👤 ${receipt.customer || "-"}
-                </p>
 
+historyBtn.addEventListener(
+"click",
+()=>{
 
-                <p>
-                📅 ${receipt.date}
-                </p>
 
+renderHistory();
 
-                <p>
-                💰 
-                ${receipt.total.toLocaleString()}
-                IQD
-                </p>
 
+historyModal.style.display =
+"flex";
 
-                <p>
-                ${
-                    receipt.payment === "debt"
-                    ?
-                    "📒 قەرز"
-                    :
-                    "✅ پارەدراو"
-                }
-                </p>
 
+}
 
+);
 
-                <button class="view-receipt">
-                    👁️ بینین
-                </button>
 
 
-                <button class="delete-receipt">
-                    🗑️ سڕینەوە
-                </button>
 
-                <hr>
 
-            `;
 
 
+/* ==========================
+   Close History
+========================== */
 
 
-            if(receipt.payment === "debt"){
+closeHistoryBtn.addEventListener(
+"click",
+()=>{
 
-                if(debtHistory){
-                    debtHistory.appendChild(card);
-                }
 
+historyModal.style.display =
+"none";
 
-            }else{
 
+}
 
-                if(paidHistory){
-                    paidHistory.appendChild(card);
-                }
+);
+    /* ==========================
+   Render History
+========================== */
 
 
-            }
+function renderHistory(){
 
 
+paidHistory.innerHTML = "";
 
+debtHistory.innerHTML = "";
 
 
-            // View
 
-            card
-            .querySelector(".view-receipt")
-            .addEventListener(
-                "click",
-                ()=>{
 
+receipts.forEach((receipt,index)=>{
 
-                    createPrint(receipt);
 
+const box =
+document.createElement("div");
 
-                }
-            );
 
+box.className =
+"history-card";
 
 
 
+let hasDebt =
+receipt.items.some(
+item => item.payment === "debt"
+);
 
-            // Delete
 
-            card
-            .querySelector(".delete-receipt")
-            .addEventListener(
-                "click",
-                ()=>{
 
+box.innerHTML = `
 
-                    if(
-                        confirm(
-                        "دڵنیایت لە سڕینەوەی ئەم وەسڵە؟"
-                        )
-                    ){
+<h3>
+🧾 ${receipt.id}
+</h3>
 
 
-                        receipts.splice(
-                            index,
-                            1
-                        );
+<p>
+👤 ${receipt.customer || "-"}
+</p>
 
 
+<p>
+📅 ${receipt.date || "-"}
+</p>
 
-                        localStorage.setItem(
-                            "receipts",
-                            JSON.stringify(receipts)
-                        );
 
+<p>
+💰 ${receipt.total.toLocaleString()} IQD
+</p>
 
 
-                        renderHistory();
+<button class="view-btn">
 
+👁️ بینین
 
-                    }
+</button>
 
 
-                }
-            );
 
+<button class="delete-btn">
 
+🗑️ سڕینەوە
 
-        });
+</button>
 
 
+<hr>
 
-    }
+`;
 
 
 
 
 
-    // ==========================
-    // Open History
-    // ==========================
+if(hasDebt){
 
-    if(historyBtn){
+debtHistory.appendChild(box);
 
-        historyBtn.addEventListener(
-            "click",
-            ()=>{
 
+}else{
 
-                renderHistory();
 
+paidHistory.appendChild(box);
 
-                if(historyModal){
 
-                    historyModal.style.display =
-                    "flex";
+}
 
-                }
 
 
-            }
-        );
 
-    }
 
+box.querySelector(".view-btn")
+.addEventListener(
+"click",
+()=>{
 
 
+printReceipt(receipt);
 
 
-    // ==========================
-    // Close History
-    // ==========================
+}
 
-    if(closeHistoryBtn){
+);
 
-        closeHistoryBtn.addEventListener(
-            "click",
-            ()=>{
 
 
-                historyModal.style.display =
-                "none";
 
 
-            }
-        );
 
-    }
-        // ==========================
-    // Search History
-    // ==========================
+box.querySelector(".delete-btn")
+.addEventListener(
+"click",
+()=>{
 
-    if(searchReceipt){
 
-        searchReceipt.addEventListener(
-            "input",
-            ()=>{
+if(
+confirm("دڵنیایت لە سڕینەوەی ئەم وەسڵە؟")
+){
 
 
-                renderHistory(
-                    searchReceipt.value
-                );
+receipts.splice(index,1);
 
 
-            }
-        );
 
-    }
+localStorage.setItem(
+"receipts",
+JSON.stringify(receipts)
+);
 
 
 
+renderHistory();
 
 
-    // ==========================
-    // Clear Receipt
-    // ==========================
 
-    if(clearReceipt){
+}
 
-        clearReceipt.addEventListener(
-            "click",
-            ()=>{
 
+}
 
-                const confirmClear =
-                confirm(
-                    "دڵنیایت لە سڕینەوەی زانیارییەکان؟"
-                );
+);
 
 
 
-                if(!confirmClear){
 
-                    return;
 
-                }
+});
 
 
 
+}
 
-                customerName.value = "";
 
-                customerPhone.value = "";
 
 
-                receiptNumber.value =
-                "KRD-" + Date.now();
 
 
 
-                notes.value = "";
+/* ==========================
+   Search Receipt
+========================== */
 
 
-                discount.value = 0;
+const searchReceipt =
+document.getElementById("searchReceipt");
 
 
 
-                productsContainer.innerHTML = "";
+if(searchReceipt){
 
 
+searchReceipt.addEventListener(
+"input",
+()=>{
 
-                addProductRow();
 
+const value =
+searchReceipt.value.toLowerCase();
 
 
-                updateGrandTotal();
 
+paidHistory.innerHTML = "";
 
+debtHistory.innerHTML = "";
 
-            }
-        );
 
-    }
 
 
+receipts
+.filter(receipt=>{
 
 
+return (
 
-    // ==========================
-    // Dashboard Button
-    // ==========================
+receipt.id.toLowerCase()
+.includes(value)
 
-    if(dashboardBtn){
 
-        dashboardBtn.addEventListener(
-            "click",
-            ()=>{
+||
 
 
-                window.location.href =
-                "dashboard.html";
+receipt.customer.toLowerCase()
+.includes(value)
 
 
-            }
-        );
+);
 
-    }
 
+})
+.forEach((receipt)=>{
 
 
+const box =
+document.createElement("div");
 
 
-    // ==========================
-    // Settings Menu
-    // ==========================
+box.className =
+"history-card";
 
-    if(settingsBtn){
 
-        settingsBtn.addEventListener(
-            "click",
-            (e)=>{
 
+box.innerHTML = `
 
-                e.stopPropagation();
+<h3>
+🧾 ${receipt.id}
+</h3>
 
+<p>
+👤 ${receipt.customer || "-"}
+</p>
 
-                if(
-                    settingsMenu.style.display === "block"
-                ){
+<p>
+💰 ${receipt.total.toLocaleString()} IQD
+</p>
 
 
-                    settingsMenu.style.display =
-                    "none";
+`;
 
 
-                }else{
 
+paidHistory.appendChild(box);
 
-                    settingsMenu.style.display =
-                    "block";
 
+});
 
-                }
 
 
-            }
-        );
+}
 
-    }
+);
 
 
+}
+    /* ==========================
+   Clear Receipt
+========================== */
 
 
+clearReceipt.addEventListener(
+"click",
+()=>{
 
-    // Close settings outside
 
-    document.addEventListener(
-        "click",
-        (e)=>{
+const ok =
+confirm(
+"دڵنیایت لە سڕینەوەی زانیارییەکان؟"
+);
 
 
-            if(
-                settingsMenu &&
-                !settingsMenu.contains(e.target) &&
-                e.target !== settingsBtn
-            ){
 
+if(!ok){
 
-                settingsMenu.style.display =
-                "none";
+return;
 
+}
 
-            }
 
 
-        }
-    );
+customerName.value = "";
 
+customerPhone.value = "";
 
+notes.value = "";
 
+discount.value = 0;
 
 
-    // ==========================
-    // Dark Mode
-    // ==========================
 
-    let darkMode =
-    localStorage.getItem("darkMode") === "true";
+receiptNumber.value =
+"KRD-" + Date.now();
 
 
 
-    if(darkMode){
+receiptDate.value = "";
 
-        document.body.classList.add("dark");
 
 
-        if(darkModeBtn){
+productsContainer.innerHTML = "";
 
-            darkModeBtn.textContent =
-            "☀️ Light Mode";
 
-        }
 
-    }
+addProductRow();
 
 
 
+updateGrandTotal();
 
 
-    if(darkModeBtn){
 
-        darkModeBtn.addEventListener(
-            "click",
-            ()=>{
+}
 
+);
 
-                document.body
-                .classList
-                .toggle("dark");
 
 
 
-                darkMode =
-                document.body
-                .classList
-                .contains("dark");
 
 
 
-                localStorage.setItem(
-                    "darkMode",
-                    darkMode
-                );
+/* ==========================
+   Dashboard
+========================== */
 
 
+if(dashboardBtn){
 
-                darkModeBtn.textContent =
-                darkMode
-                ?
-                "☀️ Light Mode"
-                :
-                "🌙 Dark Mode";
 
+dashboardBtn.addEventListener(
+"click",
+()=>{
 
-            }
-        );
 
-    }
-        // ==========================
-    // Language System
-    // ==========================
+window.location.href =
+"dashboard.html";
 
-    const translations = {
 
-        ku: {
+}
 
-            title:
-            "سیستەمی وەسڵی KRD",
+);
 
-            add:
-            "➕ زیادکردنی کاڵا",
 
-            create:
-            "🖨️ دروستکردنی وەسڵ"
+}
 
-        },
 
 
-        ar: {
 
-            title:
-            "نظام الوصل KRD",
 
-            add:
-            "➕ إضافة منتج",
 
-            create:
-            "🖨️ إنشاء الوصل"
 
-        },
+/* ==========================
+   Save Current Data
+========================== */
 
 
-        en: {
+function saveCurrentReceipt(){
 
-            title:
-            "KRD Receipt System",
 
-            add:
-            "➕ Add Product",
+const data = {
 
-            create:
-            "🖨️ Create Receipt"
 
-        }
+customerName:
+customerName.value,
 
-    };
 
+customerPhone:
+customerPhone.value,
 
 
+receiptNumber:
+receiptNumber.value,
 
 
-    function changeLanguage(lang){
+receiptDate:
+receiptDate.value,
 
 
-        if(!translations[lang]) return;
+notes:
+notes.value,
 
 
+discount:
+discount.value,
 
-        document.title =
-        translations[lang].title;
 
+products: []
 
 
-        if(addProductBtn){
 
-            addProductBtn.textContent =
-            translations[lang].add;
+};
 
-        }
 
 
 
-        if(createReceipt){
 
-            createReceipt.textContent =
-            translations[lang].create;
 
-        }
+document.querySelectorAll(".product-row")
+.forEach(row=>{
 
 
+data.products.push({
 
-        localStorage.setItem(
-            "language",
-            lang
-        );
 
+name:
+row.querySelector(".product-name").value,
 
-    }
 
+qty:
+row.querySelector(".product-qty").value,
 
 
+price:
+row.querySelector(".product-price").value,
 
 
-    if(language){
+payment:
+row.querySelector(
+'input[type="radio"]:checked'
+).value
 
-        language.addEventListener(
-            "change",
-            ()=>{
 
 
-                changeLanguage(
-                    language.value
-                );
+});
 
 
-            }
-        );
 
+});
 
-    }
 
 
 
 
+localStorage.setItem(
+"currentReceipt",
+JSON.stringify(data)
+);
 
-    const savedLanguage =
-    localStorage.getItem("language");
 
 
+}
 
-    if(savedLanguage){
 
-        language.value =
-        savedLanguage;
 
 
 
-        changeLanguage(
-            savedLanguage
-        );
 
-    }
+/* ==========================
+   Auto Save
+========================== */
 
 
+[
+customerName,
+customerPhone,
+receiptNumber,
+receiptDate,
+notes,
+discount
+]
+.forEach(input=>{
 
 
+if(input){
 
-    // ==========================
-    // Auto Save Current Receipt
-    // ==========================
 
-    function saveCurrentReceipt(){
+input.addEventListener(
+"input",
+saveCurrentReceipt
+);
 
 
-        const data = {
+}
 
 
-            customerName:
-            customerName.value,
+});
 
 
-            customerPhone:
-            customerPhone.value,
 
 
-            notes:
-            notes.value,
+window.addEventListener(
+"beforeunload",
+saveCurrentReceipt
+);
+    /* ==========================
+   Load Saved Receipt
+========================== */
 
 
-            discount:
-            discount.value,
+function loadCurrentReceipt(){
 
 
-            products: []
+const data =
+JSON.parse(
+localStorage.getItem("currentReceipt")
+);
 
-        };
 
 
+if(!data){
 
+return;
 
+}
 
-        document
-        .querySelectorAll(".product-row")
-        .forEach(row=>{
 
 
-            data.products.push({
 
+customerName.value =
+data.customerName || "";
 
-                name:
-                row.querySelector(".product-name")
-                .value,
 
 
+customerPhone.value =
+data.customerPhone || "";
 
-                price:
-                row.querySelector(".product-price")
-                .value,
 
 
+receiptNumber.value =
+data.receiptNumber || 
+("KRD-" + Date.now());
 
-                qty:
-                row.querySelector(".product-qty")
-                .value
 
 
-            });
+receiptDate.value =
+data.receiptDate || "";
 
 
 
-        });
+notes.value =
+data.notes || "";
 
 
 
+discount.value =
+data.discount || 0;
 
 
-        localStorage.setItem(
-            "currentReceipt",
-            JSON.stringify(data)
-        );
 
 
-    }
-        // ==========================
-    // Auto Save Inputs
-    // ==========================
+productsContainer.innerHTML = "";
 
-    [
-        customerName,
-        customerPhone,
-        notes,
-        discount
-    ]
-    .forEach(input=>{
 
 
-        if(input){
 
-            input.addEventListener(
-                "input",
-                saveCurrentReceipt
-            );
 
-        }
+if(data.products && data.products.length > 0){
 
 
-    });
+data.products.forEach(product=>{
 
 
+addProductRow();
 
 
 
-    // ==========================
-    // Load Saved Receipt
-    // ==========================
+const rows =
+document.querySelectorAll(".product-row");
 
-    function loadCurrentReceipt(){
 
 
-        const data =
-        JSON.parse(
-            localStorage.getItem("currentReceipt")
-        );
+const last =
+rows[rows.length - 1];
 
 
 
-        if(!data){
+last.querySelector(".product-name").value =
+product.name;
 
-            return;
 
-        }
 
+last.querySelector(".product-qty").value =
+product.qty;
 
 
 
+last.querySelector(".product-price").value =
+product.price;
 
-        customerName.value =
-        data.customerName || "";
 
 
+const payment =
+last.querySelectorAll(
+'input[type="radio"]'
+);
 
-        customerPhone.value =
-        data.customerPhone || "";
 
 
+if(product.payment === "debt"){
 
-        notes.value =
-        data.notes || "";
+payment[1].checked = true;
 
+}else{
 
+payment[0].checked = true;
 
-        discount.value =
-        data.discount || 0;
+}
 
 
 
+});
 
 
-        if(data.products){
 
+}
 
-            productsContainer.innerHTML = "";
 
 
+updateGrandTotal();
 
-            data.products.forEach(product=>{
 
+}
 
-                addProductRow();
 
 
 
-                const rows =
-                document.querySelectorAll(
-                    ".product-row"
-                );
 
+loadCurrentReceipt();
 
 
-                const last =
-                rows[rows.length - 1];
 
 
 
-                last.querySelector(
-                    ".product-name"
-                ).value =
-                product.name;
 
 
 
-                last.querySelector(
-                    ".product-price"
-                ).value =
-                product.price;
+/* ==========================
+   Close Modal Outside
+========================== */
 
 
+window.addEventListener(
+"click",
+(e)=>{
 
-                last.querySelector(
-                    ".product-qty"
-                ).value =
-                product.qty;
 
+if(e.target === historyModal){
 
 
-            });
+historyModal.style.display =
+"none";
 
 
-        }
+}
 
 
+}
 
+);
 
 
-        updateGrandTotal();
 
 
-    }
 
 
+/* ==========================
+   Escape Close
+========================== */
 
 
+document.addEventListener(
+"keydown",
+(e)=>{
 
-    loadCurrentReceipt();
 
+if(e.key === "Escape"){
 
 
+historyModal.style.display =
+"none";
 
 
-    // ==========================
-    // Report Button
-    // ==========================
+}
 
-    if(reportBtn){
 
+}
+    
+);
+   /* ==========================
+   Settings Menu
+========================== */
 
-        reportBtn.addEventListener(
-            "click",
-            ()=>{
 
+const settingsBtn =
+document.getElementById("settingsBtn");
 
-                window.location.href =
-                "mailto:krdreceipsystem@gmail.com?subject=KRD Receipt System Report";
 
+const settingsMenu =
+document.getElementById("settingsMenu");
 
-            }
-        );
 
 
-    }
+if(settingsBtn){
 
 
+settingsBtn.addEventListener(
+"click",
+()=>{
 
 
+if(
+settingsMenu.style.display === "block"
+){
 
-    // ==========================
-    // Save Before Close
-    // ==========================
 
-    window.addEventListener(
-        "beforeunload",
-        ()=>{
+settingsMenu.style.display =
+"none";
 
 
-            saveCurrentReceipt();
+}else{
 
 
-        }
-    );
-        // ==========================
-    // Close Modal By Outside Click
-    // ==========================
+settingsMenu.style.display =
+"block";
 
-    window.addEventListener(
-        "click",
-        (e)=>{
 
+}
 
-            if(
-                historyModal &&
-                e.target === historyModal
-            ){
 
-                historyModal.style.display =
-                "none";
+}
 
-            }
+);
 
 
-        }
-    );
+}
 
 
 
 
 
-    // ==========================
-    // Escape Key Close
-    // ==========================
 
-    document.addEventListener(
-        "keydown",
-        (e)=>{
+/* ==========================
+   Close Settings Outside
+========================== */
 
 
-            if(e.key === "Escape"){
+document.addEventListener(
+"click",
+(e)=>{
 
 
-                if(historyModal){
+if(
+settingsBtn &&
+settingsMenu &&
+!settingsBtn.contains(e.target)
+&&
+!settingsMenu.contains(e.target)
+){
 
-                    historyModal.style.display =
-                    "none";
 
-                }
+settingsMenu.style.display =
+"none";
 
 
+}
 
-                if(settingsMenu){
 
-                    settingsMenu.style.display =
-                    "none";
+}
 
-                }
+);
 
 
-            }
 
 
-        }
-    );
 
 
 
 
+/* ==========================
+   Dark Mode
+========================== */
 
-    // ==========================
-    // Initial Update
-    // ==========================
 
-    updateGrandTotal();
+const darkModeBtn =
+document.getElementById("darkModeBtn");
 
 
 
+let dark =
+localStorage.getItem("darkMode") === "true";
 
 
-    // ==========================
-    // End KRD Receipt System
-    // ==========================
+
+
+if(dark){
+
+
+document.body.classList.add("dark");
+
+
+if(darkModeBtn){
+
+darkModeBtn.textContent =
+"☀️ Light Mode";
+
+}
+
+
+}
+
+
+
+
+if(darkModeBtn){
+
+
+darkModeBtn.addEventListener(
+"click",
+()=>{
+
+
+document.body.classList.toggle("dark");
+
+
+
+const active =
+document.body.classList.contains("dark");
+
+
+
+localStorage.setItem(
+"darkMode",
+active
+);
+
+
+
+darkModeBtn.textContent =
+active
+?
+"☀️ Light Mode"
+:
+"🌙 Dark Mode";
+
+
+
+}
+
+);
+
+
+}
+
+
+
+
+
+
+/* ==========================
+   Language System
+========================== */
+
+
+const language =
+document.getElementById("language");
+
+
+
+const translations = {
+
+
+ku:{
+
+title:
+"سیستەمی وەسڵی KRD",
+
+add:
+"➕ زیادکردنی کاڵا",
+
+create:
+"🖨️ دروستکردنی وەسڵ"
+
+},
+
+
+
+ar:{
+
+title:
+"نظام الوصل KRD",
+
+add:
+"➕ إضافة منتج",
+
+create:
+"🖨️ إنشاء الوصل"
+
+},
+
+
+
+en:{
+
+title:
+"KRD Receipt System",
+
+add:
+"➕ Add Product",
+
+create:
+"🖨️ Create Receipt"
+
+}
+
+
+};
+
+
+
+function changeLanguage(lang){
+
+
+if(!translations[lang]){
+
+return;
+
+}
+
+
+
+document.title =
+translations[lang].title;
+
+
+
+if(addProductBtn){
+
+addProductBtn.textContent =
+translations[lang].add;
+
+}
+
+
+
+if(createReceipt){
+
+createReceipt.textContent =
+translations[lang].create;
+
+}
+
+
+
+localStorage.setItem(
+"language",
+lang
+);
+
+
+
+}
+
+
+
+
+
+if(language){
+
+
+language.addEventListener(
+"change",
+()=>{
+
+
+changeLanguage(
+language.value
+);
+
+
+}
+
+);
+
+
+
+const savedLanguage =
+localStorage.getItem("language");
+
+
+
+if(savedLanguage){
+
+
+language.value =
+savedLanguage;
+
+
+changeLanguage(
+savedLanguage
+);
+
+
+}
+
+
+}
+    /* ==========================
+   Report Button
+========================== */
+
+
+const reportBtn =
+document.getElementById("reportBtn");
+
+
+if(reportBtn){
+
+
+reportBtn.addEventListener(
+"click",
+()=>{
+
+
+window.location.href =
+"mailto:krdreceipsystem@gmail.com?subject=KRD Receipt System Report";
+
+
+}
+
+);
+
+
+}
+
+
+
+
+
+
+
+/* ==========================
+   Initial Update
+========================== */
+
+
+updateGrandTotal();
+
+
+
+
+
+
+
+/* ==========================
+   Print Function Global
+========================== */
+
+
+window.printReceipt = function(id){
+
+
+const receipt =
+receipts.find(
+item => item.id === id
+);
+
+
+
+if(receipt){
+
+
+printReceipt(receipt);
+
+
+}
+
+
+};
+
+
+
+
+
+
+
+
+/* ==========================
+   Date Check
+========================== */
+
+
+if(receiptDate){
+
+
+receiptDate.addEventListener(
+"change",
+()=>{
+
+
+if(receiptDate.value === ""){
+
+
+alert(
+"تکایە بەروار بنووسە"
+);
+
+
+
+}
+
+
+}
+
+);
+
+
+}
+
+
+
+
+
+
+
+/* ==========================
+   Save Before Close
+========================== */
+
+
+window.addEventListener(
+"beforeunload",
+()=>{
+
+
+saveCurrentReceipt();
+
+
+}
+
+);
+
+
+
+
+
+
+/* ==========================
+   End KRD Receipt System
+========================== */
+
 
 });
