@@ -17,84 +17,163 @@
 
 <div class="receipt">
 
+
 <header>
     <h1>KRD Receipt System</h1>
 </header>
 
 
+<!-- زانیاری کڕیار -->
+
 <div class="customer-info">
 
-    <input id="customer" placeholder="ناوی کڕیار">
+    <input 
+    id="customerName" 
+    placeholder="ناوی کڕیار">
 
-    <input id="phone" type="tel" placeholder="ژمارەی تەلەفون">
+
+    <input 
+    id="customerPhone" 
+    type="tel" 
+    placeholder="ژمارەی تەلەفۆن">
 
 </div>
 
 
-<textarea id="notes" placeholder="تێبینی"></textarea>
+
+<!-- تێبینی -->
+
+<textarea 
+id="notes" 
+placeholder="تێبینی">
+</textarea>
+
+
+
+
+<!-- زانیاری وەسڵ -->
 
 <div class="receipt-info">
 
-    <input id="receiptNumber" placeholder="ژمارەی وەسڵ">
+    <input 
+    id="receiptNumber" 
+    placeholder="ژمارەی وەسڵ">
 
-    <input id="receiptDate" type="text" placeholder="YYYY/MM/DD">
+
+    <input 
+    id="receiptDate" 
+    type="text" 
+    placeholder="YYYY/MM/DD">
 
 </div>
+
 
 
 
 <button id="addProductBtn" class="add-btn">
+
     ➕ زیادکردنی کاڵا
+
 </button>
 
-<div class="customer-box">
-    <input id="customerName" placeholder="ناوی کڕیار">
-    <input id="customerPhone" placeholder="ژمارەی تەلەفۆن">
-</div>
+
 
 <div id="productsContainer"></div>
 
 
 
+
+
 <div class="discount-box">
 
-    <label>بڕی داشکاندن</label>
+    <label>
+        بڕی داشکاندن
+    </label>
 
-    <input id="discount" type="number" placeholder="0">
+
+    <input 
+    id="discount" 
+    type="number" 
+    placeholder="0">
 
 </div>
-  <button id="historyBtn" class="history-btn">
+
+
+
+
+
+<!-- مێژووی وەسڵ -->
+
+<button id="historyBtn" class="history-btn">
+
     📜 مێژووی وەسڵەکان
+
 </button>
 
-<div id="historyModal" class="history-modal" style="display:none;">
+
+
+<div 
+id="historyModal" 
+class="history-modal" 
+style="display:none;">
+
+
     <div class="history-content">
-        <h2>📜 مێژووی وەسڵەکان</h2>
+
+
+        <h2>
+            📜 مێژووی وەسڵەکان
+        </h2>
+
 
         <div id="historyList"></div>
 
-        <button onclick="closeHistory()">داخستن</button>
+
+        <button onclick="closeHistory()">
+
+            داخستن
+
+        </button>
+
+
     </div>
-</div>  
+
+
+</div>
+
+
 
 
 
 <div class="bottom-section">
 
+
     <button id="createReceipt">
-        دروستکردنی وەسڵ
+
+        🖨️ دروستکردنی وەسڵ
+
     </button>
+
 
 
     <div class="grand-total">
 
+
         کۆی گشتی:
-        <span id="grandTotal">0</span> IQD
+
+        <span id="grandTotal">
+            0
+        </span>
+
+        IQD
+
 
     </div>
 
 
+
 </div>
+
 
 
 </div>
@@ -102,6 +181,7 @@
 
 
 <script src="script.js"></script>
+
 
 </body>
 
