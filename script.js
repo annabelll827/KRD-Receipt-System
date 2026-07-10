@@ -1,118 +1,227 @@
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", function(){
+
+let products = [];
+
+const addBtn = document.getElementById("addBtn");
+const printBtn = document.getElementById("printBtn");
+
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsMenu = document.getElementById("settingsMenu");
+
+const darkBtn = document.getElementById("darkBtn");
+const language = document.getElementById("language");
 
 
-const language=document.getElementById("language");
+// Add Product
+
+addBtn.onclick = function(){
+
+    let name = document.getElementById("productName").value;
+    let price = Number(document.getElementById("price").value);
+    let quantity = Number(document.getElementById("quantity").value);
 
 
-const text={
+    if(name === "" || price <= 0 || quantity <= 0){
+
+        alert("Enter product information");
+        return;
+
+    }
+
+
+    products.push({
+
+        name:name,
+        price:price,
+        quantity:quantity,
+        total:price * quantity
+
+    });
+
+
+    showProducts();
+
+
+    document.getElementById("productName").value="";
+    document.getElementById("price").value="";
+    document.getElementById("quantity").value="";
+
+};
+
+
+
+// Show Products
+
+function showProducts(){
+
+    let table = document.getElementById("invoiceTable");
+
+    table.innerHTML="";
+
+    let total = 0;
+
+
+    products.forEach((item,index)=>{
+
+        total += item.total;
+
+
+        table.innerHTML += `
+
+        <tr>
+
+        <td>${item.name}</td>
+
+        <td>$${item.price}</td>
+
+        <td>${item.quantity}</td>
+
+        <td>$${item.total}</td>
+
+        <td>
+        <button onclick="deleteProduct(${index})">
+        Delete
+        </button>
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    document.getElementById("total").innerText = total;
+
+}
+
+
+
+// Delete Product
+
+window.deleteProduct = function(index){
+
+    products.splice(index,1);
+
+    showProducts();
+
+};
+
+
+
+
+// Print Receipt
+
+printBtn.onclick = function(){
+
+    window.print();
+
+};
+
+
+
+
+// Settings Menu
+
+settingsBtn.onclick = function(){
+
+    settingsMenu.style.display =
+    settingsMenu.style.display === "block"
+    ? "none"
+    : "block";
+
+};
+
+
+
+
+// Dark / Light Mode
+
+darkBtn.onclick = function(){
+
+    document.body.classList.toggle("dark");
+
+
+    if(document.body.classList.contains("dark")){
+
+        darkBtn.innerText="☀️ Light Mode";
+
+    }else{
+
+        darkBtn.innerText="🌙 Dark Mode";
+
+    }
+
+};
+
+
+
+
+
+// Language
+
+const translations = {
 
 en:{
 title:"KRD Receipt System",
-customer:"Customer",
 add:"Add",
-print:"🖨️ Print Receipt",
-product:"Product",
-price:"Price",
-qty:"Qty"
+print:"🖨️ Print Receipt"
 },
 
 
 ku:{
 title:"سیستەمی وەسڵی KRD",
-customer:"کڕیار",
 add:"زیادکردن",
-print:"🖨️ چاپکردنی وەسڵ",
-product:"کاڵا",
-price:"نرخ",
-qty:"ژمارە"
+print:"🖨️ چاپکردنی وەسڵ"
 },
 
 
 ar:{
 title:"نظام الوصل KRD",
-customer:"الزبون",
 add:"إضافة",
-print:"🖨️ طباعة الوصل",
-product:"المنتج",
-price:"السعر",
-qty:"الكمية"
+print:"🖨️ طباعة الوصل"
 }
 
-
 };
 
 
 
-language.onchange=function(){
+
+language.onchange = function(){
+
+    let lang = this.value;
+
+    let t = translations[lang];
 
 
-let lang=this.value;
+    let title = document.querySelector("h1");
 
-let t=text[lang];
+    if(title){
 
+        title.innerText=t.title;
 
-document.getElementById("title").innerText=t.title;
-
-document.getElementById("customerText").innerText=t.customer;
-
-document.getElementById("customer").placeholder=t.customer;
-
-document.getElementById("addBtn").innerText=t.add;
-
-document.getElementById("printBtn").innerText=t.print;
-
-document.getElementById("pText").innerText=t.product;
-
-document.getElementById("prText").innerText=t.price;
-
-document.getElementById("qText").innerText=t.qty;
+    }
 
 
-if(lang==="en"){
+    addBtn.innerText=t.add;
 
-document.documentElement.dir="ltr";
+    printBtn.innerText=t.print;
 
-}else{
 
-document.documentElement.dir="rtl";
 
-}
+    if(lang==="en"){
+
+        document.documentElement.dir="ltr";
+
+    }else{
+
+        document.documentElement.dir="rtl";
+
+    }
 
 
 };
 
-
-
-// settings
-
-document.getElementById("settingsBtn").onclick=function(){
-
-let menu=document.getElementById("settingsMenu");
-
-menu.style.display =
-menu.style.display==="block" ? "none":"block";
-
-};
-
-
-
-// dark
-
-document.getElementById("darkBtn").onclick=function(){
-
-document.body.classList.toggle("dark");
-
-};
-
-
-
-// print
-
-document.getElementById("printBtn").onclick=function(){
-
-window.print();
-
-};
 
 
 });
