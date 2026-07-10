@@ -173,6 +173,9 @@ function updateLanguage() {
     addBtn.innerText = t.add;
     printBtn.innerText = t.print;
 
+    // زیادکراو
+    document.getElementById("totalLabel").innerText = t.total;
+
     if (document.body.classList.contains("dark")) {
         darkBtn.innerText = t.light;
     } else {
@@ -184,13 +187,11 @@ function updateLanguage() {
 
 }
 
-
 language.onchange = function () {
 
     updateLanguage();
 
 };
-
 
 updateLanguage();
 
