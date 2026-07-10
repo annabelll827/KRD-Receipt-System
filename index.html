@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,35 +18,42 @@
 
 <header>
 
-    <h1>KRD Receipt System</h1>
-
-    <div class="settings">
-
-        <button id="settingsBtn">
-            ⚙️
-        </button>
+<h1>KRD Receipt System</h1>
 
 
-        <div id="settingsMenu">
+<div class="settings">
 
-            <select id="language">
-
-                <option value="en">English</option>
-                <option value="ku">کوردی</option>
-                <option value="ar">العربية</option>
-
-            </select>
+<button id="settingsBtn">
+⚙️
+</button>
 
 
-            <button id="darkBtn">
-                🌙 Dark Mode
-            </button>
+<div id="settingsMenu">
 
-        </div>
+<select id="language">
 
-    </div>
+<option value="en">English</option>
+
+<option value="ku">کوردی</option>
+
+<option value="ar">العربية</option>
+
+</select>
+
+
+<button id="darkBtn">
+🌙 Dark Mode
+</button>
+
+
+</div>
+
+
+</div>
+
 
 </header>
+
 
 
 
@@ -53,9 +61,14 @@
 <div class="container">
 
 
-<h2>Customer</h2>
+<h2 id="customerTitle">
+Customer
+</h2>
+
 
 <input id="customer" placeholder="Customer Name">
+
+
 
 
 
@@ -84,6 +97,7 @@ Add
 
 
 
+
 <table>
 
 
@@ -92,14 +106,21 @@ Add
 <tr>
 
 <th>Product</th>
+
 <th>Price</th>
+
 <th>Qty</th>
+
 <th>Total</th>
+
 <th>Action</th>
+
 
 </tr>
 
+
 </thead>
+
 
 
 <tbody id="invoiceTable">
@@ -108,20 +129,36 @@ Add
 </tbody>
 
 
+
 </table>
 
 
 
 
+
 <h2>
-Total: $<span id="total">0</span>
+
+Total: $
+
+<span id="total">
+0
+</span>
+
+
 </h2>
 
 
 
+
+
 <button id="printBtn">
+
 🖨️ Print Receipt
+
 </button>
+
+
+
 
 
 </div>
@@ -134,5 +171,6 @@ Total: $<span id="total">0</span>
 
 
 </body>
+
 
 </html>
