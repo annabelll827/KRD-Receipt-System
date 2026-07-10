@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("loggedIn", "true");
 
             // چوون بۆ سیستەمی وەسڵ
-            window.location.href = "index.html";
+            window.location.href = "dashboard.html";
 
         } else {
 
