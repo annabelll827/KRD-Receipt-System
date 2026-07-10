@@ -1,275 +1,121 @@
-* {
-    box-sizing: border-box;
-    font-family: Tahoma, Arial, sans-serif;
-}
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
 
-body {
-    background: #f2f2f2;
-    margin: 0;
-    padding: 15px;
-}
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.receipt {
-    width: 100%;
-    max-width: 450px;
-    margin: auto;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #ccc;
-}
+<title>KRD Receipt System</title>
 
+<link rel="stylesheet" href="style.css">
 
-/* Header */
+</head>
 
-header {
-    text-align: center;
-    margin-bottom: 15px;
-}
 
-header h1 {
-    font-size: 22px;
-    margin: 0;
-}
+<body>
 
 
-/* Customer */
+<div class="receipt">
 
-.customer-info {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 10px;
-}
 
-.customer-info input {
-    width: 50%;
-}
+<header>
 
+<h1>KRD Receipt System</h1>
 
-/* Inputs */
+</header>
 
-input,
-textarea {
 
-    width: 100%;
-    padding: 8px;
 
-    border: 1px solid #ccc;
-    border-radius: 6px;
+<!-- زانیاری کڕیار -->
 
-    margin-bottom: 8px;
+<div class="customer-info">
 
-    font-size: 13px;
-}
+<input id="customer" placeholder="ناوی کڕیار">
 
+<input id="phone" placeholder="ژمارەی تەلەفون" type="tel">
 
-textarea {
-    height: 60px;
-    resize: none;
-}
+</div>
 
 
-/* Buttons */
 
-button {
+<!-- تێبینی -->
 
-    border: none;
-    padding: 8px 12px;
+<textarea id="notes" placeholder="تێبینی"></textarea>
 
-    border-radius: 6px;
 
-    cursor: pointer;
 
-    font-size: 13px;
-}
 
+<!-- زیادکردنی کاڵا -->
 
-.add-btn {
+<button id="addProductBtn" class="add-btn">
 
-    width: 100%;
-    margin-bottom: 10px;
+➕ زیادکردنی کاڵا
 
-}
+</button>
 
 
 
-/* Product Card */
 
-.product-card {
+<!-- شوێنی کاڵاکان -->
 
-    border: 1px solid #ddd;
+<div id="productsContainer">
 
-    border-radius: 8px;
+</div>
 
-    padding: 10px;
 
-    margin-bottom: 10px;
 
-    position: relative;
 
-}
 
+<!-- داشکاندن -->
 
+<div class="discount-box">
 
-/* Delete */
+<input id="discount" type="number" placeholder="بڕی داشکاندن">
 
-.delete-btn {
+</div>
 
-    position: absolute;
 
-    left: 8px;
 
-    top: 8px;
 
-    padding: 5px 8px;
 
-}
 
+<!-- کۆتایی -->
 
+<div class="bottom-section">
 
-/* Payment */
 
-.payment {
+<button id="createReceipt">
 
-    display: flex;
+دروستکردنی وەسڵ
 
-    align-items: center;
+</button>
 
-    gap: 15px;
 
-    margin: 8px 0;
 
-}
+<div class="grand-total">
 
+کۆی گشتی:
 
-.payment label {
+<span id="grandTotal">0</span>
 
-    display: flex;
+IQD
 
-    align-items: center;
+</div>
 
-    gap: 5px;
 
-    font-size: 13px;
+</div>
 
-}
 
 
 
-/* Product Details */
+</div>
 
-.product-details {
 
-    display: flex;
 
-    gap: 5px;
+<script src="script.js"></script>
 
-}
 
+</body>
 
-.product-details input {
-
-    width: 33%;
-
-}
-
-
-
-/* Discount */
-
-.discount-box {
-
-    margin-top: 15px;
-
-}
-
-
-
-/* Bottom */
-
-.bottom-section {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-top: 15px;
-
-}
-
-
-.grand-total {
-
-    font-size: 15px;
-
-    font-weight: bold;
-
-}
-
-
-
-/* Dark Mode */
-
-body.dark {
-
-    background: #111;
-
-}
-
-
-body.dark .receipt {
-
-    background: #222;
-
-    color: white;
-
-}
-
-
-body.dark input,
-body.dark textarea {
-
-    background: #333;
-
-    color: white;
-
-    border-color: #555;
-
-}
-
-
-
-/* Print */
-
-@media print {
-
-    body {
-
-        background: white;
-
-        padding: 0;
-
-    }
-
-
-    .receipt {
-
-        max-width: 80mm;
-
-        box-shadow: none;
-
-        border-radius: 0;
-
-    }
-
-
-    button {
-
-        display: none;
-
-    }
-
-}
+</html>
