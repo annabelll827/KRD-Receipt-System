@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Invoice System</h1>
+
+
+    <div class="info">
+
+        <input type="text" id="company" placeholder="Company Name">
+
+        <input type="text" id="customer" placeholder="Customer Name">
+
+    </div>
+
+
+
+    <div class="add-product">
+
+        <h2>Add Product</h2>
+
+        <input type="text" id="productName" placeholder="Product Name">
+
+        <input type="number" id="price" placeholder="Price">
+
+        <input type="number" id="quantity" placeholder="Quantity">
+
+        <button onclick="addProduct()">
+            Add Product
+        </button>
+
+    </div>
+
+
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+
+        <tbody id="invoiceTable">
+        </tbody>
+
+    </table>
+
+
+
+    <div class="total-box">
+
+        <h2>
+            Total:
+            $<span id="total">0</span>
+        </h2>
+
+    </div>
+
+
+
+    <button onclick="printInvoice()" class="print-btn">
+        Print Receipt
+    </button>
+
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
