@@ -1,0 +1,101 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Tahoma, Arial, sans-serif;
+}
+
+body{
+    background:#f3f4f6;
+    min-height:100vh;
+}
+
+.dashboard{
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.header h1{
+    font-size:28px;
+    color:#222;
+}
+
+#logoutBtn{
+    background:#e53935;
+    color:#fff;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+    transition:.3s;
+}
+
+#logoutBtn:hover{
+    background:#c62828;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#fff;
+    border-radius:15px;
+    padding:35px 20px;
+    text-align:center;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.icon{
+    font-size:60px;
+    margin-bottom:15px;
+}
+
+.card h2{
+    margin-bottom:10px;
+    color:#222;
+}
+
+.card p{
+    color:#666;
+    font-size:15px;
+}
+
+@media(max-width:600px){
+
+.header{
+    flex-direction:column;
+    gap:15px;
+}
+
+.header h1{
+    font-size:22px;
+}
+
+#logoutBtn{
+    width:100%;
+}
+
+}
