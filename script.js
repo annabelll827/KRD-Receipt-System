@@ -1,22 +1,25 @@
+document.addEventListener("DOMContentLoaded", function(){
+
 let products = [];
 
 const addBtn = document.getElementById("addBtn");
 const printBtn = document.getElementById("printBtn");
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsMenu = document.getElementById("settingsMenu");
+const darkBtn = document.getElementById("darkBtn");
+const language = document.getElementById("language");
 
 
-// Add Product
 addBtn.onclick = function(){
 
     const name = document.getElementById("productName").value;
     const price = Number(document.getElementById("price").value);
     const quantity = Number(document.getElementById("quantity").value);
 
-
     if(name === "" || price <= 0 || quantity <= 0){
         alert("Please enter product information");
         return;
     }
-
 
     products.push({
         name:name,
@@ -25,32 +28,21 @@ addBtn.onclick = function(){
         total:price * quantity
     });
 
-
     showProducts();
-
-
-    document.getElementById("productName").value="";
-    document.getElementById("price").value="";
-    document.getElementById("quantity").value="";
 
 };
 
 
-
-// Show Products
 function showProducts(){
 
     const table = document.getElementById("invoiceTable");
-
-    table.innerHTML="";
+    table.innerHTML = "";
 
     let total = 0;
-
 
     products.forEach((item,index)=>{
 
         total += item.total;
-
 
         table.innerHTML += `
         <tr>
@@ -59,70 +51,36 @@ function showProducts(){
             <td>${item.quantity}</td>
             <td>$${item.total}</td>
             <td>
-                <button onclick="deleteProduct(${index})">
-                    Delete
-                </button>
+            <button onclick="deleteProduct(${index})">
+            Delete
+            </button>
             </td>
-        </tr>
-        `;
-
+        </tr>`;
     });
 
-
     document.getElementById("total").innerText = total;
-
 }
 
 
-
-
-// Delete Product
-function deleteProduct(index){
+window.deleteProduct = function(index){
 
     products.splice(index,1);
-
     showProducts();
-
-}
-
-
-
-
-// Print
-printBtn.onclick = function(){
-
-    window.print();
 
 };
 
 
-
-
-
-// Settings
-const settingsBtn = document.getElementById("settingsBtn");
-const settingsMenu = document.getElementById("settingsMenu");
+printBtn.onclick = function(){
+    window.print();
+};
 
 
 settingsBtn.onclick = function(){
 
-    if(settingsMenu.style.display === "block"){
-
-        settingsMenu.style.display="none";
-
-    }else{
-
-        settingsMenu.style.display="block";
-
-    }
+    settingsMenu.style.display =
+    settingsMenu.style.display === "block" ? "none" : "block";
 
 };
-
-
-
-
-// Dark Mode
-const darkBtn = document.getElementById("darkBtn");
 
 
 darkBtn.onclick = function(){
@@ -132,33 +90,12 @@ darkBtn.onclick = function(){
 };
 
 
-
-
-// Language
-const language = document.getElementById("language");
-
-
 language.onchange = function(){
 
-
-    if(this.value === "ku"){
-
-        document.documentElement.dir="rtl";
-
-    }
-
-
-    if(this.value === "ar"){
-
-        document.documentElement.dir="rtl";
-
-    }
-
-
-    if(this.value === "en"){
-
-        document.documentElement.dir="ltr";
-
-    }
+    document.documentElement.dir =
+    this.value === "en" ? "ltr" : "rtl";
 
 };
+
+
+});
