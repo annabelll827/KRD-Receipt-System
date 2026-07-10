@@ -1,135 +1,275 @@
-document.addEventListener("DOMContentLoaded", function () {
+* {
+    box-sizing: border-box;
+    font-family: Tahoma, Arial, sans-serif;
+}
 
-let products = [];
-
-const addProductBtn = document.getElementById("addProductBtn");
-const productsContainer = document.getElementById("productsContainer");
-const discountInput = document.getElementById("discount");
-const grandTotal = document.getElementById("grandTotal");
-
-
-// زیادکردنی کاڵا
-
-addProductBtn.onclick = function () {
-
-    let paymentID = Date.now();
-
-    let card = document.createElement("div");
-    card.className = "product-card";
-
-    card.innerHTML = `
-
-    <button class="delete-btn">🗑️</button>
-
-    <input class="product-name" placeholder="ناوی کاڵا">
+body {
+    background: #f2f2f2;
+    margin: 0;
+    padding: 15px;
+}
 
 
-    <div class="payment">
-
-        <label>
-            <input type="radio" name="payment${paymentID}" value="credit">
-            <span>قەرز</span>
-        </label>
-
-
-        <label>
-            <input type="radio" name="payment${paymentID}" value="paid" checked>
-            <span>پارەدراو</span>
-        </label>
-
-    </div>
+.receipt {
+    width: 100%;
+    max-width: 450px;
+    margin: auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+}
 
 
-    <div class="product-details">
+/* Header */
 
-        <input class="quantity" type="number" placeholder="ژمارە">
+header {
+    text-align: center;
+    margin-bottom: 15px;
+}
 
-        <input class="price" type="number" placeholder="نرخ">
-
-        <input class="total" type="number" placeholder="کۆی گشتی" readonly>
-
-    </div>
-
-    `;
-
-
-    productsContainer.appendChild(card);
+header h1 {
+    font-size: 22px;
+    margin: 0;
+}
 
 
-    let quantity = card.querySelector(".quantity");
-    let price = card.querySelector(".price");
-    let total = card.querySelector(".total");
+/* Customer */
+
+.customer-info {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.customer-info input {
+    width: 50%;
+}
 
 
-    function calculate(){
+/* Inputs */
 
-        let q = Number(quantity.value) || 0;
-        let p = Number(price.value) || 0;
+input,
+textarea {
 
-        total.value = q * p;
+    width: 100%;
+    padding: 8px;
 
-        updateTotal();
+    border: 1px solid #ccc;
+    border-radius: 6px;
 
-    }
+    margin-bottom: 8px;
 
-
-    quantity.oninput = calculate;
-    price.oninput = calculate;
-
-
-    card.querySelector(".delete-btn").onclick = function(){
-
-        card.remove();
-
-        updateTotal();
-
-    };
+    font-size: 13px;
+}
 
 
-};
+textarea {
+    height: 60px;
+    resize: none;
+}
 
 
-// حسابکردنی کۆی گشتی
+/* Buttons */
 
-function updateTotal(){
+button {
 
-    let sum = 0;
+    border: none;
+    padding: 8px 12px;
 
+    border-radius: 6px;
 
-    document.querySelectorAll(".total").forEach(item => {
+    cursor: pointer;
 
-        sum += Number(item.value) || 0;
-
-    });
-
-
-    let discount = Number(discountInput.value) || 0;
+    font-size: 13px;
+}
 
 
-    sum = sum - discount;
+.add-btn {
 
-
-    if(sum < 0){
-        sum = 0;
-    }
-
-
-    grandTotal.innerText = sum;
+    width: 100%;
+    margin-bottom: 10px;
 
 }
 
 
-discountInput.oninput = updateTotal;
+
+/* Product Card */
+
+.product-card {
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    padding: 10px;
+
+    margin-bottom: 10px;
+
+    position: relative;
+
+}
 
 
 
-// دروستکردنی وەسڵ
+/* Delete */
 
-document.getElementById("createReceipt").onclick = function(){
+.delete-btn {
 
-    window.print();
+    position: absolute;
 
-};
+    left: 8px;
+
+    top: 8px;
+
+    padding: 5px 8px;
+
+}
 
 
-});
+
+/* Payment */
+
+.payment {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin: 8px 0;
+
+}
+
+
+.payment label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    font-size: 13px;
+
+}
+
+
+
+/* Product Details */
+
+.product-details {
+
+    display: flex;
+
+    gap: 5px;
+
+}
+
+
+.product-details input {
+
+    width: 33%;
+
+}
+
+
+
+/* Discount */
+
+.discount-box {
+
+    margin-top: 15px;
+
+}
+
+
+
+/* Bottom */
+
+.bottom-section {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 15px;
+
+}
+
+
+.grand-total {
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+}
+
+
+
+/* Dark Mode */
+
+body.dark {
+
+    background: #111;
+
+}
+
+
+body.dark .receipt {
+
+    background: #222;
+
+    color: white;
+
+}
+
+
+body.dark input,
+body.dark textarea {
+
+    background: #333;
+
+    color: white;
+
+    border-color: #555;
+
+}
+
+
+
+/* Print */
+
+@media print {
+
+    body {
+
+        background: white;
+
+        padding: 0;
+
+    }
+
+
+    .receipt {
+
+        max-width: 80mm;
+
+        box-shadow: none;
+
+        border-radius: 0;
+
+    }
+
+
+    button {
+
+        display: none;
+
+    }
+
+}
