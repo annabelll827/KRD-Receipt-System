@@ -4,21 +4,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const productsContainer = document.getElementById("productsContainer");
     const discountInput = document.getElementById("discount");
     const grandTotal = document.getElementById("grandTotal");
-    const createReceipt = document.getElementById("createReceipt");
+    const createReceiptBtn = document.getElementById("createReceipt");
 
 
     // زیادکردنی کاڵا
-    addProductBtn.onclick = function () {
+    addProductBtn.addEventListener("click", function () {
 
-        let paymentID = Date.now();
+        const id = Date.now();
 
-        let productCard = document.createElement("div");
-        productCard.className = "product-card";
+        const product = document.createElement("div");
+        product.className = "product-card";
 
 
-        productCard.innerHTML = `
+        product.innerHTML = `
 
-            <button class="delete-btn">🗑️</button>
+            <button class="delete-btn">
+                🗑️
+            </button>
+
 
             <input class="product-name" placeholder="ناوی کاڵا">
 
@@ -26,12 +29,13 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="payment">
 
                 <label>
-                    <input type="radio" name="payment${paymentID}" checked>
+                    <input type="radio" name="pay${id}" checked>
                     پارەدراو
                 </label>
 
+
                 <label>
-                    <input type="radio" name="payment${paymentID}">
+                    <input type="radio" name="pay${id}">
                     قەرز
                 </label>
 
@@ -44,20 +48,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 <input class="price" type="number" placeholder="نرخ">
 
-                <input class="total" type="number" placeholder="کۆی گشتی" readonly>
+                <input class="total" readonly placeholder="کۆی گشتی">
 
             </div>
 
         `;
 
 
-        productsContainer.appendChild(productCard);
+        productsContainer.appendChild(product);
 
 
 
-        let quantity = productCard.querySelector(".quantity");
-        let price = productCard.querySelector(".price");
-        let total = productCard.querySelector(".total");
+        const quantity = product.querySelector(".quantity");
+        const price = product.querySelector(".price");
+        const total = product.querySelector(".total");
+
 
 
         function calculateProduct(){
@@ -72,25 +77,26 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        quantity.oninput = calculateProduct;
-        price.oninput = calculateProduct;
+        quantity.addEventListener("input", calculateProduct);
+        price.addEventListener("input", calculateProduct);
 
 
 
         // سڕینەوە
-        productCard.querySelector(".delete-btn").onclick = function(){
+        product.querySelector(".delete-btn").addEventListener("click", function(){
 
-            productCard.remove();
+            product.remove();
 
             calculateTotal();
 
-        };
+        });
+
 
     });
 
 
 
-    // کۆی گشتی
+    // حسابکردنی کۆی گشتی
     function calculateTotal(){
 
         let total = 0;
@@ -120,16 +126,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    discountInput.oninput = calculateTotal;
+    discountInput.addEventListener("input", calculateTotal);
 
 
 
-    // دروستکردنی وەسڵ
-    createReceipt.onclick = function(){
+    // چاپی وەسڵ
+    createReceiptBtn.addEventListener("click", function(){
 
         window.print();
 
-    };
+    });
 
 
 });
