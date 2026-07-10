@@ -134,29 +134,32 @@ darkBtn.onclick = function () {
 
 const translations = {
 
-    en: {
-        title: "KRD Receipt System",
-        add: "Add",
-        print: "🖨️ Print Receipt",
-        dark: "🌙 Dark Mode",
-        light: "☀️ Light Mode"
-    },
+en:{
+    title:"KRD Receipt System",
+    add:"Add",
+    print:"🖨️ Print Receipt",
+    dark:"🌙 Dark Mode",
+    light:"☀️ Light Mode",
+    total:"Total"
+},
 
-    ku: {
-        title: "سیستەمی وەسڵی KRD",
-        add: "زیادکردن",
-        print: "🖨️ چاپکردنی وەسڵ",
-        dark: "🌙 دۆخی تاریک",
-        light: "☀️ دۆخی ڕووناک"
-    },
+ku:{
+    title:"سیستەمی وەسڵی KRD",
+    add:"زیادکردن",
+    print:"🖨️ چاپکردنی وەسڵ",
+    dark:"🌙 دۆخی تاریک",
+    light:"☀️ دۆخی ڕووناک",
+    total:"کۆی گشتی"
+},
 
-    ar: {
-        title: "نظام الوصل KRD",
-        add: "إضافة",
-        print: "🖨️ طباعة الوصل",
-        dark: "🌙 الوضع الداكن",
-        light: "☀️ الوضع الفاتح"
-    }
+ar:{
+    title:"نظام الوصل KRD",
+    add:"إضافة",
+    print:"🖨️ طباعة الوصل",
+    dark:"🌙 الوضع الداكن",
+    light:"☀️ الوضع الفاتح",
+    total:"المجموع"
+}
 
 };
 
