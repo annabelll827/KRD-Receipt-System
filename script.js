@@ -1,8 +1,10 @@
 let products = [];
-let totalAmount = 0;
+
+const addBtn = document.getElementById("addBtn");
+const printBtn = document.getElementById("printBtn");
 
 
-function addProduct(){
+addBtn.addEventListener("click", function(){
 
     const name = document.getElementById("productName").value;
     const price = Number(document.getElementById("price").value);
@@ -10,44 +12,42 @@ function addProduct(){
 
 
     if(name === "" || price <= 0 || quantity <= 0){
-        alert("Please enter product name, price and quantity");
+        alert("Please fill all product fields");
         return;
     }
 
 
-    const product = {
-        name: name,
-        price: price,
-        quantity: quantity,
-        total: price * quantity
-    };
+    products.push({
+        name:name,
+        price:price,
+        quantity:quantity,
+        total:price * quantity
+    });
 
 
-    products.push(product);
-
-    displayProducts();
+    showProducts();
 
 
-    document.getElementById("productName").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("quantity").value = "";
+    document.getElementById("productName").value="";
+    document.getElementById("price").value="";
+    document.getElementById("quantity").value="";
 
-}
+});
 
 
 
-function displayProducts(){
+function showProducts(){
 
     const table = document.getElementById("invoiceTable");
 
-    table.innerHTML = "";
+    table.innerHTML="";
 
-    totalAmount = 0;
+    let total = 0;
 
 
     products.forEach((item,index)=>{
 
-        totalAmount += item.total;
+        total += item.total;
 
 
         table.innerHTML += `
@@ -57,7 +57,7 @@ function displayProducts(){
             <td>${item.quantity}</td>
             <td>$${item.total}</td>
             <td>
-                <button onclick="deleteProduct(${index})">
+                <button onclick="removeProduct(${index})">
                     Delete
                 </button>
             </td>
@@ -67,34 +67,24 @@ function displayProducts(){
     });
 
 
-    document.getElementById("total").innerText = totalAmount;
+    document.getElementById("total").innerText = total;
 
 }
 
 
 
-function deleteProduct(index){
+function removeProduct(index){
 
     products.splice(index,1);
 
-    displayProducts();
+    showProducts();
 
 }
 
 
 
-function printInvoice(){
+printBtn.addEventListener("click", function(){
 
     window.print();
 
-}
-document.getElementById("printBtn").addEventListener("click", function(){
-    window.print();
 });
-const printButton = document.getElementById("printBtn");
-
-if(printButton){
-    printButton.addEventListener("click", function(){
-        window.print();
-    });
-}
