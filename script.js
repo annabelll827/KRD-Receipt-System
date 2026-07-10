@@ -82,40 +82,46 @@ document.addEventListener("DOMContentLoaded", () => {
         row.className = "product-row";
 
 
-        row.innerHTML = `
+row.innerHTML = `
 
-            <input 
-            class="product-name"
-            type="text"
-            placeholder="ناوی کاڵا">
-
-
-            <input 
-            class="product-price"
-            type="number"
-            placeholder="نرخ">
+<input 
+class="product-name"
+type="text"
+placeholder="ناوی کاڵا">
 
 
-            <input 
-            class="product-qty"
-            type="number"
-            min="1"
-            value="1"
-            placeholder="ژمارە">
+<div class="product-details">
+
+<input 
+class="product-qty"
+type="number"
+min="1"
+value="1"
+placeholder="ژمارەی کاڵا">
 
 
-            <span class="product-total">
-            0 IQD
-            </span>
+<input 
+class="product-price"
+type="number"
+placeholder="نرخ">
 
 
-            <button 
-            class="delete-product"
-            type="button">
-            ❌
-            </button>
+<input 
+class="product-total"
+type="text"
+readonly
+placeholder="کۆی گشتی">
 
-        `;
+</div>
+
+
+<button 
+class="delete-product"
+type="button">
+❌
+</button>
+
+`;
 
 
         productsContainer.appendChild(row);
