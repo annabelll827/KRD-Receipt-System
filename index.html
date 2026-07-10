@@ -13,91 +13,53 @@
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
-
-<!-- Header -->
-
 <header class="header">
 
+<div class="logo">
 
-    <div class="logo">
+<h1>
+KRD Receipt System
+</h1>
 
-        <h1>
-            KRD Receipt System
-        </h1>
+<p>
+POS & Receipt Management
+</p>
 
-        <p>
-            POS & Receipt Management
-        </p>
+</div>
 
-    </div>
+<div class="header-buttons">
 
+<button id="dashboardBtn" class="header-btn">
+🏠 داشبۆرد
+</button>
 
+<button id="historyBtn" class="header-btn">
+📜 مێژووی وەسڵەکان
+</button>
 
-    <div class="header-buttons">
+<button id="settingsBtn" class="header-btn">
+⚙️ ڕێکخستن
+</button>
 
-
-        <button 
-        id="dashboardBtn"
-        class="header-btn">
-
-            🏠 داشبۆرد
-
-        </button>
-
-
-
-        <button 
-        id="historyBtn"
-        class="header-btn">
-
-            📜 مێژووی وەسڵەکان
-
-        </button>
-
-
-
-        <button 
-        id="settingsBtn"
-        class="header-btn">
-
-            ⚙️ ڕێکخستن
-
-        </button>
-
-
-    </div>
-
+</div>
 
 </header>
 
+<!-- Settings -->
 
-
-
-<!-- Settings Menu -->
-
-
-<div 
-id="settingsMenu"
-class="settings-menu"
-style="display:none;">
-
+<div id="settingsMenu" class="settings-menu" style="display:none;">
 
 <h3>
 ⚙️ ڕێکخستن
 </h3>
 
-
-
 <label>
 🌐 زمان
 </label>
-
 
 <select id="language">
 
@@ -105,74 +67,53 @@ style="display:none;">
 کوردی
 </option>
 
-
 <option value="ar">
 العربية
 </option>
-
 
 <option value="en">
 English
 </option>
 
-
 </select>
 
-
-
 <button id="darkModeBtn">
-
 🌙 Dark Mode
-
 </button>
 
-
 </div>
+
 <!-- Customer Information -->
 
 <section class="customer-section">
-
 
 <h2>
 👤 زانیاری کڕیار
 </h2>
 
-
-
 <div class="grid">
-
 
 <input
 id="customerName"
 type="text"
 placeholder="ناوی کڕیار">
 
-
-
 <input
 id="customerPhone"
 type="tel"
 placeholder="ژمارەی تەلەفۆن">
-
-
 
 <input
 id="receiptNumber"
 type="text"
 placeholder="ژمارەی وەسڵ">
 
-
-
 <input
 id="receiptDate"
-type="date">
-
-
+type="text"
+placeholder="بەروار بنووسە">
 
 </div>
-
-
-
 
 <textarea
 id="notes"
@@ -180,29 +121,17 @@ rows="3"
 placeholder="تێبینی...">
 </textarea>
 
-
-
 </section>
-
-
-
-
-
 
 <!-- Products Section -->
 
-
 <section class="products-section">
 
-
 <div class="section-header">
-
 
 <h2>
 🛒 کاڵاکان
 </h2>
-
-
 
 <button
 id="addProductBtn"
@@ -212,83 +141,43 @@ class="add-btn">
 
 </button>
 
-
 </div>
-
-
-
-
-<!-- Product Header -->
-
-
-<div class="products-header">
-
-<span>
-ناوی کاڵا
-</span>
-
-<span>
-ژمارەی کاڵا
-</span>
-
-<span>
-نرخ
-</span>
-
-<span>
-کۆی گشتی
-</span>
-
-<span>
-کردار
-</span>
-
-</div>
-
-
-
 
 <!-- Products Container -->
 
-
 <div id="productsContainer">
 
+<!-- JavaScript لێرە کاڵاکان زیاد دەکات -->
 
 </div>
 
-
-
 </section>
+
 <!-- Totals Section -->
 
 <section class="totals-section">
 
-
 <div class="discount-box">
-
 
 <label>
 💸 داشکاندن (IQD)
 </label>
 
-
-
 <input
-id="discount"
-type="number"
-min="0"
-value="0"
-placeholder="0">
 
+id="discount"
+
+type="number"
+
+min="0"
+
+value="0"
+
+placeholder="0">
 
 </div>
 
-
-
-
-
 <div class="grand-total-box">
-
 
 <h2>
 
@@ -302,96 +191,13 @@ IQD
 
 </h2>
 
-
 </div>
 
-
-
 </section>
-
-
-
-
-
-
-<!-- Payment Status -->
-
-<section class="payment-section">
-
-
-<h2>
-💳 دۆخی پارەدان
-</h2>
-
-
-
-
-<div class="payment-options">
-
-
-
-<label>
-
-
-<input
-
-type="radio"
-
-name="paymentStatus"
-
-value="paid"
-
-checked>
-
-
-<span>
-✅ پارەدراو
-</span>
-
-
-</label>
-
-
-
-
-
-<label>
-
-
-<input
-
-type="radio"
-
-name="paymentStatus"
-
-value="debt">
-
-
-<span>
-📒 قەرز
-</span>
-
-
-</label>
-
-
-
-
-</div>
-
-
-</section>
-
-
-
-
 
 <!-- Action Buttons -->
 
-
 <section class="actions-section">
-
-
 
 <button
 
@@ -403,9 +209,6 @@ class="primary-btn">
 
 </button>
 
-
-
-
 <button
 
 id="clearReceipt"
@@ -416,33 +219,25 @@ class="danger-btn">
 
 </button>
 
-
-
 </section>
+
 <!-- Receipt History Modal -->
 
-
 <div
+
 id="historyModal"
+
 class="modal"
+
 style="display:none;">
-
-
 
 <div class="modal-content">
 
-
-
 <div class="modal-header">
-
-
 
 <h2>
 📜 مێژووی وەسڵەکان
 </h2>
-
-
-
 
 <button
 
@@ -454,102 +249,53 @@ class="close-btn">
 
 </button>
 
-
-
 </div>
 
-
-
-
-
-
-<!-- Paid History -->
-
+<!-- Paid Receipts -->
 
 <div class="history-section">
-
 
 <h3>
 💳 پارەدراو
 </h3>
 
-
-
 <div id="paidHistory">
 
 </div>
 
-
-
 </div>
-
-
-
-
-
-
 
 <hr>
 
-
-
-
-
-
-
-<!-- Debt History -->
-
+<!-- Debt Receipts -->
 
 <div class="history-section">
-
 
 <h3>
 📒 قەرز
 </h3>
 
-
-
 <div id="debtHistory">
 
 </div>
 
-
+</div>
 
 </div>
 
-
-
-
-
 </div>
 
-
-</div>
-
-
-
-
-
-
-
-<!-- Search Section -->
-
+<!-- Search & Report Section -->
 
 <section class="bottom-section">
 
-
-
 <div class="search-box">
-
 
 <label>
 
 🔍 گەڕان بە ژمارەی وەسڵ یان ناوی کڕیار
 
 </label>
-
-
-
 
 <input
 
@@ -559,10 +305,9 @@ type="text"
 
 placeholder="گەڕان...">
 
-
 </div>
-<div class="report-box">
 
+<div class="report-box">
 
 <button
 
@@ -574,53 +319,28 @@ class="secondary-btn">
 
 </button>
 
-
-
 </div>
-
-
 
 </section>
 
-
-
-
-
-
 <!-- Footer -->
 
-
 <footer class="footer">
-
 
 <p>
 © 2026 KRD Receipt System
 </p>
 
-
 <p>
 Developed by Annabell
 </p>
 
-
-
 </footer>
 
-
-
-
-
-
-<!-- JavaScript -->
-
-
-<script src="script.js?v=2"></script>
-
+<script src="script.js"></script>
 
 </div>
 
-
 </body>
-
 
 </html>
