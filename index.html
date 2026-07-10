@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ku" dir="rtl">
 
 <head>
 <meta charset="UTF-8">
@@ -13,95 +13,79 @@
 
 <body>
 
-<div class="settings">
+<div class="receipt">
 
-<button id="settingsBtn">⚙️</button>
+<header>
+    <h1>KRD Receipt System</h1>
+</header>
 
-<div id="settingsMenu">
 
-<select id="language">
-<option value="en">English</option>
-<option value="ku">کوردی</option>
-<option value="ar">العربية</option>
-</select>
+<!-- Customer Info -->
 
-<button id="darkBtn">
-🌙 Dark
+<div class="customer-info">
+
+<input id="customer" type="text" placeholder="ناوی کڕیار">
+
+<input id="phone" type="tel" placeholder="ژمارەی تەلەفون">
+
+</div>
+
+
+<!-- Notes -->
+
+<textarea id="notes" placeholder="تێبینی"></textarea>
+
+
+<!-- Add Product Button -->
+
+<button id="addProductBtn" class="add-btn">
+➕ زیادکردنی کاڵا
 </button>
 
-<hr>
 
-<h4 id="supportTitle">📧 Contact Support</h4>
+<!-- Products Area -->
 
-<p id="supportText">If you have any problem, contact us:</p>
+<div id="productsContainer">
 
-<a href="mailto:krdreceipsystem@gmail.com?subject=KRD%20Receipt%20System%20Support&body=Please%20describe%20your%20problem%20here..."
-class="support-email">
-📧 krdreceipsystem@gmail.com
-</a>
 
 </div>
 
+
+<!-- Discount -->
+
+<div class="discount-box">
+
+<label>بڕی داشکاندن</label>
+
+<input id="discount" type="number" placeholder="0">
+
 </div>
 
-<div class="container">
 
-<h1 id="title">
-KRD Receipt System
-</h1>
+<!-- Bottom -->
 
-<h2 id="customerText">
-Customer
-</h2>
+<div class="bottom-section">
 
-<input id="customer" placeholder="Customer Name">
-
-<div class="product-box">
-
-<input id="productName" placeholder="Product Name">
-
-<input id="price" type="number" placeholder="Price">
-
-<input id="quantity" type="number" placeholder="Quantity">
-
-<button id="addBtn">
-Add
+<button id="createReceipt">
+دروستکردنی وەسڵ
 </button>
 
-</div>
 
-<table>
+<div class="grand-total">
 
-<thead>
-
-<tr>
-
-<th id="pText">Product</th>
-<th id="prText">Price</th>
-<th id="qText">Qty</th>
-<th id="tText">Total</th>
-
-</tr>
-
-</thead>
-
-<tbody id="invoiceTable">
-
-</tbody>
-
-</table>
-
-<h2>
-<span id="totalLabel">Total</span>: <span id="total">0</span> IQD
-</h2>
-
-<button id="printBtn">
-🖨️ Print Receipt
-</button>
+کۆی گشتی:
+<span id="grandTotal">0</span> IQD
 
 </div>
+
+</div>
+
+
+</div>
+
 
 <script src="script.js"></script>
 
 </body>
+
 </html>
