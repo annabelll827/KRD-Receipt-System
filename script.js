@@ -2,208 +2,135 @@ document.addEventListener("DOMContentLoaded", function () {
 
 let products = [];
 
-const addBtn = document.getElementById("addBtn");
-const printBtn = document.getElementById("printBtn");
-const settingsBtn = document.getElementById("settingsBtn");
-const settingsMenu = document.getElementById("settingsMenu");
-const darkBtn = document.getElementById("darkBtn");
-const language = document.getElementById("language");
-
-
-// Language translations
-const translations = {
-
-    en:{
-        title:"KRD Receipt System",
-        add:"Add",
-        print:"🖨️ Print Receipt",
-        dark:"🌙 Dark Mode",
-        light:"☀️ Light Mode",
-        total:"Total",
-        supportTitle:"📧 Contact Support",
-        supportText:"If you have any problem, contact us:",
-        delete:"Delete"
-    },
-
-    ku:{
-        title:"سیستەمی وەسڵی KRD",
-        add:"زیادکردن",
-        print:"🖨️ چاپکردنی وەسڵ",
-        dark:"🌙 دۆخی تاریک",
-        light:"☀️ دۆخی ڕووناک",
-        total:"کۆی گشتی",
-        supportTitle:"📧 پەیوەندی بە پشتگیری",
-        supportText:"ئەگەر هەر کێشەیەکت هەبوو، پەیوەندیمان پێوە بکە:",
-        delete:"سڕینەوە"
-    },
-
-    ar:{
-        title:"نظام الوصل KRD",
-        add:"إضافة",
-        print:"🖨️ طباعة الوصل",
-        dark:"🌙 الوضع الداكن",
-        light:"☀️ الوضع الفاتح",
-        total:"المجموع",
-        supportTitle:"📧 التواصل مع الدعم",
-        supportText:"إذا واجهتك أي مشكلة، تواصل معنا:",
-        delete:"حذف"
-    }
-
-};
-
-
-// Dark / Light button text
-function updateDarkButton() {
-
-    const lang = language.value || "en";
-    const t = translations[lang];
-
-    if (document.body.classList.contains("dark")) {
-        darkBtn.innerText = t.light;
-    } else {
-        darkBtn.innerText = t.dark;
-    }
-
-}
+const addProductBtn = document.getElementById("addProductBtn");
+const productsContainer = document.getElementById("productsContainer");
+const discountInput = document.getElementById("discount");
+const grandTotal = document.getElementById("grandTotal");
 
 
 // Add Product
-addBtn.onclick = function () {
 
-    let name = document.getElementById("productName").value.trim();
-    let price = Number(document.getElementById("price").value);
-    let quantity = Number(document.getElementById("quantity").value);
+addProductBtn.onclick = function () {
 
-    if (name === "" || price <= 0 || quantity <= 0) {
-        alert("Enter product information");
-        return;
+    let card = document.createElement("div");
+    card.className = "product-card";
+
+
+    card.innerHTML = `
+
+    <button class="delete-btn">🗑️</button>
+
+    <input class="product-name" placeholder="ناوی کاڵا">
+
+
+    <div class="payment">
+
+        <label>
+        <input type="radio" name="payment${Date.now()}" value="credit">
+        قەرز
+        </label>
+
+        <label>
+        <input type="radio" name="payment${Date.now()}" value="paid" checked>
+        پارەدراو
+        </label>
+
+    </div>
+
+
+    <div class="product-details">
+
+        <input class="quantity" type="number" placeholder="ژمارە">
+
+        <input class="price" type="number" placeholder="نرخ">
+
+        <input class="total" type="number" placeholder="کۆی گشتی" readonly>
+
+    </div>
+
+    `;
+
+
+    productsContainer.appendChild(card);
+
+
+
+    let quantity = card.querySelector(".quantity");
+    let price = card.querySelector(".price");
+    let total = card.querySelector(".total");
+
+
+    function calculate(){
+
+        let q = Number(quantity.value) || 0;
+        let p = Number(price.value) || 0;
+
+        total.value = q * p;
+
+        updateTotal();
+
     }
 
-    products.push({
-        name:name,
-        price:price,
-        quantity:quantity,
-        total:price * quantity
-    });
 
-    showProducts();
+    quantity.oninput = calculate;
+    price.oninput = calculate;
 
-    document.getElementById("productName").value="";
-    document.getElementById("price").value="";
-    document.getElementById("quantity").value="";
+
+    card.querySelector(".delete-btn").onclick = function(){
+
+        card.remove();
+
+        updateTotal();
+
+    };
 
 };
-    // Show Products
-function showProducts() {
 
-    let table = document.getElementById("invoiceTable");
-    table.innerHTML = "";
 
-    let total = 0;
 
-    products.forEach((item,index)=>{
+// Calculate All Total
 
-        total += item.total;
+function updateTotal(){
 
-        table.innerHTML += `
-        <tr>
-            <td>${item.name}</td>
-            <td>${item.price} IQD</td>
-            <td>${item.quantity}</td>
-            <td>${item.total} IQD</td>
-            <td>
-                <button onclick="deleteProduct(${index})">
-                    ${translations[language.value].delete}
-                </button>
-            </td>
-        </tr>
-        `;
+    let sum = 0;
+
+
+    document.querySelectorAll(".total").forEach(item=>{
+
+        sum += Number(item.value) || 0;
 
     });
 
-    document.getElementById("total").innerText = total;
+
+    let discount = Number(discountInput.value) || 0;
+
+
+    sum = sum - discount;
+
+
+    if(sum < 0){
+        sum = 0;
+    }
+
+
+    grandTotal.innerText = sum;
 
 }
 
 
-// Delete Product
-window.deleteProduct = function(index){
-
-    products.splice(index,1);
-    showProducts();
-
-};
+discountInput.oninput = updateTotal;
 
 
-// Print
-printBtn.onclick = function(){
+
+// Create Receipt
+
+document.getElementById("createReceipt").onclick = function(){
+
+    alert("وەسڵ بە سەرکەوتوویی دروست کرا ✅");
 
     window.print();
 
 };
-
-
-// Settings
-settingsBtn.onclick = function(){
-
-    settingsMenu.style.display =
-        settingsMenu.style.display === "block"
-        ? "none"
-        : "block";
-
-};
-
-
-// Dark Mode
-darkBtn.onclick = function(){
-
-    document.body.classList.toggle("dark");
-    updateDarkButton();
-
-};
-
-
-// Update Language
-function updateLanguage(){
-
-    const lang = language.value;
-    const t = translations[lang];
-
-
-    document.getElementById("title").innerText = t.title;
-
-    addBtn.innerText = t.add;
-
-    printBtn.innerText = t.print;
-
-    document.getElementById("totalLabel").innerText = t.total;
-
-    document.getElementById("supportTitle").innerText = t.supportTitle;
-
-    document.getElementById("supportText").innerText = t.supportText;
-
-
-    document.documentElement.dir =
-        lang === "en" ? "ltr" : "rtl";
-
-
-    updateDarkButton();
-
-    showProducts();
-
-}
-
-
-// Change Language
-language.onchange = function(){
-
-    updateLanguage();
-
-};
-
-
-// Start
-updateLanguage();
 
 
 });
