@@ -2,127 +2,626 @@
 <html lang="ku" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>KRD Receipt System</title>
 
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-<div class="receipt">
 
-<header class="top-header">
+<div class="container">
 
-    <h1>KRD Receipt System</h1>
 
-    <button onclick="goDashboard()" class="back-btn">
-        گەڕانەوە
-    </button>
+<!-- Header -->
+
+<header class="header">
+
+
+    <div class="logo">
+
+        <h1>
+            KRD Receipt System
+        </h1>
+
+        <p>
+            POS & Receipt Management
+        </p>
+
+    </div>
+
+
+
+    <div class="header-buttons">
+
+
+        <button 
+        id="dashboardBtn"
+        class="header-btn">
+
+            🏠 داشبۆرد
+
+        </button>
+
+
+
+        <button 
+        id="historyBtn"
+        class="header-btn">
+
+            📜 مێژووی وەسڵەکان
+
+        </button>
+
+
+
+        <button 
+        id="settingsBtn"
+        class="header-btn">
+
+            ⚙️ ڕێکخستن
+
+        </button>
+
+
+    </div>
+
 
 </header>
 
-<!-- زانیاری کڕیار -->
 
-<div class="customer-info">
 
-    <input id="customerName" placeholder="ناوی کڕیار">
 
-    <input id="customerPhone" type="tel" placeholder="ژمارەی تەلەفۆن">
+<!-- Settings Menu -->
 
-</div>
 
-<!-- تێبینی -->
+<div 
+id="settingsMenu"
+class="settings-menu"
+style="display:none;">
 
-<textarea id="notes" placeholder="تێبینی"></textarea>
 
-<!-- زانیاری وەسڵ -->
+<h3>
+⚙️ ڕێکخستن
+</h3>
 
-<div class="receipt-info">
 
-    <input id="receiptNumber" placeholder="ژمارەی وەسڵ">
 
-    <input id="receiptDate" placeholder="YYYY/MM/DD">
+<label>
+🌐 زمان
+</label>
 
-</div>
 
-<!-- زیادکردنی کاڵا -->
+<select id="language">
 
-<button id="addProductBtn" class="add-btn">
-➕ زیادکردنی کاڵا
+<option value="ku">
+کوردی
+</option>
+
+
+<option value="ar">
+العربية
+</option>
+
+
+<option value="en">
+English
+</option>
+
+
+</select>
+
+
+
+<button id="darkModeBtn">
+
+🌙 Dark Mode
+
 </button>
 
-<div id="productsContainer"></div>
 
-<!-- داشکاندن -->
+</div>
+<!-- Customer Information -->
+
+<section class="customer-section">
+
+
+<h2>
+👤 زانیاری کڕیار
+</h2>
+
+
+
+<div class="grid">
+
+
+<input
+id="customerName"
+type="text"
+placeholder="ناوی کڕیار">
+
+
+
+<input
+id="customerPhone"
+type="tel"
+placeholder="ژمارەی تەلەفۆن">
+
+
+
+<input
+id="receiptNumber"
+type="text"
+placeholder="ژمارەی وەسڵ">
+
+
+
+<input
+id="receiptDate"
+type="date">
+
+
+
+</div>
+
+
+
+
+<textarea
+id="notes"
+rows="3"
+placeholder="تێبینی...">
+</textarea>
+
+
+
+</section>
+
+
+
+
+
+
+<!-- Products Section -->
+
+
+<section class="products-section">
+
+
+<div class="section-header">
+
+
+<h2>
+🛒 کاڵاکان
+</h2>
+
+
+
+<button
+id="addProductBtn"
+class="add-btn">
+
+➕ زیادکردنی کاڵا
+
+</button>
+
+
+</div>
+
+
+
+
+<!-- Product Header -->
+
+
+<div class="products-header">
+
+<span>
+ناوی کاڵا
+</span>
+
+<span>
+ژمارەی کاڵا
+</span>
+
+<span>
+نرخ
+</span>
+
+<span>
+کۆی گشتی
+</span>
+
+<span>
+کردار
+</span>
+
+</div>
+
+
+
+
+<!-- Products Container -->
+
+
+<div id="productsContainer">
+
+
+</div>
+
+
+
+</section>
+<!-- Totals Section -->
+
+<section class="totals-section">
+
 
 <div class="discount-box">
 
-<label>بڕی داشکاندن</label>
 
-<input id="discount" type="number" placeholder="0">
+<label>
+💸 داشکاندن (IQD)
+</label>
 
-</div>
 
-<!-- دوگمەکان -->
 
-<div class="action-buttons">
+<input
+id="discount"
+type="number"
+min="0"
+value="0"
+placeholder="0">
 
-<button id="createReceipt">
-🖨️ دروستکردنی وەسڵ
-</button>
-
-<button id="historyBtn" class="history-btn">
-📜 مێژووی وەسڵەکان
-</button>
 
 </div>
 
-<!-- مێژووی وەسڵ -->
 
-<div id="historyModal" class="history-modal" style="display:none;">
 
-<div class="history-content">
 
-<h2>📜 مێژووی وەسڵەکان</h2>
 
-<h3>💳 پارەدراو</h3>
+<div class="grand-total-box">
 
-<div id="paidHistory"></div>
 
-<hr>
+<h2>
 
-<h3>📒 قەرز</h3>
+💰 کۆی گشتی:
 
-<div id="debtHistory"></div>
-
-<br>
-
-<button onclick="closeHistory()">
-داخستن
-</button>
-
-</div>
-
-</div>
-
-<!-- کۆی گشتی -->
-
-<div class="grand-total">
-
-کۆی گشتی:
-
-<span id="grandTotal">0</span>
+<span id="grandTotal">
+0
+</span>
 
 IQD
 
-</div>
+</h2>
+
 
 </div>
+
+
+
+</section>
+
+
+
+
+
+
+<!-- Payment Status -->
+
+<section class="payment-section">
+
+
+<h2>
+💳 دۆخی پارەدان
+</h2>
+
+
+
+
+<div class="payment-options">
+
+
+
+<label>
+
+
+<input
+
+type="radio"
+
+name="paymentStatus"
+
+value="paid"
+
+checked>
+
+
+<span>
+✅ پارەدراو
+</span>
+
+
+</label>
+
+
+
+
+
+<label>
+
+
+<input
+
+type="radio"
+
+name="paymentStatus"
+
+value="debt">
+
+
+<span>
+📒 قەرز
+</span>
+
+
+</label>
+
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- Action Buttons -->
+
+
+<section class="actions-section">
+
+
+
+<button
+
+id="createReceipt"
+
+class="primary-btn">
+
+🖨️ دروستکردنی وەسڵ
+
+</button>
+
+
+
+
+<button
+
+id="clearReceipt"
+
+class="danger-btn">
+
+🗑️ سڕینەوەی هەموو
+
+</button>
+
+
+
+</section>
+<!-- Receipt History Modal -->
+
+
+<div
+id="historyModal"
+class="modal"
+style="display:none;">
+
+
+
+<div class="modal-content">
+
+
+
+<div class="modal-header">
+
+
+
+<h2>
+📜 مێژووی وەسڵەکان
+</h2>
+
+
+
+
+<button
+
+id="closeHistoryBtn"
+
+class="close-btn">
+
+✖
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- Paid History -->
+
+
+<div class="history-section">
+
+
+<h3>
+💳 پارەدراو
+</h3>
+
+
+
+<div id="paidHistory">
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<hr>
+
+
+
+
+
+
+
+<!-- Debt History -->
+
+
+<div class="history-section">
+
+
+<h3>
+📒 قەرز
+</h3>
+
+
+
+<div id="debtHistory">
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Search Section -->
+
+
+<section class="bottom-section">
+
+
+
+<div class="search-box">
+
+
+<label>
+
+🔍 گەڕان بە ژمارەی وەسڵ یان ناوی کڕیار
+
+</label>
+
+
+
+
+<input
+
+id="searchReceipt"
+
+type="text"
+
+placeholder="گەڕان...">
+
+
+</div>
+<div class="report-box">
+
+
+<button
+
+id="reportBtn"
+
+class="secondary-btn">
+
+📧 ناردنی ڕاپۆرت
+
+</button>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+<!-- Footer -->
+
+
+<footer class="footer">
+
+
+<p>
+© 2026 KRD Receipt System
+</p>
+
+
+<p>
+Developed by Annabell
+</p>
+
+
+
+</footer>
+
+
+
+
+
+
+<!-- JavaScript -->
+
 
 <script src="script.js"></script>
 
+
+
+</div>
+
+
 </body>
+
+
 </html>
