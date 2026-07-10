@@ -2,126 +2,81 @@
 <html lang="en" dir="ltr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Receipt System</title>
+<title>KRD Receipt System</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
 
-<div class="settings">
+<header>
 
-    <button id="settingsBtn">
-        ⚙️
-    </button>
+    <h1>KRD Receipt System</h1>
 
+    <div class="settings">
 
-    <div id="settingsMenu">
-
-        <h3>Settings</h3>
-
-        <select id="language">
-            <option value="en">English</option>
-            <option value="ku">کوردی</option>
-            <option value="ar">العربية</option>
-        </select>
-
-
-        <button id="darkBtn">
-            🌙 Dark Mode
+        <button id="settingsBtn">
+            ⚙️
         </button>
+
+
+        <div id="settingsMenu">
+
+            <select id="language">
+
+                <option value="en">English</option>
+                <option value="ku">کوردی</option>
+                <option value="ar">العربية</option>
+
+            </select>
+
+
+            <button id="darkBtn">
+                🌙 Dark Mode
+            </button>
+
+        </div>
 
     </div>
 
-</div>
+</header>
+
 
 
 
 <div class="container">
 
 
-    <h1>
-        Receipt System
-    </h1>
+<h2>Customer</h2>
 
-
-    <div class="info">
-
-        <input id="company" placeholder="Company Name">
-
-        <input id="customer" placeholder="Customer Name">
-
-    </div>
+<input id="customer" placeholder="Customer Name">
 
 
 
-    <div class="add-box">
+<h2>Add Product</h2>
 
 
-        <input id="productName" placeholder="Product Name">
+<div class="product-box">
 
 
-        <input id="price" 
-        type="number" 
-        placeholder="Price">
+<input id="productName" placeholder="Product Name">
 
 
-        <input id="quantity" 
-        type="number" 
-        placeholder="Quantity">
+<input id="price" type="number" placeholder="Price">
 
 
-        <button id="addBtn">
-            Add Product
-        </button>
+<input id="quantity" type="number" placeholder="Quantity">
 
 
-    </div>
-
-
-
-
-    <table>
-
-        <thead>
-
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
-                <th>Delete</th>
-            </tr>
-
-        </thead>
-
-
-        <tbody id="invoiceTable">
-
-        </tbody>
-
-
-    </table>
-
-
-
-
-    <h2>
-        Total: $
-        <span id="total">
-            0
-        </span>
-    </h2>
-
-
-
-    <button id="printBtn">
-        Print Receipt
-    </button>
+<button id="addBtn">
+Add
+</button>
 
 
 </div>
@@ -129,7 +84,54 @@
 
 
 
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Product</th>
+<th>Price</th>
+<th>Qty</th>
+<th>Total</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="invoiceTable">
+
+
+</tbody>
+
+
+</table>
+
+
+
+
+<h2>
+Total: $<span id="total">0</span>
+</h2>
+
+
+
+<button id="printBtn">
+🖨️ Print Receipt
+</button>
+
+
+</div>
+
+
+
+
+
 <script src="script.js"></script>
+
 
 </body>
 
