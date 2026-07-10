@@ -390,7 +390,7 @@ function deleteReceipt(index) {
     showHistory();
 
 }
-function logout() {
+function goDashboard() {
 
     window.location.href = "dashboard.html";
 
