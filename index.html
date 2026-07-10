@@ -1,22 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Receipt System</title>
+    <title>Receipt System</title>
 
-<link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
+
+<!-- Settings -->
+<div class="settings">
+
+    <button id="settingsBtn">
+        ⚙️
+    </button>
+
+
+    <div id="settingsMenu" class="settings-menu">
+
+        <h3>Settings</h3>
+
+
+        <select id="language">
+
+            <option value="en">
+                English
+            </option>
+
+            <option value="ku">
+                کوردی
+            </option>
+
+            <option value="ar">
+                العربية
+            </option>
+
+        </select>
+
+
+        <button id="darkBtn">
+            🌙 Dark Mode
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
 <div class="container">
 
-<h1>Receipt System</h1>
+
+<h1 id="title">
+    Receipt System
+</h1>
+
 
 
 <div class="info">
@@ -31,42 +75,61 @@
 
 <div class="add-box">
 
+
 <input id="productName" placeholder="Product Name">
+
 
 <input id="price" type="number" placeholder="Price">
 
+
 <input id="quantity" type="number" placeholder="Quantity">
+
 
 
 <button id="addBtn">
 Add Product
 </button>
 
+
 </div>
+
 
 
 
 <table>
 
 <thead>
+
 <tr>
+
 <th>Product</th>
+
 <th>Price</th>
+
 <th>Qty</th>
+
 <th>Total</th>
+
 <th>Delete</th>
+
 </tr>
+
 </thead>
 
 
-<tbody id="invoiceTable"></tbody>
+<tbody id="invoiceTable">
+
+
+</tbody>
 
 
 </table>
 
 
+
 <h2>
-Total: $<span id="total">0</span>
+Total:
+$<span id="total">0</span>
 </h2>
 
 
@@ -76,11 +139,13 @@ Print Receipt
 </button>
 
 
+
 </div>
 
 
 
 <script src="script.js"></script>
+
 
 </body>
 
