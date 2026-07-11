@@ -1,134 +1,527 @@
-‏<!DOCTYPE html>
-‏<html lang="ku" dir="rtl">
+*{
+‏    margin:0;
+‏    padding:0;
+‏    box-sizing:border-box;
+‏    font-family:"Noto Sans Arabic",sans-serif;
+}
 
-‏<head>
-‏    <meta charset="UTF-8">
-‏    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-‏    <title>KRD Receipt System</title>
+‏body{
+‏    background:#f3f4f6;
+‏    direction:rtl;
+‏    color:#222;
+}
 
-‏    <link rel="stylesheet" href="style.css">
+‏.container{
+‏    max-width:700px;
+‏    margin:30px auto;
+‏    background:#fff;
+‏    border-radius:18px;
+‏    padding:25px;
+‏    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
 
-‏    <link rel="preconnect" href="https://fonts.googleapis.com">
-‏    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+‏.header{
+‏    display:flex;
+‏    align-items:center;
+‏    justify-content:space-between;
+‏    margin-bottom:25px;
+}
 
-‏    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700&display=swap"
-‏        rel="stylesheet">
-‏</head>
+‏.header h1{
+‏    flex:1;
+‏    text-align:center;
+‏    font-size:28px;
+‏    color:#2563eb;
+}
 
-‏<body>
+‏.back-btn{
+‏    border:none;
+‏    background:#2563eb;
+‏    color:#fff;
+‏    padding:10px 18px;
+‏    border-radius:10px;
+‏    cursor:pointer;
+‏    font-size:15px;
+‏    transition:.3s;
+}
 
-‏<div class="container">
+‏.back-btn:hover{
+‏    background:#1d4ed8;
+}
 
-‏    <!-- Header -->
+‏.row{
+‏    display:grid;
+‏    grid-template-columns:1fr 1fr;
+‏    gap:15px;
+‏    margin-bottom:18px;
+}
 
-‏    <div class="header">
+‏input,
+‏textarea,
+‏select{
+‏    width:100%;
+‏    border:1px solid #d1d5db;
+‏    border-radius:10px;
+‏    padding:12px;
+‏    font-size:15px;
+‏    outline:none;
+‏    transition:.3s;
+}
 
-‏        <button id="dashboardBtn" class="back-btn">
-            گەڕانەوە
-‏        </button>
+‏input:focus,
+‏textarea:focus,
+‏select:focus{
+‏    border-color:#2563eb;
+‏    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
 
-‏        <h1>KRD Receipt System</h1>
+‏textarea{
+‏    resize:none;
+‏    height:90px;
+‏    margin-bottom:18px;
+}
 
-‏    </div>
+‏.add-btn{
+‏    width:100%;
+‏    border:none;
+‏    background:#16a34a;
+‏    color:#fff;
+‏    padding:14px;
+‏    border-radius:12px;
+‏    font-size:17px;
+‏    cursor:pointer;
+‏    margin-bottom:20px;
+‏    transition:.3s;
+}
 
-‏    <!-- Customer -->
+‏.add-btn:hover{
+‏    background:#15803d;
+}
 
-‏    <div class="row">
+/* ==========================
+‏   Product Box
+========================== */
 
-‏        <input
-‏            id="customerName"
-‏            type="text"
-‏            placeholder="ناوی کڕیار">
+‏.product-row{
+‏    background:#f9fafb;
+‏    border:1px solid #e5e7eb;
+‏    border-radius:14px;
+‏    padding:15px;
+‏    margin-bottom:18px;
+}
 
-‏        <input
-‏            id="customerPhone"
-‏            type="text"
-‏            placeholder="ژمارەی تەلەفۆن">
+‏.product-name{
+‏    width:100%;
+‏    margin-bottom:12px;
+}
 
-‏    </div>
+‏.payment-options{
+‏    display:flex;
+‏    justify-content:center;
+‏    gap:20px;
+‏    margin-bottom:15px;
+‏    flex-wrap:wrap;
+}
 
-‏    <!-- Notes -->
+‏.payment-options label{
+‏    display:flex;
+‏    align-items:center;
+‏    gap:6px;
+‏    font-size:15px;
+‏    cursor:pointer;
+}
 
-‏    <textarea
-‏        id="notes"
-‏        placeholder="تێبینی"></textarea>
+‏.product-row .product-qty,
+‏.product-row .product-price{
+‏    width:100%;
+‏    margin-bottom:12px;
+}
 
-‏    <!-- Receipt -->
+‏.product-total{
+‏    display:block;
+‏    width:100%;
+‏    text-align:center;
+‏    background:#eef2ff;
+‏    color:#2563eb;
+‏    font-size:18px;
+‏    font-weight:bold;
+‏    padding:12px;
+‏    border-radius:10px;
+‏    margin-bottom:12px;
+}
 
-‏    <div class="row">
+‏.delete-product{
+‏    width:100%;
+‏    border:none;
+‏    background:#dc2626;
+‏    color:#fff;
+‏    padding:12px;
+‏    border-radius:10px;
+‏    cursor:pointer;
+‏    font-size:16px;
+‏    transition:.3s;
+}
 
-‏        <input
-‏            id="receiptNumber"
-‏            type="text"
-‏            placeholder="ژمارەی وەسڵ">
+‏.delete-product:hover{
+‏    background:#b91c1c;
+}
 
-‏        <input
-‏            id="receiptDate"
-‏            type="date">
+/* ==========================
+‏   Discount & Total
+========================== */
 
-‏    </div>
+‏.discount-box,
+‏.total-box{
+‏    background:#f8fafc;
+‏    border:1px solid #e5e7eb;
+‏    border-radius:12px;
+‏    padding:15px;
+‏    margin-top:18px;
+}
 
-‏    <!-- Add Product -->
+‏.discount-box label{
+‏    display:block;
+‏    margin-bottom:8px;
+‏    font-weight:bold;
+}
 
-‏    <button
-‏        id="addProductBtn"
-‏        class="add-btn">
+.total-box{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:20px;
+    font-weight:bold;
+}
+   
 
-        ➕ زیادکردنی کاڵا
+‏.discount-box{
+‏    display:flex;
+‏    justify-content:space-between;
+‏    align-items:center;
+‏    gap:15px;
+‏    margin-top:20px;
+}
 
-‏    </button>
+‏.discount-box label{
+‏    font-weight:700;
+‏    color:#374151;
+}
 
-‏    <!-- Products -->
+‏.discount-box input{
+‏    width:180px;
+}
 
-‏    <div id="productsContainer"></div>
+‏.total-box{
+‏    margin-top:20px;
+‏    background:#2563eb;
+‏    color:#fff;
+‏    border-radius:12px;
+‏    padding:18px;
+‏    display:flex;
+‏    justify-content:space-between;
+‏    align-items:center;
+‏    font-size:20px;
+‏    font-weight:bold;
+}
 
-‏    <!-- Discount -->
+‏.buttons{
+‏    display:flex;
+‏    gap:15px;
+‏    margin-top:20px;
+}
 
-‏    <div class="discount-box">
+‏.print-btn,
+‏.history-btn{
+‏    flex:1;
+‏    border:none;
+‏    border-radius:12px;
+‏    padding:15px;
+‏    color:#fff;
+‏    cursor:pointer;
+‏    font-size:16px;
+‏    transition:.3s;
+}
 
-‏        <label>
-            بڕی داشکاندن
-‏        </label>
+‏.print-btn{
+‏    background:#16a34a;
+}
 
-‏        <input
-‏          <input
-    id="discount"
-    type="number"
-    value="0"
-    placeholder="0">
-           <!-- Settings Menu -->
+‏.print-btn:hover{
+‏    background:#15803d;
+}
 
-<div id="settingsMenu" class="settings-menu">
+‏.history-btn{
+‏    background:#f59e0b;
+}
 
-    <button id="darkModeBtn">
-        🌙 Dark Mode
-    </button>
+‏.history-btn:hover{
+‏    background:#d97706;
+}
 
-    <select id="language">
+‏.modal{
+‏    display:none;
+‏    position:fixed;
+‏    inset:0;
+‏    background:rgba(0,0,0,.5);
+‏    justify-content:center;
+‏    align-items:center;
+‏    z-index:999;
+}
 
-        <option value="ku">کوردی</option>
+‏.modal-content{
+‏    width:95%;
+‏    max-width:700px;
+‏    max-height:90vh;
+‏    overflow:auto;
+‏    background:#fff;
+‏    border-radius:15px;
+‏    padding:20px;
+}
 
-        <option value="ar">العربية</option>
+‏.modal-header{
+‏    display:flex;
+‏    justify-content:space-between;
+‏    align-items:center;
+‏    margin-bottom:20px;
+}
 
-        <option value="en">English</option>
+‏.modal-header button{
+‏    border:none;
+‏    background:#ef4444;
+‏    color:#fff;
+‏    padding:8px 12px;
+‏    border-radius:8px;
+‏    cursor:pointer;
+}
 
-    </select>
+‏.history-card{
+‏    background:#f8fafc;
+‏    border:1px solid #e5e7eb;
+‏    border-radius:12px;
+‏    padding:15px;
+‏    margin-top:15px;
+‏    transition:.3s;
+}
 
-    <button id="reportBtn">
-        📧 ناردنی ڕاپۆرت
-    </button>
+‏.history-card:hover{
+‏    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
 
-</div>
+‏.history-card h3{
+‏    color:#2563eb;
+‏    margin-bottom:10px;
+}
 
-<!-- Floating Settings Button -->
+‏.history-card p{
+‏    margin:6px 0;
+‏    color:#444;
+}
 
-<button id="settingsBtn" class="settings-btn">
-    ⚙️
-</button>
+‏.history-card button{
+‏    border:none;
+‏    border-radius:8px;
+‏    padding:10px 15px;
+‏    cursor:pointer;
+‏    margin-top:10px;
+‏    margin-left:8px;
+‏    transition:.3s;
+}
 
-<!-- JavaScript -->
+‏.view-btn{
+‏    background:#2563eb;
+‏    color:#fff;
+}
 
-<script src="script.js"></script>
+‏.view-btn:hover{
+‏    background:#1d4ed8;
+}
 
-</body>
-</html>
+‏.delete-btn{
+‏    background:#ef4444;
+‏    color:#fff;
+}
+
+‏.delete-btn:hover{
+‏    background:#dc2626;
+}
+
+‏#searchReceipt{
+‏    margin-bottom:20px;
+}
+
+‏.settings-btn{
+‏    position:fixed;
+‏    bottom:20px;
+‏    left:20px;
+‏    width:55px;
+‏    height:55px;
+‏    border:none;
+‏    border-radius:50%;
+‏    background:#2563eb;
+‏    color:#fff;
+‏    font-size:24px;
+‏    cursor:pointer;
+‏    box-shadow:0 8px 20px rgba(0,0,0,.2);
+‏    z-index:1000;
+}
+
+‏.settings-btn:hover{
+‏    background:#1d4ed8;
+}
+
+‏.settings-menu{
+‏    position:fixed;
+‏    bottom:90px;
+‏    left:20px;
+‏    width:240px;
+‏    background:#fff;
+‏    border-radius:15px;
+‏    padding:15px;
+‏    box-shadow:0 10px 30px rgba(0,0,0,.15);
+‏    display:none;
+‏    z-index:1001;
+}
+
+‏.settings-menu button,
+‏.settings-menu select{
+‏    width:100%;
+‏    margin-bottom:12px;
+‏    padding:12px;
+‏    border:none;
+‏    border-radius:10px;
+‏    font-size:15px;
+}
+
+‏.settings-menu button{
+‏    background:#2563eb;
+‏    color:#fff;
+‏    cursor:pointer;
+}
+
+‏.settings-menu button:hover{
+‏    background:#1d4ed8;
+}
+
+‏.settings-menu select{
+‏    border:1px solid #d1d5db;
+‏    background:#fff;
+}
+
+‏.dark{
+‏    background:#111827;
+‏    color:#f9fafb;
+}
+
+‏.dark .container{
+‏    background:#1f2937;
+}
+
+‏.dark input,
+‏.dark textarea,
+‏.dark select{
+‏    background:#374151;
+‏    color:#fff;
+‏    border:1px solid #4b5563;
+}
+
+‏.dark .history-card{
+‏    background:#374151;
+‏    color:#fff;
+‏    border-color:#4b5563;
+}
+
+‏.dark .modal-content{
+‏    background:#1f2937;
+‏    color:#fff;
+}
+
+‏.dark .discount-box label,
+‏.dark .history-card p,
+‏.dark .history-card h3{
+‏    color:#fff;
+}
+
+‏.dark .total-box{
+‏    background:#1d4ed8;
+}
+
+‏.dark .settings-menu{
+‏    background:#1f2937;
+}
+
+‏.dark .settings-menu select{
+‏    background:#374151;
+‏    color:#fff;
+‏    border:1px solid #4b5563;
+}
+
+‏.dark .settings-menu button{
+‏    background:#2563eb;
+}
+
+‏.dark .settings-menu button:hover{
+‏    background:#1d4ed8;
+}
+
+‏/* Responsive */
+
+‏@media (max-width:768px){
+
+‏.container{
+‏    width:95%;
+‏    margin:15px auto;
+‏    padding:18px;
+}
+
+‏.header{
+‏    flex-direction:column;
+‏    gap:12px;
+}
+
+‏.header h1{
+‏    font-size:22px;
+}
+
+‏.row{
+‏    grid-template-columns:1fr;
+}
+
+‏.discount-box{
+‏    flex-direction:column;
+‏    align-items:stretch;
+}
+
+‏.discount-box input{
+‏    width:100%;
+}
+
+‏.total-box{
+‏    flex-direction:column;
+‏    gap:10px;
+‏    text-align:center;
+}
+
+‏.buttons{
+‏    flex-direction:column;
+}
+
+‏.settings-menu{
+‏    width:90%;
+‏    left:5%;
+‏    bottom:85px;
+}
+
+‏.settings-btn{
+‏    left:15px;
+‏    bottom:15px;
+}
+
+‏.product-row{
+‏    grid-template-columns:1fr;
+}
+
+‏.payment-options{
+‏    justify-content:center;
+}
+
+}
