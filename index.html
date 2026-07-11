@@ -1,167 +1,134 @@
-<!DOCTYPE html>
-<html lang="ku" dir="rtl">
+‏<!DOCTYPE html>
+‏<html lang="ku" dir="rtl">
 
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+‏<head>
+‏    <meta charset="UTF-8">
+‏    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+‏    <title>KRD Receipt System</title>
 
-<title>KRD Receipt System</title>
+‏    <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet" href="style.css">
-</head>
+‏    <link rel="preconnect" href="https://fonts.googleapis.com">
+‏    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<body>
+‏    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700&display=swap"
+‏        rel="stylesheet">
+‏</head>
 
-<div class="container">
+‏<body>
 
-<!-- Header -->
-<header class="header">
+‏<div class="container">
 
-<button id="dashboardBtn" class="back-btn">
-⬅️ گەڕانەوە
-</button>
+‏    <!-- Header -->
 
-<h1>KRD Receipt System</h1>
+‏    <div class="header">
 
-</header>
+‏        <button id="dashboardBtn" class="back-btn">
+            گەڕانەوە
+‏        </button>
 
-<!-- Customer -->
+‏        <h1>KRD Receipt System</h1>
 
-<section class="customer-section">
+‏    </div>
 
-<div class="grid-2">
+‏    <!-- Customer -->
 
-<input
-id="customerName"
-type="text"
-placeholder="👤 ناوی کڕیار">
+‏    <div class="row">
 
-<input
-id="customerPhone"
-type="tel"
-placeholder="📱 ژمارەی تەلەفۆن">
+‏        <input
+‏            id="customerName"
+‏            type="text"
+‏            placeholder="ناوی کڕیار">
 
-</div>
+‏        <input
+‏            id="customerPhone"
+‏            type="text"
+‏            placeholder="ژمارەی تەلەفۆن">
 
-<textarea
-id="notes"
-rows="3"
-placeholder="📝 تێبینی"></textarea>
+‏    </div>
 
-<div class="grid-2">
+‏    <!-- Notes -->
 
-<input
-id="receiptNumber"
-type="text"
-placeholder="🧾 ژمارەی وەسڵ">
+‏    <textarea
+‏        id="notes"
+‏        placeholder="تێبینی"></textarea>
 
-<input
-id="receiptDate"
-type="text"
-placeholder="📅 بەروار">
+‏    <!-- Receipt -->
 
-</div>
+‏    <div class="row">
 
-</section>
+‏        <input
+‏            id="receiptNumber"
+‏            type="text"
+‏            placeholder="ژمارەی وەسڵ">
 
-<!-- Products -->
+‏        <input
+‏            id="receiptDate"
+‏            type="date">
 
-<section class="products-section">
+‏    </div>
 
-<div class="section-title">
+‏    <!-- Add Product -->
 
-<h2>🛒 زیادکردنی کاڵا</h2>
+‏    <button
+‏        id="addProductBtn"
+‏        class="add-btn">
 
-<button id="addProductBtn">
-➕ زیادکردنی کاڵا
-</button>
+        ➕ زیادکردنی کاڵا
 
-</div>
+‏    </button>
 
-<div id="productsContainer"></div>
+‏    <!-- Products -->
 
-</section>
+‏    <div id="productsContainer"></div>
 
-<!-- Total -->
+‏    <!-- Discount -->
 
-<section class="total-section">
+‏    <div class="discount-box">
 
-<label>
-💸 بڕی داشکاندن
-</label>
+‏        <label>
+            بڕی داشکاندن
+‏        </label>
 
-<input
-id="discount"
-type="number"
-value="0">
+‏        <input
+‏          <input
+    id="discount"
+    type="number"
+    value="0"
+    placeholder="0">
+           <!-- Settings Menu -->
 
-<h2>
+<div id="settingsMenu" class="settings-menu">
 
-💰 کۆی گشتی :
+    <button id="darkModeBtn">
+        🌙 Dark Mode
+    </button>
 
-<span id="grandTotal">
-0
-</span>
+    <select id="language">
 
-IQD
+        <option value="ku">کوردی</option>
 
-</h2>
+        <option value="ar">العربية</option>
 
-</section>
+        <option value="en">English</option>
 
-<!-- Buttons -->
+    </select>
 
-<section class="actions">
-
-<button
-id="createReceipt"
-class="print-btn">
-
-🖨️ ناردن بۆ وەسڵ
-
-</button>
-
-<button
-id="historyBtn"
-class="history-btn">
-
-📜 ناردن بۆ مێژووی وەسڵ
-
-</button>
-
-</section>
-
-<!-- History -->
-
-<div
-id="historyModal"
-class="modal">
-
-<div class="modal-content">
-
-<button
-id="closeHistoryBtn">
-
-✖
-
-</button>
-
-<h2>
-📜 مێژووی وەسڵەکان
-</h2>
-
-<div id="paidHistory"></div>
-
-<hr>
-
-<div id="debtHistory"></div>
+    <button id="reportBtn">
+        📧 ناردنی ڕاپۆرت
+    </button>
 
 </div>
 
-</div>
+<!-- Floating Settings Button -->
+
+<button id="settingsBtn" class="settings-btn">
+    ⚙️
+</button>
+
+<!-- JavaScript -->
 
 <script src="script.js"></script>
 
 </body>
-
 </html>
