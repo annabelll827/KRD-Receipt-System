@@ -4,43 +4,90 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سیستەمی وەسڵ - KRD Receipt System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="card" id="receiptCard">
-  <div class="top-row">
-    <button class="reset-btn" onclick="resetForm()">گەڕانەوە</button>
-    <h1>KRD Receipt System</h1>
+<div class="page">
+  <div class="card" id="receiptCard">
+
+    <div class="perforation"></div>
+
+    <div class="top-row">
+      <button class="reset-btn" onclick="resetForm()">
+        <span class="reset-icon">↺</span> گەڕانەوە
+      </button>
+      <div class="brand">
+        <h1>KRD Receipt System</h1>
+        <span class="subtitle">وەسڵی فرۆشتن — سیستەمی خێرا</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="row2">
+        <div class="field">
+          <label>ژمارەی تەلەفۆن</label>
+          <input type="tel" id="phone" placeholder="07XX XXX XXXX">
+        </div>
+        <div class="field">
+          <label>ناوی کڕیار</label>
+          <input type="text" id="customer" placeholder="ناوی کڕیار بنووسە">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>تێبینی</label>
+        <textarea id="notes" placeholder="هەر تێبینییەک لەبارەی وەسڵەکە..."></textarea>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>بەروار</label>
+          <input type="text" id="date" placeholder="YYYY/MM/DD">
+        </div>
+        <div class="field">
+          <label>ژمارەی وەسڵ</label>
+          <input type="text" id="receiptNo" placeholder="#0001">
+        </div>
+      </div>
+    </div>
+
+    <button class="add-btn" onclick="addItem()">
+      <span class="plus-circle">＋</span> زیادکردنی کاڵا
+    </button>
+
+    <div id="itemsContainer">
+      <div class="empty-msg" id="emptyMsg">
+        <span class="empty-icon">🧾</span>
+        <p>هیچ کاڵایەک زیاد نەکراوە</p>
+      </div>
+    </div>
+
+    <div class="dashed-divider"></div>
+
+    <div class="discount-row">
+      <label class="discount-label">بڕی داشکاندن</label>
+      <input type="number" id="discount" placeholder="0" oninput="calculateTotal()">
+    </div>
+
+    <div class="bottom-btns">
+      <button class="btn-outline" onclick="shareReceipt()">
+        📤 ناردن بۆ مێژوو
+      </button>
+      <button class="btn-filled" onclick="window.print()">
+        🖨️ دروستکردنی وەسڵ
+      </button>
+    </div>
+
+    <div class="total-box">
+      <span class="total-label">کۆی گشتی</span>
+      <span class="total-amount" id="grandTotal">IQD 0</span>
+    </div>
+
   </div>
-
-  <div class="row2">
-    <input type="tel" id="phone" placeholder="ژمارەی تەلەفۆن">
-    <input type="text" id="customer" placeholder="ناوی کڕیار">
-  </div>
-
-  <textarea id="notes" placeholder="تێبینی"></textarea>
-
-  <div class="row2">
-    <input type="text" id="date" placeholder="YYYY/MM/DD">
-    <input type="text" id="receiptNo" placeholder="ژمارەی وەسڵ">
-  </div>
-
-  <button class="add-btn" onclick="addItem()">＋ زیادکردنی کاڵا</button>
-
-  <div id="itemsContainer">
-    <p class="empty-msg" id="emptyMsg">هیچ کاڵایەک زیاد نەکراوە</p>
-  </div>
-
-  <div class="discount-label">بڕی داشکاندن</div>
-  <input type="number" id="discount" placeholder="0" oninput="calculateTotal()">
-
-  <div class="bottom-btns">
-    <button onclick="shareReceipt()">📤 ناردن بۆ مێژووی وەسڵەکان</button>
-    <button onclick="window.print()">🖨️ دروستکردنی وەسڵ</button>
-  </div>
-
-  <div class="total-line">کۆی گشتی: <span id="grandTotal">IQD 0</span></div>
 </div>
 
 <script src="script.js"></script>
