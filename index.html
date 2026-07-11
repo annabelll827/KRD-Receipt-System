@@ -2,186 +2,102 @@
 <html lang="ku" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>KRD Receipt System</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
 <div class="container">
 
+<!-- Header -->
 <header class="header">
 
-<div class="logo">
-
-<h1>
-KRD Receipt System
-</h1>
-
-<p>
-POS & Receipt Management
-</p>
-
-</div>
-
-<div class="header-buttons">
-
-<button id="dashboardBtn" class="header-btn">
-🏠 داشبۆرد
+<button id="dashboardBtn" class="back-btn">
+⬅️ گەڕانەوە
 </button>
 
-<button id="historyBtn" class="header-btn">
-📜 مێژووی وەسڵەکان
-</button>
-
-<button id="settingsBtn" class="header-btn">
-⚙️ ڕێکخستن
-</button>
-
-</div>
+<h1>KRD Receipt System</h1>
 
 </header>
 
-<!-- Settings -->
-
-<div id="settingsMenu" class="settings-menu" style="display:none;">
-
-<h3>
-⚙️ ڕێکخستن
-</h3>
-
-<label>
-🌐 زمان
-</label>
-
-<select id="language">
-
-<option value="ku">
-کوردی
-</option>
-
-<option value="ar">
-العربية
-</option>
-
-<option value="en">
-English
-</option>
-
-</select>
-
-<button id="darkModeBtn">
-🌙 Dark Mode
-</button>
-
-</div>
-
-<!-- Customer Information -->
+<!-- Customer -->
 
 <section class="customer-section">
 
-<h2>
-👤 زانیاری کڕیار
-</h2>
-
-<div class="grid">
+<div class="grid-2">
 
 <input
 id="customerName"
 type="text"
-placeholder="ناوی کڕیار">
+placeholder="👤 ناوی کڕیار">
 
 <input
 id="customerPhone"
 type="tel"
-placeholder="ژمارەی تەلەفۆن">
-
-<input
-id="receiptNumber"
-type="text"
-placeholder="ژمارەی وەسڵ">
-
-<input
-id="receiptDate"
-type="text"
-placeholder="بەروار بنووسە">
+placeholder="📱 ژمارەی تەلەفۆن">
 
 </div>
 
 <textarea
 id="notes"
 rows="3"
-placeholder="تێبینی...">
-</textarea>
+placeholder="📝 تێبینی"></textarea>
+
+<div class="grid-2">
+
+<input
+id="receiptNumber"
+type="text"
+placeholder="🧾 ژمارەی وەسڵ">
+
+<input
+id="receiptDate"
+type="text"
+placeholder="📅 بەروار">
+
+</div>
 
 </section>
 
-<!-- Products Section -->
+<!-- Products -->
 
 <section class="products-section">
 
-<div class="section-header">
+<div class="section-title">
 
-<h2>
-🛒 کاڵاکان
-</h2>
+<h2>🛒 زیادکردنی کاڵا</h2>
 
-<button
-id="addProductBtn"
-class="add-btn">
-
+<button id="addProductBtn">
 ➕ زیادکردنی کاڵا
-
 </button>
 
 </div>
 
-<!-- Products Container -->
-
-<div id="productsContainer">
-
-<!-- JavaScript لێرە کاڵاکان زیاد دەکات -->
-
-</div>
+<div id="productsContainer"></div>
 
 </section>
 
-<!-- Totals Section -->
+<!-- Total -->
 
-<section class="totals-section">
-
-<div class="discount-box">
+<section class="total-section">
 
 <label>
-💸 داشکاندن (IQD)
+💸 بڕی داشکاندن
 </label>
 
 <input
-
 id="discount"
-
 type="number"
-
-min="0"
-
-value="0"
-
-placeholder="0">
-
-</div>
-
-<div class="grand-total-box">
+value="0">
 
 <h2>
 
-💰 کۆی گشتی:
+💰 کۆی گشتی :
 
 <span id="grandTotal">
 0
@@ -191,155 +107,60 @@ IQD
 
 </h2>
 
-</div>
-
 </section>
 
-<!-- Action Buttons -->
+<!-- Buttons -->
 
-<section class="actions-section">
+<section class="actions">
 
 <button
-
 id="createReceipt"
+class="print-btn">
 
-class="primary-btn">
-
-🖨️ دروستکردنی وەسڵ
+🖨️ ناردن بۆ وەسڵ
 
 </button>
 
 <button
+id="historyBtn"
+class="history-btn">
 
-id="clearReceipt"
-
-class="danger-btn">
-
-🗑️ سڕینەوەی هەموو
+📜 ناردن بۆ مێژووی وەسڵ
 
 </button>
 
 </section>
 
-<!-- Receipt History Modal -->
+<!-- History -->
 
 <div
-
 id="historyModal"
-
-class="modal"
-
-style="display:none;">
+class="modal">
 
 <div class="modal-content">
 
-<div class="modal-header">
-
-<h2>
-📜 مێژووی وەسڵەکان
-</h2>
-
 <button
-
-id="closeHistoryBtn"
-
-class="close-btn">
+id="closeHistoryBtn">
 
 ✖
 
 </button>
 
-</div>
+<h2>
+📜 مێژووی وەسڵەکان
+</h2>
 
-<!-- Paid Receipts -->
-
-<div class="history-section">
-
-<h3>
-💳 پارەدراو
-</h3>
-
-<div id="paidHistory">
-
-</div>
-
-</div>
+<div id="paidHistory"></div>
 
 <hr>
 
-<!-- Debt Receipts -->
-
-<div class="history-section">
-
-<h3>
-📒 قەرز
-</h3>
-
-<div id="debtHistory">
+<div id="debtHistory"></div>
 
 </div>
 
 </div>
-
-</div>
-
-</div>
-
-<!-- Search & Report Section -->
-
-<section class="bottom-section">
-
-<div class="search-box">
-
-<label>
-
-🔍 گەڕان بە ژمارەی وەسڵ یان ناوی کڕیار
-
-</label>
-
-<input
-
-id="searchReceipt"
-
-type="text"
-
-placeholder="گەڕان...">
-
-</div>
-
-<div class="report-box">
-
-<button
-
-id="reportBtn"
-
-class="secondary-btn">
-
-📧 ناردنی ڕاپۆرت
-
-</button>
-
-</div>
-
-</section>
-
-<!-- Footer -->
-
-<footer class="footer">
-
-<p>
-© 2026 KRD Receipt System
-</p>
-
-<p>
-Developed by Annabell
-</p>
-
-</footer>
 
 <script src="script.js"></script>
-
-</div>
 
 </body>
 
