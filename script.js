@@ -1,238 +1,85 @@
-/* ==========================
-   Dashboard
-========================== */
+let itemCount = 0;
 
-if(dashboardBtn){
+function addItem(){
+  itemCount++;
+  const id = itemCount;
+  const container = document.getElementById('itemsContainer');
+  const emptyMsg = document.getElementById('emptyMsg');
+  if(emptyMsg) emptyMsg.remove();
 
-dashboardBtn.addEventListener("click",()=>{
-
-window.location.href = "dashboard.html";
-
-});
-
+  const div = document.createElement('div');
+  div.className = 'item-card';
+  div.id = 'item-' + id;
+  div.innerHTML = `
+    <button class="remove-item" onclick="removeItem(${id})">سڕینەوە ✕</button>
+    <div style="clear:both;"></div>
+    <input type="text" placeholder="ناوی کاڵا" id="name-${id}" style="margin-bottom:8px;">
+    <div class="row2">
+      <input type="number" placeholder="ژمارە" id="qty-${id}" value="1" oninput="calculateTotal()">
+      <input type="number" placeholder="نرخی یەک دانە (IQD)" id="price-${id}" oninput="calculateTotal()">
+    </div>
+    <div class="item-total" id="itemTotal-${id}">کۆ: IQD 0</div>
+  `;
+  container.appendChild(div);
 }
 
-/* ==========================
-   Settings Menu
-========================== */
-
-if(settingsBtn){
-
-settingsBtn.addEventListener("click",()=>{
-
-settingsMenu.style.display =
-settingsMenu.style.display === "block"
-? "none"
-: "block";
-
-});
-
+function removeItem(id){
+  const el = document.getElementById('item-' + id);
+  if(el) el.remove();
+  const container = document.getElementById('itemsContainer');
+  if(container.children.length === 0){
+    container.innerHTML = '<p class="empty-msg" id="emptyMsg">هیچ کاڵایەک زیاد نەکراوە</p>';
+  }
+  calculateTotal();
 }
 
-/* ==========================
-   Close Settings Outside
-========================== */
+function calculateTotal(){
+  let subtotal = 0;
+  document.querySelectorAll('.item-card').forEach(card => {
+    const id = card.id.split('-')[1];
+    const qty = parseFloat(document.getElementById('qty-' + id).value) || 0;
+    const price = parseFloat(document.getElementById('price-' + id).value) || 0;
+    const lineTotal = qty * price;
+    document.getElementById('itemTotal-' + id).textContent = 'کۆ: IQD ' + lineTotal.toLocaleString();
+    subtotal += lineTotal;
+  });
 
-document.addEventListener("click",(e)=>{
+  const discount = parseFloat(document.getElementById('discount').value) || 0;
+  let total = subtotal - discount;
+  if(total < 0) total = 0;
 
-if(
-settingsBtn &&
-settingsMenu &&
-!settingsBtn.contains(e.target) &&
-!settingsMenu.contains(e.target)
-){
-
-settingsMenu.style.display = "none";
-
+  document.getElementById('grandTotal').textContent = 'IQD ' + total.toLocaleString();
 }
 
-});
-
-/* ==========================
-   Dark Mode
-========================== */
-
-if(localStorage.getItem("darkMode") === "true"){
-
-document.body.classList.add("dark");
-
-if(darkModeBtn){
-darkModeBtn.textContent = "☀️ Light Mode";
+function resetForm(){
+  if(!confirm('دڵنیایت لە گەڕانەوە بۆ دۆخی سەرەتایی؟ هەموو زانیارییەکان دەسڕدرێنەوە.')) return;
+  document.getElementById('phone').value = '';
+  document.getElementById('customer').value = '';
+  document.getElementById('notes').value = '';
+  document.getElementById('date').value = '';
+  document.getElementById('receiptNo').value = '';
+  document.getElementById('discount').value = '';
+  document.getElementById('itemsContainer').innerHTML = '<p class="empty-msg" id="emptyMsg">هیچ کاڵایەک زیاد نەکراوە</p>';
+  itemCount = 0;
+  calculateTotal();
 }
 
+function shareReceipt(){
+  const customer = document.getElementById('customer').value || 'بەکارهێنەر';
+  const total = document.getElementById('grandTotal').textContent;
+  let text = `وەسڵی نوێ بۆ: ${customer}\nکۆی گشتی: ${total}`;
+  if(navigator.share){
+    navigator.share({title:'وەسڵ', text:text}).catch(()=>{});
+  } else {
+    alert('ئەم وێبگەڕە پشتگیری هاوبەشکردنی ڕاستەوخۆ ناکات.\n\n' + text);
+  }
 }
 
-if(darkModeBtn){
-
-darkModeBtn.addEventListener("click",()=>{
-
-document.body.classList.toggle("dark");
-
-const active =
-document.body.classList.contains("dark");
-
-localStorage.setItem("darkMode",active);
-
-darkModeBtn.textContent =
-active
-? "☀️ Light Mode"
-: "🌙 Dark Mode";
-
-});
-
-}
-
-/* ==========================
-   Language
-========================== */
-
-const translations = {
-
-ku:{
-title:"KRD Receipt System",
-add:"➕ زیادکردنی کاڵا",
-create:"🖨️ دروستکردنی وەسڵ"
-},
-
-ar:{
-title:"نظام الوصل KRD",
-add:"➕ إضافة منتج",
-create:"🖨️ إنشاء الوصل"
-},
-
-en:{
-title:"KRD Receipt System",
-add:"➕ Add Product",
-create:"🖨️ Create Receipt"
-}
-
-};
-
-function changeLanguage(lang){
-
-if(!translations[lang]) return;
-
-document.title = translations[lang].title;
-
-if(addProductBtn){
-addProductBtn.textContent = translations[lang].add;
-}
-
-if(createReceipt){
-createReceipt.textContent = translations[lang].create;
-}
-
-localStorage.setItem("language",lang);
-
-}
-
-if(language){
-
-const savedLanguage =
-localStorage.getItem("language") || "ku";
-
-language.value = savedLanguage;
-
-changeLanguage(savedLanguage);
-
-language.addEventListener("change",()=>{
-
-changeLanguage(language.value);
-
-});
-
-}
-
-/* ==========================
-   Report Button
-========================== */
-
-if(reportBtn){
-
-reportBtn.addEventListener("click",()=>{
-
-window.location.href =
-"mailto:krdreceiptsystem@gmail.com?subject=KRD Receipt System Report";
-
-});
-
-}
-
-/* ==========================
-   Close History Outside
-========================== */
-
-window.addEventListener("click",(e)=>{
-
-if(e.target === historyModal){
-
-historyModal.style.display = "none";
-
-}
-
-});
-
-/* ==========================
-   Escape Close
-========================== */
-
-document.addEventListener("keydown",(e)=>{
-
-if(e.key === "Escape"){
-
-historyModal.style.display = "none";
-
-if(settingsMenu){
-settingsMenu.style.display = "none";
-}
-
-}
-
-});
-
-/* ==========================
-   Global Print
-========================== */
-
-window.printReceipt = function(id){
-
-const receipt =
-receipts.find(r => r.id === id);
-
-if(receipt){
-
-printReceipt(receipt);
-
-}
-
-};
-
-/* ==========================
-   Date Check
-========================== */
-
-if(receiptDate){
-
-receiptDate.addEventListener("change",()=>{
-
-if(receiptDate.value.trim() === ""){
-
-alert("تکایە بەروار بنووسە.");
-
-}
-
-});
-
-}
-
-/* ==========================
-   Initial Update
-========================== */
-
-updateGrandTotal();
-
-/* ==========================
-   End KRD Receipt System
-========================== */
-
-});
+// set today's date by default
+(function setDefaultDate(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  document.getElementById('date').value = `${y}/${m}/${day}`;
+})();
