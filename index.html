@@ -1,133 +1,48 @@
-‏<!DOCTYPE html>
-‏<html lang="ku" dir="rtl">
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سیستەمی وەسڵ - KRD Receipt System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-‏<head>
-‏    <meta charset="UTF-8">
-‏    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-‏    <title>KRD Receipt System</title>
+<div class="card" id="receiptCard">
+  <div class="top-row">
+    <button class="reset-btn" onclick="resetForm()">گەڕانەوە</button>
+    <h1>KRD Receipt System</h1>
+  </div>
 
-‏    <link rel="stylesheet" href="style.css">
+  <div class="row2">
+    <input type="tel" id="phone" placeholder="ژمارەی تەلەفۆن">
+    <input type="text" id="customer" placeholder="ناوی کڕیار">
+  </div>
 
-‏    <link rel="preconnect" href="https://fonts.googleapis.com">
-‏    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <textarea id="notes" placeholder="تێبینی"></textarea>
 
-‏    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700&display=swap"
-‏        rel="stylesheet">
-‏</head>
+  <div class="row2">
+    <input type="text" id="date" placeholder="YYYY/MM/DD">
+    <input type="text" id="receiptNo" placeholder="ژمارەی وەسڵ">
+  </div>
 
-‏<body>
+  <button class="add-btn" onclick="addItem()">＋ زیادکردنی کاڵا</button>
 
-‏<div class="container">
+  <div id="itemsContainer">
+    <p class="empty-msg" id="emptyMsg">هیچ کاڵایەک زیاد نەکراوە</p>
+  </div>
 
-‏    <!-- Header -->
+  <div class="discount-label">بڕی داشکاندن</div>
+  <input type="number" id="discount" placeholder="0" oninput="calculateTotal()">
 
-‏    <div class="header">
+  <div class="bottom-btns">
+    <button onclick="shareReceipt()">📤 ناردن بۆ مێژووی وەسڵەکان</button>
+    <button onclick="window.print()">🖨️ دروستکردنی وەسڵ</button>
+  </div>
 
-‏        <button id="dashboardBtn" class="back-btn">
-            گەڕانەوە
-‏        </button>
-
-‏        <h1>KRD Receipt System</h1>
-
-‏    </div>
-
-‏    <!-- Customer -->
-
-‏    <div class="row">
-
-‏        <input
-‏            id="customerName"
-‏            type="text"
-‏            placeholder="ناوی کڕیار">
-
-‏        <input
-‏            id="customerPhone"
-‏            type="text"
-‏            placeholder="ژمارەی تەلەفۆن">
-
-‏    </div>
-
-‏    <!-- Notes -->
-
-‏    <textarea
-‏        id="notes"
-‏        placeholder="تێبینی"></textarea>
-
-‏    <!-- Receipt -->
-
-‏    <div class="row">
-
-‏        <input
-‏            id="receiptNumber"
-‏            type="text"
-‏            placeholder="ژمارەی وەسڵ">
-
-‏        <input
-‏            id="receiptDate"
-‏            type="date">
-
-‏    </div>
-
-‏    <!-- Add Product -->
-
-‏    <button
-‏        id="addProductBtn"
-‏        class="add-btn">
-
-        ➕ زیادکردنی کاڵا
-
-‏    </button>
-
-‏    <!-- Products -->
-
-‏    <div id="productsContainer"></div>
-
-‏    <!-- Discount -->
-
-‏    <div class="discount-box">
-
-‏        <label>
-            بڕی داشکاندن
-‏        </label>
-
-‏        <input
-    id="discount"
-    type="number"
-    value="0"
-    placeholder="0">
-           <!-- Settings Menu -->
-
-<div id="settingsMenu" class="settings-menu">
-
-    <button id="darkModeBtn">
-        🌙 Dark Mode
-    </button>
-
-    <select id="language">
-
-        <option value="ku">کوردی</option>
-
-        <option value="ar">العربية</option>
-
-        <option value="en">English</option>
-
-    </select>
-
-    <button id="reportBtn">
-        📧 ناردنی ڕاپۆرت
-    </button>
-
+  <div class="total-line">کۆی گشتی: <span id="grandTotal">IQD 0</span></div>
 </div>
 
-<!-- Floating Settings Button -->
-
-<button id="settingsBtn" class="settings-btn">
-    ⚙️
-</button>
-
-<!-- JavaScript -->
-
 <script src="script.js"></script>
-
 </body>
 </html>
